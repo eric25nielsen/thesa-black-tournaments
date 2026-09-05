@@ -49,6 +49,13 @@ function matchLabel(m) {
   if (m.result.tie) return "Split 1–1";
   return teamById(m.result.winner).name + " " + m.result.setsW + "–" + m.result.setsL;
 }
+function silverTableHtml() {
+  if (!window.SILVER_POOL) return "";
+  return '<table><thead><tr><th>#</th><th>Team</th><th>Pool</th><th class="num">Sets</th><th class="num">Pts</th></tr></thead><tbody>' +
+    window.SILVER_POOL.map(function (r) {
+      return '<tr class="' + (r.us ? 'us' : '') + '"><td>' + r.seed + '</td><td>' + r.name + (r.us ? ' <span class="us-chip">US</span>' : '') + '</td><td>' + r.pool + ' · ' + r.finish + 'th</td><td class="num">' + r.sw + '–' + r.sl + '</td><td class="num">' + r.pf + '–' + r.pa + '</td></tr>';
+    }).join('') + '</tbody></table>';
+}
 function render() {
   var poolMatches = matchesWithResults();
   var nxt = nextMatch();
@@ -65,12 +72,19 @@ function render() {
       return '<article class="match' + (g.us ? ' next' : '') + '"><div class="match-top"><span>' + g.label + '</span><span>' + g.time + ' · ' + g.court + '</span></div><div class="vs">' + g.a + ' vs ' + g.b + (g.us ? ' <span class="us-chip">US</span>' : '') + '</div></article>';
     }).join('');
   }
-  var sp = document.getElementById("silverPool");
-  if (sp && window.SILVER_POOL) {
-    sp.innerHTML = '<table><thead><tr><th>#</th><th>Team</th><th>Pool</th><th class="num">Sets</th><th class="num">Pts</th></tr></thead><tbody>' +
-      window.SILVER_POOL.map(function (r) {
-        return '<tr class="' + (r.us ? 'us' : '') + '"><td>' + r.seed + '</td><td>' + r.name + (r.us ? ' <span class="us-chip">US</span>' : '') + '</td><td>' + r.pool + ' · ' + r.finish + 'th</td><td class="num">' + r.sw + '–' + r.sl + '</td><td class="num">' + r.pf + '–' + r.pa + '</td></tr>';
-      }).join('') + '</tbody></table>';
+  var html = silverTableHtml();
+  ["silverPool", "poolSilver"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+  });
+  var op = document.getElementById("otherPools");
+  if (op && window.OTHER_POOLS) {
+    op.innerHTML = window.OTHER_POOLS.map(function (p) {
+      return '<h2>' + p.title + '</h2><div class="table-wrap"><table><thead><tr><th>Team</th><th class="num">Finish</th><th class="num">Sets</th><th class="num">Pts</th></tr></thead><tbody>' +
+        p.rows.map(function (r) {
+          return '<tr class="' + (r.highlight ? 'us' : '') + '"><td>' + r.name + '</td><td class="num">' + r.finish + '</td><td class="num">' + r.sw + '–' + r.sl + '</td><td class="num">' + r.pf + '–' + r.pa + '</td></tr>';
+        }).join('') + '</tbody></table></div>';
+    }).join('');
   }
   var hero = document.getElementById("nextCard");
   var ours = (window.BRACKET || []).find(function (g) { return g.us && !g.result; });

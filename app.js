@@ -65,15 +65,21 @@ function render() {
       return '<article class="match' + (g.us ? ' next' : '') + '"><div class="match-top"><span>' + g.label + '</span><span>' + g.time + ' · ' + g.court + '</span></div><div class="vs">' + g.a + ' vs ' + g.b + (g.us ? ' <span class="us-chip">US</span>' : '') + '</div></article>';
     }).join('');
   }
+  var sp = document.getElementById("silverPool");
+  if (sp && window.SILVER_POOL) {
+    sp.innerHTML = '<table><thead><tr><th>#</th><th>Team</th><th>Pool</th><th class="num">Sets</th><th class="num">Pts</th></tr></thead><tbody>' +
+      window.SILVER_POOL.map(function (r) {
+        return '<tr class="' + (r.us ? 'us' : '') + '"><td>' + r.seed + '</td><td>' + r.name + (r.us ? ' <span class="us-chip">US</span>' : '') + '</td><td>' + r.pool + ' · ' + r.finish + 'th</td><td class="num">' + r.sw + '–' + r.sl + '</td><td class="num">' + r.pf + '–' + r.pa + '</td></tr>';
+      }).join('') + '</tbody></table>';
+  }
   var hero = document.getElementById("nextCard");
   var ours = (window.BRACKET || []).find(function (g) { return g.us && !g.result; });
   if (inBracket && ours) {
     hero.innerHTML = '<p class="kicker">We play next · D1 Silver</p><h1>' + ours.a + ' vs ' + ours.b + '</h1><p>' + ours.time + ' · ' + ours.court + '</p>';
   } else if (inBracket) {
     hero.innerHTML = '<p class="kicker">Bracket play</p><h1>' + (window.EVENT.bracketNote || '') + '</h1>';
-  } else {
-    var a = teamById(nxt.a), b = teamById(nxt.b);
-    hero.innerHTML = '<p class="kicker">Pool</p><h1>' + a.name + ' vs ' + b.name + '</h1>';
+  } else if (nxt) {
+    hero.innerHTML = '<p class="kicker">Pool</p><h1>' + teamById(nxt.a).name + ' vs ' + teamById(nxt.b).name + '</h1>';
   }
   var st = standings();
   document.getElementById("standings").innerHTML = '<table><thead><tr><th>Team</th><th class="num">M</th><th class="num">Sets</th></tr></thead><tbody>' +

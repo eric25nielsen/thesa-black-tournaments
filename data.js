@@ -9,11 +9,11 @@ window.EVENT = {
   doors: "7:00 AM",
   start: "8:00 AM",
   format: "2 games to 25, no cap",
-  notes: "Warm-up balls provided. Two sets in pool play. Bracket play 2:00 PM. Official host page: fieldhousevolleyballclub.com/tournaments",
-  officialLink: "https://fieldhousevolleyballclub.com/tournaments",
-  phase: "pool",
+  notes: "Official live sheet: Pool 1 finished. THESA Black 4th in pool, D1 Silver. Next: 3:00 PM Court 6 vs SWC 1.",
+  officialLink: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkU0EFX-1haozmkmlMe4UFc2LtF4y5fwwV8j6dphksmIBMCUyr063lv9Q5_OO_J4XEWJ9inhDHtH94/pubhtml?gid=1887933325&single=true",
+  phase: "bracket",
   bracketPlay: "2:00 PM",
-  bracketNote: "Seeds fill after all Division 1 pools finish. D1 Gold Courts 4-5. D1 Silver Court 6."
+  bracketNote: "D1 Silver Court 6. THESA Black is seed 11. Semifinal vs SWC 1 at 3:00 PM."
 };
 window.TEAMS = [
   { id: 1, name: "RRR Black" },
@@ -25,7 +25,13 @@ window.MATCHES = [
   { round: 1, a: 1, b: 3, ref: 2, result: { winner: 3, setsW: 2, setsL: 0 } },
   { round: 2, a: 2, b: 4, ref: 1, result: { winner: 4, setsW: 2, setsL: 0 } },
   { round: 3, a: 1, b: 4, ref: 3, result: { winner: 4, setsW: 2, setsL: 0 } },
-  { round: 4, a: 2, b: 3, ref: 1, result: { tie: true, setsW: 1, setsL: 1 } },
+  { round: 4, a: 2, b: 3, ref: 1, result: { winner: 3, setsW: 2, setsL: 0 } },
   { round: 5, a: 3, b: 4, ref: 2, result: { winner: 4, setsW: 2, setsL: 0 } },
-  { round: 6, a: 1, b: 2, ref: 4, result: null }
+  { round: 6, a: 1, b: 2, ref: 4, result: { tie: true, setsW: 1, setsL: 1 } }
+];
+window.BRACKET = [
+  { id: "SF1", label: "Silver SF1", time: "2:00 PM", court: "Court 6", a: "RRR Black", b: "NTHAA", us: false, result: null },
+  { id: "SF2", label: "Silver SF2", time: "3:00 PM", court: "Court 6", a: "SWC 1", b: "THESA Black", us: true, result: null },
+  { id: "3P", label: "3rd place", time: "4:00 PM", court: "Court 6", a: "Loser SF1", b: "Loser SF2", us: false, result: null },
+  { id: "F", label: "Silver final", time: "5:00 PM", court: "Court 6", a: "Winner SF1", b: "Winner SF2", us: false, result: null }
 ];

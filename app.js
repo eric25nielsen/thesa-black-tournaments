@@ -27,12 +27,18 @@ function standings() {
   return rows;
 }
 function nextMatch() { return matchesWithResults().find(function (m) { return !m.result; }) || null; }
+function poolComplete() { return matchesWithResults().every(function (m) { return m.result; }); }
 function ourRole(m) {
   var us = window.TEAMS.find(function (t) { return t.us; });
   if (!us) return "";
   if (m.a === us.id || m.b === us.id) return "PLAY";
   if (m.ref === us.id) return "REF";
   return "";
+}
+function defaultTab() {
+  var forced = ((window.EVENT.phase || "") + "").toLowerCase();
+  if (forced === "bracket" || poolComplete()) return "bracket";
+  return "pool";
 }
 function showTab(name) {
   var pool = name !== "bracket";
@@ -44,9 +50,8 @@ function showTab(name) {
 function render() {
   var poolMatches = matchesWithResults();
   var nxt = nextMatch();
-  var poolDone = poolMatches.every(function (m) { return m.result; });
-  var forced = ((window.EVENT.phase || "") + "").toLowerCase();
-  var inBracket = forced === "bracket" || (forced !== "pool" && poolDone);
+  var poolDone = poolComplete();
+  var inBracket = defaultTab() === "bracket";
   var phaseEl = document.getElementById("phase");
   if (inBracket) phaseEl.textContent = "Bracket play" + (window.EVENT.bracketPlay ? " · " + window.EVENT.bracketPlay : "");
   else phaseEl.textContent = "Pool play · Round " + (nxt ? nxt.round : poolMatches.length) + " of " + poolMatches.length;
@@ -56,10 +61,8 @@ function render() {
   document.getElementById("notes").textContent = window.EVENT.notes || "";
   document.getElementById("bracketNote").textContent = (window.EVENT.bracketPlay ? "Bracket play " + window.EVENT.bracketPlay + ". " : "") + (window.EVENT.bracketNote || "");
   var hero = document.getElementById("nextCard");
-  if (inBracket) {
+  if (poolDone || inBracket) {
     hero.innerHTML = '<p class="kicker">Bracket play</p><h1>' + (window.EVENT.bracketNote || "Seeds and courts after pools lock") + '</h1><p>' + (window.EVENT.bracketPlay ? "Starts " + window.EVENT.bracketPlay : "") + '</p>';
-  } else if (!nxt) {
-    hero.innerHTML = '<p class="kicker">Pool complete</p><h1>Waiting on bracket seeds</h1><p>' + (window.EVENT.bracketNote || "") + '</p>';
   } else {
     var a = teamById(nxt.a), b = teamById(nxt.b), ref = teamById(nxt.ref), role = ourRole(nxt);
     var kick = role === "PLAY" ? "We play next" : role === "REF" ? "We referee next" : "Up next";
@@ -106,12 +109,13 @@ function openSheet(round) {
       saveOverrides(over);
       document.getElementById('sheet').classList.add('hidden');
       render();
+      showTab(defaultTab());
     });
   });
 }
 document.getElementById('sheetCancel').addEventListener('click', function () { document.getElementById('sheet').classList.add('hidden'); });
 document.getElementById('resetBtn').addEventListener('click', function () {
-  if (confirm('Clear scores saved on this phone and reload data.js?')) { localStorage.removeItem(STORE_KEY); render(); }
+  if (confirm('Clear scores saved on this phone and reload data.js?')) { localStorage.removeItem(STORE_KEY); render(); showTab(defaultTab()); }
 });
 document.getElementById('shareBtn').addEventListener('click', async function () {
   var st = standings(); var nxt = nextMatch();
@@ -125,4 +129,4 @@ document.getElementById('shareBtn').addEventListener('click', async function () 
 document.getElementById('tabPool').addEventListener('click', function () { showTab('pool'); });
 document.getElementById('tabBracket').addEventListener('click', function () { showTab('bracket'); });
 render();
-showTab((((window.EVENT.phase || 'pool') + '').toLowerCase() === 'bracket') ? 'bracket' : 'pool');
+showTab(defaultTab());

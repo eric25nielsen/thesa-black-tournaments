@@ -9,11 +9,11 @@ window.EVENT = {
   doors: "7:00 AM",
   start: "8:00 AM",
   format: "2 games to 25, no cap",
-  notes: "Official live sheet: Pool 1 finished. THESA Black 4th in pool, D1 Silver. Next: 3:00 PM Court 6 vs SWC 1.",
+  notes: "Official live sheet. THESA Black 4th in Pool 1, D1 Silver seed 11. Next: 3:00 PM Court 6 vs SWC 1.",
   officialLink: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkU0EFX-1haozmkmlMe4UFc2LtF4y5fwwV8j6dphksmIBMCUyr063lv9Q5_OO_J4XEWJ9inhDHtH94/pubhtml?gid=1887933325&single=true",
   phase: "bracket",
   bracketPlay: "2:00 PM",
-  bracketNote: "D1 Silver Court 6. THESA Black is seed 11. Semifinal vs SWC 1 at 3:00 PM."
+  bracketNote: "D1 Silver Court 6. THESA Black seed 11. Semifinal vs SWC 1 at 3:00 PM."
 };
 window.TEAMS = [
   { id: 1, name: "RRR Black" },
@@ -34,4 +34,10 @@ window.BRACKET = [
   { id: "SF2", label: "Silver SF2", time: "3:00 PM", court: "Court 6", a: "SWC 1", b: "THESA Black", us: true, result: null },
   { id: "3P", label: "3rd place", time: "4:00 PM", court: "Court 6", a: "Loser SF1", b: "Loser SF2", us: false, result: null },
   { id: "F", label: "Silver final", time: "5:00 PM", court: "Court 6", a: "Winner SF1", b: "Winner SF2", us: false, result: null }
+];
+window.SILVER_POOL = [
+  { seed: 9, name: "RRR Black", pool: "Pool 1", finish: 3, sw: 1, sl: 5, pf: 101, pa: 133, us: false },
+  { seed: 10, name: "SWC 1", pool: "Pool 2", finish: 4, sw: 1, sl: 5, pf: 92, pa: 144, us: false },
+  { seed: 11, name: "THESA Black", pool: "Pool 1", finish: 4, sw: 1, sl: 5, pf: 81, pa: 149, us: true },
+  { seed: 12, name: "NTHAA", pool: "Pool 3", finish: 4, sw: 0, sl: 6, pf: 69, pa: 150, us: false }
 ];

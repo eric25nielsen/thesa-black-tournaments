@@ -11,11 +11,18 @@ function matchesWithResults() {
   });
 }
 function standings() {
-  var rows = window.TEAMS.map(function (t) { return Object.assign({}, t, { mw: 0, ml: 0, sw: 0, sl: 0 }); });
+  var rows = window.TEAMS.map(function (t) { return Object.assign({}, t, { mw: 0, ml: 0, mt: 0, sw: 0, sl: 0 }); });
   var byId = {};
   rows.forEach(function (r) { byId[r.id] = r; });
   matchesWithResults().forEach(function (m) {
     if (!m.result) return;
+    var a = byId[m.a], b = byId[m.b];
+    if (!a || !b) return;
+    if (m.result.tie) {
+      a.mt += 1; b.mt += 1;
+      a.sw += 1; a.sl += 1; b.sw += 1; b.sl += 1;
+      return;
+    }
     var w = byId[m.result.winner];
     var l = byId[m.result.winner === m.a ? m.b : m.a];
     if (!w || !l) return;
@@ -23,7 +30,7 @@ function standings() {
     w.sw += m.result.setsW; w.sl += m.result.setsL;
     l.sw += m.result.setsL; l.sl += m.result.setsW;
   });
-  rows.sort(function (a, b) { return b.mw - a.mw || b.sw - a.sw || a.sl - b.sl || a.id - b.id; });
+  rows.sort(function (x, y) { return y.mw - x.mw || y.sw - x.sw || x.sl - y.sl || x.id - y.id; });
   return rows;
 }
 function nextMatch() { return matchesWithResults().find(function (m) { return !m.result; }) || null; }
@@ -46,6 +53,11 @@ function showTab(name) {
   document.getElementById("tabBracket").classList.toggle("on", !pool);
   document.getElementById("panelPool").classList.toggle("hidden", !pool);
   document.getElementById("panelBracket").classList.toggle("hidden", pool);
+}
+function matchLabel(m) {
+  if (!m.result) return "";
+  if (m.result.tie) return "Split 1–1";
+  return teamById(m.result.winner).name + " " + m.result.setsW + "–" + m.result.setsL;
 }
 function render() {
   var poolMatches = matchesWithResults();
@@ -71,7 +83,8 @@ function render() {
   var st = standings();
   document.getElementById("standings").innerHTML = '<table><thead><tr><th>Team</th><th class="num">M</th><th class="num">Sets</th></tr></thead><tbody>' +
     st.map(function (r) {
-      return '<tr class="' + (r.us ? 'us' : '') + '"><td>' + r.name + (r.us ? ' <span class="us-chip">US</span>' : '') + '</td><td class="num">' + r.mw + '–' + r.ml + '</td><td class="num">' + r.sw + '–' + r.sl + '</td></tr>';
+      var rec = r.mt ? (r.mw + '–' + r.ml + '–' + r.mt) : (r.mw + '–' + r.ml);
+      return '<tr class="' + (r.us ? 'us' : '') + '"><td>' + r.name + (r.us ? ' <span class="us-chip">US</span>' : '') + '</td><td class="num">' + rec + '</td><td class="num">' + r.sw + '–' + r.sl + '</td></tr>';
     }).join('') + '</tbody></table>';
   var listed = poolMatches.slice().sort(function (x, y) {
     var xDone = x.result ? 1 : 0, yDone = y.result ? 1 : 0;
@@ -82,7 +95,7 @@ function render() {
   document.getElementById("matches").innerHTML = listed.map(function (m) {
     var a = teamById(m.a), b = teamById(m.b), ref = teamById(m.ref), role = ourRole(m);
     var isNext = nxt && nxt.round === m.round;
-    var res = m.result ? '<div class="result">' + teamById(m.result.winner).name + ' ' + m.result.setsW + '–' + m.result.setsL + '</div>' : '';
+    var res = m.result ? '<div class="result">' + matchLabel(m) + '</div>' : '';
     return '<article class="match ' + (m.result ? 'done ' : '') + (isNext ? 'next' : '') + '" data-round="' + m.round + '"><div class="match-top"><span>Rd ' + m.round + (isNext ? ' · NEXT' : '') + '</span><span>Ref ' + ref.name + (role ? ' · ' + role : '') + '</span></div><div class="vs">' + a.name + ' vs ' + b.name + '</div>' + res + '</article>';
   }).join('');
   document.querySelectorAll('.match').forEach(function (el) {
@@ -96,15 +109,15 @@ function openSheet(round) {
   document.getElementById('sheetTitle').textContent = 'Rd ' + round + ': ' + a.name + ' vs ' + b.name;
   document.getElementById('sheetActions').innerHTML =
     '<button data-w="' + a.id + '" data-sw="2" data-sl="0">' + a.name + ' 2–0</button>' +
-    '<button data-w="' + a.id + '" data-sw="2" data-sl="1">' + a.name + ' 2–1</button>' +
     '<button data-w="' + b.id + '" data-sw="2" data-sl="0">' + b.name + ' 2–0</button>' +
-    '<button data-w="' + b.id + '" data-sw="2" data-sl="1">' + b.name + ' 2–1</button>' +
+    '<button data-tie="1">Split 1–1</button>' +
     '<button class="ghost" data-clear="1">Clear this match</button>';
   document.getElementById('sheet').classList.remove('hidden');
   document.querySelectorAll('#sheetActions button').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var over = loadOverrides();
       if (btn.dataset.clear) over[String(round)] = null;
+      else if (btn.dataset.tie) over[String(round)] = { tie: true, setsW: 1, setsL: 1 };
       else over[String(round)] = { winner: Number(btn.dataset.w), setsW: Number(btn.dataset.sw), setsL: Number(btn.dataset.sl) };
       saveOverrides(over);
       document.getElementById('sheet').classList.add('hidden');
@@ -119,7 +132,7 @@ document.getElementById('resetBtn').addEventListener('click', function () {
 });
 document.getElementById('shareBtn').addEventListener('click', async function () {
   var st = standings(); var nxt = nextMatch();
-  var lines = [window.TEAM.name + ' — ' + window.EVENT.name, window.EVENT.pool + ' · ' + window.EVENT.court, '', 'Standings:'].concat(st.map(function (r) { return r.name + ': ' + r.mw + '-' + r.ml + ' matches, ' + r.sw + '-' + r.sl + ' sets'; }));
+  var lines = [window.TEAM.name + ' — ' + window.EVENT.name, window.EVENT.pool + ' · ' + window.EVENT.court, '', 'Standings:'].concat(st.map(function (r) { return r.name + ': ' + r.mw + '-' + r.ml + (r.mt ? '-' + r.mt : '') + ' matches, ' + r.sw + '-' + r.sl + ' sets'; }));
   if (nxt) lines.push('', 'Next: ' + teamById(nxt.a).name + ' vs ' + teamById(nxt.b).name + ' (ref ' + teamById(nxt.ref).name + ')');
   else lines.push('', 'Pool complete.');
   var text = lines.join('\n');

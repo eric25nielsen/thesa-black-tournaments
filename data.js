@@ -1,4 +1,4 @@
-window.TEAM = { name: "THESA Black", tag: "THESA" };
+window.TEAM = { name: "THESA Black", tag: "THESA Riders" };
 window.EVENT = {
   name: "Rattlers Middle School Classic",
   date: "September 5, 2026",

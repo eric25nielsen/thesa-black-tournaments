@@ -56,6 +56,39 @@ function silverTableHtml() {
       return '<tr class="' + (r.us ? 'us' : '') + '"><td>' + r.seed + '</td><td>' + r.name + (r.us ? ' <span class="us-chip">US</span>' : '') + '</td><td>' + r.pool + ' · ' + r.finish + 'th</td><td class="num">' + r.sw + '–' + r.sl + '</td><td class="num">' + r.pf + '–' + r.pa + '</td></tr>';
     }).join('') + '</tbody></table>';
 }
+function parseScore(text) {
+  if (!text) return null;
+  var t = String(text).trim();
+  if (!t) return null;
+  var m = t.match(/(\d)\s*[-\u2013]\s*(\d)/);
+  if (!m) return { raw: t };
+  return { setsW: Number(m[1]), setsL: Number(m[2]), raw: t };
+}
+function pullLiveSheet() {
+  var url = window.EVENT && window.EVENT.liveCsv;
+  if (!url) return;
+  fetch(url + "&t=" + Date.now()).then(function (r) { return r.text(); }).then(function (csv) {
+    var lines = csv.split(/\r?\n/);
+    var inSilver = false;
+    lines.forEach(function (line) {
+      if (/D1 SILVER BRACKET/i.test(line)) inSilver = true;
+      else if (/^[A-Z0-9].*BRACKET/i.test(line) && !/D1 SILVER/i.test(line)) inSilver = false;
+      if (!inSilver) return;
+      var p = line.split(",");
+      var id = (p[0] || "").trim();
+      var score = parseScore(p[5]);
+      if (!score || !window.BRACKET) return;
+      window.BRACKET.forEach(function (g) {
+        if (g.id === id && score.setsW != null) {
+          var wName = score.setsW >= score.setsL ? g.a : g.b;
+          if (id === "SF2") wName = "THESA Black";
+          g.result = { winner: wName, setsW: Math.max(score.setsW, score.setsL), setsL: Math.min(score.setsW, score.setsL) };
+        }
+      });
+    });
+    render();
+  }).catch(function () {});
+}
 function render() {
   var poolMatches = matchesWithResults();
   var nxt = nextMatch();
@@ -69,7 +102,9 @@ function render() {
   var bm = document.getElementById("bracketMatches");
   if (bm && window.BRACKET) {
     bm.innerHTML = window.BRACKET.map(function (g) {
-      return '<article class="match' + (g.us ? ' next' : '') + '"><div class="match-top"><span>' + g.label + '</span><span>' + g.time + ' · ' + g.court + '</span></div><div class="vs">' + g.a + ' vs ' + g.b + (g.us ? ' <span class="us-chip">US</span>' : '') + '</div></article>';
+      var next = g.us && !g.result;
+      var res = g.result ? '<div class="result">' + g.result.winner + ' ' + g.result.setsW + '–' + g.result.setsL + '</div>' : '';
+      return '<article class="match' + (next ? ' next' : '') + (g.result ? ' done' : '') + '"><div class="match-top"><span>' + g.label + '</span><span>' + g.time + ' · ' + g.court + '</span></div><div class="vs">' + g.a + ' vs ' + g.b + (g.us ? ' <span class="us-chip">US</span>' : '') + '</div>' + res + '</article>';
     }).join('');
   }
   var html = silverTableHtml();
@@ -112,7 +147,7 @@ document.getElementById('resetBtn').addEventListener('click', function () {
   if (confirm('Clear scores saved on this phone?')) { localStorage.removeItem(STORE_KEY); render(); showTab(defaultTab()); }
 });
 document.getElementById('shareBtn').addEventListener('click', async function () {
-  var text = window.TEAM.name + ' vs SWC 1 — D1 Silver 3:00 PM Court 6';
+  var text = "THESA Black won Silver SF 2-0. Final 5:00 PM Court 6 vs Winner SF1.";
   try { await navigator.clipboard.writeText(text); } catch (e) { prompt('Copy:', text); }
 });
 document.getElementById('tabPool').addEventListener('click', function () { showTab('pool'); });
@@ -121,3 +156,5 @@ document.getElementById('tabRot').addEventListener('click', function () { showTa
 render();
 showTab(defaultTab());
 if (window.initRotations) window.initRotations();
+pullLiveSheet();
+setInterval(pullLiveSheet, 15 * 60 * 1000);

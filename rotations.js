@@ -1,6 +1,6 @@
 (function () {
   var KEY = "thesa-black:rotations";
-  var ROLES = { S1: "#E53935", S2: "#FB8C00", OH: "#43A047", MB: "#FDD835", L: "#8E24AA" };
+  var ROLES = { S1: "#c41e3a", S2: "#ffb3c0", OH: "#f3f4f6", MB: "#d4af37", L: "#9aa3ae" };
 
   function load() {
     try {
@@ -36,31 +36,36 @@
     if (role === "OH1" || role === "OH2") return "OH";
     return role;
   }
+  function textColor(role) {
+    if (role === "OH1" || role === "OH2" || role === "MB" || role === "S2" || role === "L") return "#111";
+    return "#fff";
+  }
 
   var ZONE = { 4: [18, 18], 3: [50, 18], 2: [82, 18], 5: [18, 78], 6: [50, 78], 1: [82, 78] };
 
   function courtSvg(spots, arrow) {
     var parts = [];
     parts.push('<svg viewBox="0 0 100 100" class="court-svg" aria-hidden="true">');
-    parts.push('<rect x="2" y="2" width="96" height="96" rx="2" fill="#c9843a" stroke="#111" stroke-width="1.6"/>');
-    parts.push('<line x1="2" y1="2" x2="98" y2="2" stroke="#111" stroke-width="3.4"/>');
-    parts.push('<line x1="2" y1="34" x2="98" y2="34" stroke="#fff" stroke-width="1.1" stroke-dasharray="3 2"/>');
+    parts.push('<rect x="2" y="2" width="96" height="96" rx="2" fill="#15181d" stroke="#c41e3a" stroke-width="1.8"/>');
+    parts.push('<line x1="2" y1="2" x2="98" y2="2" stroke="#c41e3a" stroke-width="3.6"/>');
+    parts.push('<line x1="2" y1="34" x2="98" y2="34" stroke="#ffb3c0" stroke-width="1.1" stroke-dasharray="3 2"/>');
+    parts.push('<line x1="50" y1="2" x2="50" y2="34" stroke="#2a3038" stroke-width="0.8"/>');
     [4, 3, 2].forEach(function (z, i) {
-      parts.push('<text x="' + [18, 50, 82][i] + '" y="8" text-anchor="middle" font-size="5" fill="#222" font-weight="700">' + z + "</text>");
+      parts.push('<text x="' + [18, 50, 82][i] + '" y="8" text-anchor="middle" font-size="5" fill="#ffb3c0" font-weight="700">' + z + "</text>");
     });
     [5, 6, 1].forEach(function (z, i) {
-      parts.push('<text x="' + [18, 50, 82][i] + '" y="97" text-anchor="middle" font-size="5" fill="#222" font-weight="700">' + z + "</text>");
+      parts.push('<text x="' + [18, 50, 82][i] + '" y="97" text-anchor="middle" font-size="5" fill="#9aa3ae" font-weight="700">' + z + "</text>");
     });
     if (arrow) {
-      parts.push('<line x1="' + arrow[0] + '" y1="' + arrow[1] + '" x2="' + arrow[2] + '" y2="' + arrow[3] + '" stroke="#7f1d1d" stroke-width="1.6"/>');
+      parts.push('<line x1="' + arrow[0] + '" y1="' + arrow[1] + '" x2="' + arrow[2] + '" y2="' + arrow[3] + '" stroke="#c41e3a" stroke-width="1.8"/>');
     }
     spots.forEach(function (s) {
       var fill = color(s.role);
-      var tc = s.role === "MB" ? "#111" : "#fff";
-      parts.push('<circle cx="' + s.x + '" cy="' + s.y + '" r="7.2" fill="' + fill + '" stroke="#111" stroke-width="1"/>');
+      var tc = textColor(s.role);
+      parts.push('<circle cx="' + s.x + '" cy="' + s.y + '" r="7.2" fill="' + fill + '" stroke="#0b0d10" stroke-width="1.1"/>');
       parts.push('<text x="' + s.x + '" y="' + (s.y + 1.6) + '" text-anchor="middle" font-size="4.4" font-weight="800" fill="' + tc + '">' + short(s.role) + "</text>");
       if (s.tag) {
-        parts.push('<text x="' + s.x + '" y="' + (s.y + 12) + '" text-anchor="middle" font-size="3.6" font-weight="700" fill="#222">' + s.tag + "</text>");
+        parts.push('<text x="' + s.x + '" y="' + (s.y + 12) + '" text-anchor="middle" font-size="3.6" font-weight="700" fill="#ffb3c0">' + s.tag + "</text>");
       }
     });
     parts.push("</svg>");

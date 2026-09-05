@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0d10" />
+  <title>THESA Black — Tournament Board</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="mark">TB</span>
+      <div>
+        <p class="team" id="teamName">THESA Black</p>
+        <p class="label">Tournament board</p>
+      </div>
+    </div>
+    <p class="event-name" id="eventName"></p>
+    <p class="event-meta" id="eventMeta"></p>
+  </header>
+  <main>
+    <section class="hero" id="nextCard"></section>
+    <section>
+      <h2>Standings</h2>
+      <div class="table-wrap" id="standings"></div>
+    </section>
+    <section>
+      <h2>Pool matches</h2>
+      <p class="hint">Tap an unfinished match to log 2–0 or 2–1. Saves on this phone.</p>
+      <div id="matches"></div>
+    </section>
+    <section>
+      <h2>Bracket</h2>
+      <p class="note" id="bracketNote"></p>
+    </section>
+    <section>
+      <h2>Event notes</h2>
+      <p class="note" id="notes"></p>
+    </section>
+    <section class="tools">
+      <button type="button" id="shareBtn">Copy update text</button>
+      <button type="button" class="ghost" id="resetBtn">Reset local scores</button>
+    </section>
+  </main>
+  <footer>Reusable THESA Black template · edit <code>data.js</code> for the next event</footer>
+  <div class="sheet hidden" id="sheet">
+    <div class="sheet-card">
+      <p class="sheet-title" id="sheetTitle">Log result</p>
+      <div class="sheet-actions" id="sheetActions"></div>
+      <button type="button" class="ghost" id="sheetCancel">Cancel</button>
+    </div>
+  </div>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

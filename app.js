@@ -5,9 +5,8 @@ function saveOverrides(map) { localStorage.setItem(STORE_KEY, JSON.stringify(map
 function matchesWithResults() {
   var over = loadOverrides();
   return window.MATCHES.map(function (m) {
-    var key = String(m.round);
     var copy = Object.assign({}, m);
-    copy.result = over[key] !== undefined ? over[key] : m.result;
+    copy.result = over[String(m.round)] !== undefined ? over[String(m.round)] : m.result;
     return copy;
   });
 }
@@ -34,6 +33,13 @@ function ourRole(m) {
   if (m.a === us.id || m.b === us.id) return "PLAY";
   if (m.ref === us.id) return "REF";
   return "";
+}
+function showTab(name) {
+  var pool = name !== "bracket";
+  document.getElementById("tabPool").classList.toggle("on", pool);
+  document.getElementById("tabBracket").classList.toggle("on", !pool);
+  document.getElementById("panelPool").classList.toggle("hidden", !pool);
+  document.getElementById("panelBracket").classList.toggle("hidden", pool);
 }
 function render() {
   var poolMatches = matchesWithResults();
@@ -65,8 +71,7 @@ function render() {
       return '<tr class="' + (r.us ? 'us' : '') + '"><td>' + r.name + (r.us ? ' <span class="us-chip">US</span>' : '') + '</td><td class="num">' + r.mw + '–' + r.ml + '</td><td class="num">' + r.sw + '–' + r.sl + '</td></tr>';
     }).join('') + '</tbody></table>';
   var listed = poolMatches.slice().sort(function (x, y) {
-    var xDone = x.result ? 1 : 0;
-    var yDone = y.result ? 1 : 0;
+    var xDone = x.result ? 1 : 0, yDone = y.result ? 1 : 0;
     if (xDone !== yDone) return xDone - yDone;
     if (!xDone) return x.round - y.round;
     return y.round - x.round;
@@ -117,4 +122,7 @@ document.getElementById('shareBtn').addEventListener('click', async function () 
   try { await navigator.clipboard.writeText(text); document.getElementById('shareBtn').textContent = 'Copied'; setTimeout(function () { document.getElementById('shareBtn').textContent = 'Copy update text'; }, 1500); }
   catch (e) { prompt('Copy this update:', text); }
 });
+document.getElementById('tabPool').addEventListener('click', function () { showTab('pool'); });
+document.getElementById('tabBracket').addEventListener('click', function () { showTab('bracket'); });
 render();
+showTab((((window.EVENT.phase || 'pool') + '').toLowerCase() === 'bracket') ? 'bracket' : 'pool');

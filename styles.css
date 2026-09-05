@@ -20,6 +20,10 @@ body { min-height: 100vh; padding-bottom: 32px; }
 .phase { margin: 16px 0 10px; display: inline-block; background: var(--rider-red); color: #fff; font-weight: 800; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; padding: 8px 12px; border-radius: 8px; }
 .event-name { margin: 8px 0 4px; font-size: 22px; font-weight: 750; line-height: 1.2; }
 .event-meta { margin: 0; color: var(--muted); font-size: 14px; }
+.tabs { display: flex; gap: 8px; margin: 16px 0 4px; }
+.tab { flex: 1; background: transparent; color: var(--muted); border: 1px solid var(--line); padding: 10px 8px; font-size: 13px; }
+.tab.on { background: var(--rider-red); color: #fff; border-color: var(--rider-red); }
+.hidden { display: none; }
 main { padding: 8px 16px 24px; max-width: 640px; margin: 0 auto; }
 h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .14em; color: var(--rider-red); margin: 22px 0 10px; }
 .hint, .note { color: var(--muted); font-size: 14px; line-height: 1.45; margin: 0 0 12px; }

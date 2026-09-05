@@ -64,7 +64,14 @@ function render() {
     st.map(function (r) {
       return '<tr class="' + (r.us ? 'us' : '') + '"><td>' + r.name + (r.us ? ' <span class="us-chip">US</span>' : '') + '</td><td class="num">' + r.mw + '–' + r.ml + '</td><td class="num">' + r.sw + '–' + r.sl + '</td></tr>';
     }).join('') + '</tbody></table>';
-  document.getElementById("matches").innerHTML = poolMatches.map(function (m) {
+  var listed = poolMatches.slice().sort(function (x, y) {
+    var xDone = x.result ? 1 : 0;
+    var yDone = y.result ? 1 : 0;
+    if (xDone !== yDone) return xDone - yDone;
+    if (!xDone) return x.round - y.round;
+    return y.round - x.round;
+  });
+  document.getElementById("matches").innerHTML = listed.map(function (m) {
     var a = teamById(m.a), b = teamById(m.b), ref = teamById(m.ref), role = ourRole(m);
     var isNext = nxt && nxt.round === m.round;
     var res = m.result ? '<div class="result">' + teamById(m.result.winner).name + ' ' + m.result.setsW + '–' + m.result.setsL + '</div>' : '';

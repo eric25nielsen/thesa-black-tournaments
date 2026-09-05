@@ -25,7 +25,7 @@ window.MATCHES = [
   { round: 1, a: 1, b: 3, ref: 2, result: { winner: 3, setsW: 2, setsL: 0 } },
   { round: 2, a: 2, b: 4, ref: 1, result: { winner: 4, setsW: 2, setsL: 0 } },
   { round: 3, a: 1, b: 4, ref: 3, result: { winner: 4, setsW: 2, setsL: 0 } },
-  { round: 4, a: 2, b: 3, ref: 1, result: { winner: 3, setsW: 2, setsL: 0 } },
-  { round: 5, a: 3, b: 4, ref: 2, result: { tie: true, setsW: 1, setsL: 1 } },
+  { round: 4, a: 2, b: 3, ref: 1, result: { tie: true, setsW: 1, setsL: 1 } },
+  { round: 5, a: 3, b: 4, ref: 2, result: { winner: 4, setsW: 2, setsL: 0 } },
   { round: 6, a: 1, b: 2, ref: 4, result: null }
 ];

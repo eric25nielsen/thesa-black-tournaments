@@ -9,12 +9,12 @@ window.EVENT = {
   doors: "7:00 AM",
   start: "8:00 AM",
   format: "2 games to 25, no cap",
-  notes: "THESA Black won Silver SF 2-0 over SWC 1. Final 5:00 PM Court 6 vs winner of RRR Black / NTHAA.",
+  notes: "THESA Black won Silver SF 2-0 over SWC 1. RRR Black won SF1 and beat THESA 2-1 in the Silver final. Silver finish: 2nd.",
   officialLink: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkU0EFX-1haozmkmlMe4UFc2LtF4y5fwwV8j6dphksmIBMCUyr063lv9Q5_OO_J4XEWJ9inhDHtH94/pubhtml?gid=1887933325&single=true",
   liveCsv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkU0EFX-1haozmkmlMe4UFc2LtF4y5fwwV8j6dphksmIBMCUyr063lv9Q5_OO_J4XEWJ9inhDHtH94/pub?gid=1887933325&single=true&output=csv",
   phase: "bracket",
-  bracketPlay: "2:00 PM",
-  bracketNote: "D1 Silver Court 6. THESA won SF2 2-0. Final 5:00 PM."
+  bracketPlay: "Final",
+  bracketNote: "D1 Silver complete. RRR Black champion. THESA Black 2nd (lost final 2-1)."
 };
 window.TEAMS = [
   { id: 1, name: "RRR Black" },
@@ -31,10 +31,10 @@ window.MATCHES = [
   { round: 6, a: 1, b: 2, ref: 4, result: { tie: true, setsW: 1, setsL: 1 } }
 ];
 window.BRACKET = [
-  { id: "SF1", label: "Silver SF1", time: "2:00 PM", court: "Court 6", a: "RRR Black", b: "NTHAA", us: false, result: null },
+  { id: "SF1", label: "Silver SF1", time: "2:00 PM", court: "Court 6", a: "RRR Black", b: "NTHAA", us: false, result: { winner: "RRR Black", setsW: 2, setsL: 0 } },
   { id: "SF2", label: "Silver SF2", time: "3:00 PM", court: "Court 6", a: "SWC 1", b: "THESA Black", us: true, result: { winner: "THESA Black", setsW: 2, setsL: 0 } },
-  { id: "3P", label: "3rd place", time: "4:00 PM", court: "Court 6", a: "Loser SF1", b: "SWC 1", us: false, result: null },
-  { id: "F", label: "Silver final", time: "5:00 PM", court: "Court 6", a: "Winner SF1", b: "THESA Black", us: true, result: null }
+  { id: "3P", label: "3rd place", time: "4:00 PM", court: "Court 6", a: "NTHAA", b: "SWC 1", us: false, result: null },
+  { id: "F", label: "Silver final", time: "5:00 PM", court: "Court 6", a: "RRR Black", b: "THESA Black", us: true, result: { winner: "RRR Black", setsW: 2, setsL: 1 } }
 ];
 window.SILVER_POOL = [
   { seed: 9, name: "RRR Black", pool: "Pool 1", finish: 3, sw: 1, sl: 5, pf: 101, pa: 133, us: false },

@@ -9,8 +9,8 @@ window.EVENT = {
   doors: "7:00 AM",
   start: "8:00 AM",
   format: "2 games to 25, no cap",
-  notes: "Warm-up balls provided. Two sets in pool play. Bracket play 2:00 PM. Each division has its own Gold and Silver. Every team guaranteed 10 sets.",
-  officialLink: "",
+  notes: "Warm-up balls provided. Two sets in pool play. Bracket play 2:00 PM. Official host page: fieldhousevolleyballclub.com/tournaments",
+  officialLink: "https://fieldhousevolleyballclub.com/tournaments",
   phase: "pool",
   bracketPlay: "2:00 PM",
   bracketNote: "Seeds fill after all Division 1 pools finish. D1 Gold Courts 4-5. D1 Silver Court 6."

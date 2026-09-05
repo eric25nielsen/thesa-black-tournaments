@@ -21,20 +21,28 @@
     <p class="event-meta" id="eventMeta"></p>
   </header>
   <main>
+    <nav class="tabs" role="tablist">
+      <button type="button" class="tab on" id="tabPool">Pool play</button>
+      <button type="button" class="tab" id="tabBracket">Bracket play</button>
+    </nav>
     <section class="hero" id="nextCard"></section>
-    <section>
-      <h2>Standings</h2>
-      <div class="table-wrap" id="standings"></div>
-    </section>
-    <section>
-      <h2>Pool matches</h2>
-      <p class="hint">Tap an unfinished match to log 2–0 or 2–1. Saves on this phone.</p>
-      <div id="matches"></div>
-    </section>
-    <section>
-      <h2>Bracket</h2>
-      <p class="note" id="bracketNote"></p>
-    </section>
+    <div id="panelPool">
+      <section>
+        <h2>Standings</h2>
+        <div class="table-wrap" id="standings"></div>
+      </section>
+      <section>
+        <h2>Pool matches</h2>
+        <p class="hint">Tap an unfinished match to log 2–0 or 2–1. Saves on this phone.</p>
+        <div id="matches"></div>
+      </section>
+    </div>
+    <div id="panelBracket" class="hidden">
+      <section>
+        <h2>Bracket</h2>
+        <p class="note" id="bracketNote"></p>
+      </section>
+    </div>
     <section>
       <h2>Event notes</h2>
       <p class="note" id="notes"></p>

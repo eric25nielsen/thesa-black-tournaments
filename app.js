@@ -36,11 +36,13 @@ function defaultTab() {
   return "pool";
 }
 function showTab(name) {
-  var pool = name !== "bracket";
-  document.getElementById("tabPool").classList.toggle("on", pool);
-  document.getElementById("tabBracket").classList.toggle("on", !pool);
-  document.getElementById("panelPool").classList.toggle("hidden", !pool);
-  document.getElementById("panelBracket").classList.toggle("hidden", pool);
+  document.getElementById("tabPool").classList.toggle("on", name === "pool");
+  document.getElementById("tabBracket").classList.toggle("on", name === "bracket");
+  document.getElementById("tabRot").classList.toggle("on", name === "rot");
+  document.getElementById("panelPool").classList.toggle("hidden", name !== "pool");
+  document.getElementById("panelBracket").classList.toggle("hidden", name !== "bracket");
+  document.getElementById("panelRot").classList.toggle("hidden", name !== "rot");
+  document.getElementById("nextCard").classList.toggle("hidden", name === "rot");
 }
 function matchLabel(m) {
   if (!m.result) return "";
@@ -95,5 +97,7 @@ document.getElementById('shareBtn').addEventListener('click', async function () 
 });
 document.getElementById('tabPool').addEventListener('click', function () { showTab('pool'); });
 document.getElementById('tabBracket').addEventListener('click', function () { showTab('bracket'); });
+document.getElementById('tabRot').addEventListener('click', function () { showTab('rot'); });
 render();
 showTab(defaultTab());
+if (window.initRotations) window.initRotations();

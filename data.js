@@ -41,3 +41,23 @@ window.SILVER_POOL = [
   { seed: 11, name: "THESA Black", pool: "Pool 1", finish: 4, sw: 1, sl: 5, pf: 81, pa: 149, us: true },
   { seed: 12, name: "NTHAA", pool: "Pool 3", finish: 4, sw: 0, sl: 6, pf: 69, pa: 150, us: false }
 ];
+window.OTHER_POOLS = [
+  {
+    title: "Pool 2 · Court 5 — SWC 1 came from here",
+    rows: [
+      { name: "TCA Blue", sw: 6, sl: 0, pf: 150, pa: 52, finish: 1, highlight: false },
+      { name: "FCA FM 1", sw: 3, sl: 3, pf: 111, pa: 123, finish: 2, highlight: false },
+      { name: "JCSA (A)", sw: 2, sl: 4, pf: 104, pa: 138, finish: 3, highlight: false },
+      { name: "SWC 1", sw: 1, sl: 5, pf: 92, pa: 144, finish: 4, highlight: true }
+    ]
+  },
+  {
+    title: "Pool 3 · Court 6 — NTHAA came from here",
+    rows: [
+      { name: "FWC Black", sw: 6, sl: 0, pf: 150, pa: 88, finish: 1, highlight: false },
+      { name: "Legacy 8th", sw: 4, sl: 2, pf: 139, pa: 89, finish: 2, highlight: false },
+      { name: "Founders Corinth", sw: 2, sl: 4, pf: 101, pa: 132, finish: 3, highlight: false },
+      { name: "NTHAA", sw: 0, sl: 6, pf: 69, pa: 150, finish: 4, highlight: true }
+    ]
+  }
+];

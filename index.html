@@ -12,7 +12,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-180.png" />
   <link rel="icon" href="icon-192.png" />
-  <link rel="stylesheet" href="styles.css?v=34" />
+  <link rel="stylesheet" href="styles.css?v=35" />
 </head>
 <body>
   <header class="top">
@@ -63,9 +63,9 @@
     </div>
     <div class="install-actions"><button type="button" id="installBtn">Install</button><button type="button" class="ghost" id="installLater">Not now</button></div>
   </aside>
-  <script src="data.js?v=34"></script>
-  <script src="rotations.js?v=34"></script>
-  <script src="app.js?v=34"></script>
+  <script src="data.js?v=35"></script>
+  <script src="rotations.js?v=35"></script>
+  <script src="app.js?v=35"></script>
   <script>
     function show(name) {
       document.getElementById("tabPool").classList.toggle("on", name === "pool");
@@ -79,8 +79,6 @@
     document.getElementById("tabPool").onclick = function () { show("pool"); };
     document.getElementById("tabBracket").onclick = function () { show("bracket"); };
     document.getElementById("tabRot").onclick = function () { show("rot"); };
-    var bm = document.getElementById("bracketMatches");
-    if (bm) bm.innerHTML = "<p class=\"hint\">Saturday bracket posts after Friday pool.</p>";
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function () {});
     var deferred, sheet = document.getElementById("installSheet");
     var standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;

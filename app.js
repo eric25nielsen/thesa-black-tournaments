@@ -75,19 +75,43 @@ function paths(list) {
 }
 
 function saturday() {
-  var codes = { "THESA JH Black": "1", "THESA JH Red": "17" };
-  var code = codes[squad().name] || "";
-  var matches = [
-    ["Match 1", "Sat 8:00 AM", "Court 2", "Team 9 vs Team 8", "Ref Team 5"],
-    ["Match 3", "Sat 9:00 AM", "Court 2", "Team 5 vs Team 4", "Ref loser of Match 1"],
-    ["Match 4", "Sat 9:00 AM", "Court 5", "Team 3 vs Team 6", "Ref not in view"],
-    ["Match 7", "Sat 11:00 AM", "Court 2", "Team 1 vs winner of Match 1", "Ref loser of Match 5"],
-    ["Match 9", "Sat 12:00 PM", "Court 2", "Winner of Match 7 vs winner of Match 3", "Ref loser of Match 7"]
+  var code = squad().name === "THESA JH Black" ? "1" : (squad().name === "THESA JH Red" ? "17" : "");
+  var blocks = [
+    ["Gold", [
+      ["Match 1", "8:00 AM", "Court 2", "Team 9 vs Team 8", "Ref Team 5"],
+      ["Match 2", "8:00 AM", "Court 5", "Team 7 vs Team 10", "Ref Team 6"],
+      ["Match 3", "9:00 AM", "Court 2", "Team 5 vs Team 4", "Ref loser of Match 1"],
+      ["Match 4", "9:00 AM", "Court 5", "Team 3 vs Team 6", "Ref loser of Match 2"],
+      ["Match 5", "10:00 AM", "Court 2", "Loser of Match 1 vs loser of Match 3", "Ref loser of Match 3"],
+      ["Match 6", "11:00 AM", "Court 5", "Loser of Match 2 vs loser of Match 4", "Ref loser of Match 8"],
+      ["Match 7", "11:00 AM", "Court 2", "Team 1 vs winner of Match 1", "Ref loser of Match 5"],
+      ["Match 8", "10:00 AM", "Court 5", "Winner of Match 2 vs Team 2", "Ref loser of Match 4"],
+      ["Match 9", "12:00 PM", "Court 2", "Winner of Match 7 vs winner of Match 3", "Ref loser of Match 7"],
+      ["Match 10", "12:00 PM", "Court 5", "Winner of Match 4 vs winner of Match 8", "Ref loser of Match 6"],
+      ["Match 11", "1:00 PM", "Court 2", "Winner of Match 9 vs winner of Match 10", "Ref loser of Match 9"]
+    ]],
+    ["Silver", [
+      ["Match 1", "2:00 PM", "Court 5", "Team 5 vs Team 4", "Ref Team 3"],
+      ["Match 2", "4:00 PM", "Court 5", "Team 1 vs winner of Match 1", "Ref loser of Match 3"],
+      ["Match 3", "3:00 PM", "Court 5", "Team 3 vs Team 2", "Ref loser of Match 1"],
+      ["Match 4", "6:00 PM", "Court 5", "Winner of Match 2 vs winner of Match 3", "Ref loser of Match 5"],
+      ["Match 5", "5:00 PM", "Court 5", "Loser of Match 1 vs loser of Match 3", "Ref loser of Match 2"]
+    ]],
+    ["Bronze", [
+      ["Match 1", "3:00 PM", "Court 2", "Team 5 vs Team 4", "Ref Team 3"],
+      ["Match 2", "5:00 PM", "Court 2", "Team 1 vs winner of Match 1", "Ref loser of Match 3"],
+      ["Match 3", "4:00 PM", "Court 2", "Team 3 vs Team 2", "Ref loser of Match 1"],
+      ["Match 4", "7:00 PM", "Court 2", "Winner of Match 2 vs winner of Match 3", "Ref loser of Match 5"],
+      ["Match 5", "6:00 PM", "Court 2", "Loser of Match 1 vs loser of Match 3", "Ref loser of Match 2"]
+    ]]
   ];
-  var html = "<p class=\"hint\">From AES Saturday, Round 2 Gold, Courts 2 and 5. Team numbers are the AES codes. THESA JH Black is Team 1. Silver and bronze are listed on AES but were below this shot.</p>";
-  matches.forEach(function (m) {
-    var ours = code && m[3].indexOf("Team " + code) >= 0;
-    html += "<article class=\"match" + (ours ? " next" : "") + "\"><div class=\"match-top\"><span>" + m[0] + " · " + m[1] + "</span><span>" + m[2] + "</span></div><div class=\"vs\">" + m[3] + (ours ? " <span class=\"us-chip\">US</span>" : "") + "</div><div class=\"result\">" + m[4] + "</div></article>";
+  var html = "<p class=\"hint\">AES Saturday brackets. Team numbers are the posted seed slots. THESA JH Black is Team 1.</p>";
+  blocks.forEach(function (block) {
+    html += "<h2>" + block[0] + "</h2>";
+    block[1].forEach(function (m) {
+      var ours = code && m[3].indexOf("Team " + code + " ") >= 0 || (code && m[3].indexOf("Team " + code) === 0);
+      html += "<article class=\"match" + (ours ? " next" : "") + "\"><div class=\"match-top\"><span>" + m[0] + " · " + m[1] + "</span><span>" + m[2] + "</span></div><div class=\"vs\">" + m[3] + (ours ? " <span class=\"us-chip\">US</span>" : "") + "</div><div class=\"result\">" + m[4] + "</div></article>";
+    });
   });
   return html;
 }

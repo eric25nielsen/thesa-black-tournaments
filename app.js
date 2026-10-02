@@ -23,6 +23,7 @@ function matches() {
 }
 function wePlay(m) { var n = squad().name; return m.a === n || m.b === n; }
 function weRef(m) { return m.ref === squad().name; }
+function opp(m) { return m.a === squad().name ? m.b : m.a; }
 function currentMatch(list) {
   var now = nowMinutes();
   var open = list.filter(function (m) { return !m.result; });
@@ -55,6 +56,22 @@ function standings(list) {
   });
   return Object.keys(rows).map(function (k) { return rows[k]; }).sort(function (a, b) { return b.mw - a.mw || b.sw - a.sw; });
 }
+function rec(r) { return r.mt ? (r.mw + "\u2013" + r.ml + "\u2013" + r.mt) : (r.mw + "\u2013" + r.ml); }
+function paths(list) {
+  var row = standings(list).find(function (r) { return r.us; });
+  var left = list.filter(function (m) { return wePlay(m) && !m.result; });
+  var n = left.length;
+  if (!row) return "";
+  if (!n) return "<p class=\"hint\">Pool matches are done. Record " + rec(row) + ", sets " + row.sw + "\u2013" + row.sl + ".</p>";
+  function line(title, mw, ml, mt, sw, sl) {
+    return "<article class=\"match\"><div class=\"vs\">" + title + "</div><div class=\"result\">" + mw + "\u2013" + ml + (mt ? "\u2013" + mt : "") + " matches \u00b7 " + sw + "\u2013" + sl + " sets</div></article>";
+  }
+  var games = left.map(function (m) { return m.time + " vs " + opp(m); }).join(", ");
+  return "<p class=\"hint\">Still to play: " + games + ". Each match is two sets, so win, split, or loss.</p>" +
+    line("Win both remaining", row.mw + n, row.ml, row.mt, row.sw + n * 2, row.sl) +
+    line("Split the rest", row.mw, row.ml, row.mt + n, row.sw + n, row.sl + n) +
+    line("Lose both remaining", row.mw, row.ml + n, row.mt, row.sw, row.sl + n * 2);
+}
 function fillPicker() {
   var sel = document.getElementById("teamPick");
   var s = squad();
@@ -71,7 +88,8 @@ function render() {
   document.getElementById("eventName").textContent = window.EVENT.name;
   document.getElementById("eventMeta").textContent = [window.EVENT.date, s.division, s.pool, s.court].join(" \u00b7 ");
   document.getElementById("phase").textContent = cur ? ((weRef(cur) ? "We are reffing" : "In progress") + " \u00b7 " + cur.time) : (up ? ("Up next \u00b7 " + up.time) : "Pool complete");
-  document.getElementById("notes").textContent = window.EVENT.notes;
+  var notes = document.getElementById("notes");
+  if (notes) notes.textContent = window.EVENT.notes;
   var bn = document.getElementById("bracketNote");
   if (bn) bn.textContent = window.EVENT.bracketNote;
   var hero = document.getElementById("nextCard");
@@ -83,9 +101,10 @@ function render() {
   }
   document.getElementById("standings").innerHTML = "<table><thead><tr><th>Team</th><th class=\"num\">M</th><th class=\"num\">Sets</th></tr></thead><tbody>" +
     standings(list).map(function (r) {
-      var rec = r.mt ? (r.mw + "\u2013" + r.ml + "\u2013" + r.mt) : (r.mw + "\u2013" + r.ml);
-      return "<tr class=\"" + (r.us ? "us" : "") + "\"><td>" + r.name + (r.us ? " <span class=\"us-chip\">US</span>" : "") + "</td><td class=\"num\">" + rec + "</td><td class=\"num\">" + r.sw + "\u2013" + r.sl + "</td></tr>";
+      return "<tr class=\"" + (r.us ? "us" : "") + "\"><td>" + r.name + (r.us ? " <span class=\"us-chip\">US</span>" : "") + "</td><td class=\"num\">" + rec(r) + "</td><td class=\"num\">" + r.sw + "\u2013" + r.sl + "</td></tr>";
     }).join("") + "</tbody></table>";
+  var pathEl = document.getElementById("paths");
+  if (pathEl) pathEl.innerHTML = paths(list);
   document.getElementById("matches").innerHTML = list.map(function (m) {
     var tag = !m.result && cur && m.i === cur.i ? "NOW" : (!m.result && up && m.i === up.i ? "NEXT" : "");
     var res = m.result ? "<div class=\"result\">" + resultText(m) + "</div>" : "";

@@ -97,15 +97,16 @@ function paths(list) {
 function card(title, detail, ours) {
   return "<article class=\"match" + (ours ? " next" : "") + "\"><div class=\"vs\">" + title + "</div><div class=\"result\">" + detail + "</div></article>";
 }
-function openBoard(title, cols, path) {
-  var html = "<div class=\"board-bar\"><strong>" + title + (path ? " · " + path : "") + "</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\"><div class=\"board\">";
-  cols.forEach(function (col) {
-    html += "<div class=\"col\">";
-    col.forEach(function (slot) {
-      var on = slot.us || (path && slot.path === path);
-      html += "<div class=\"slot" + (on ? " us" : "") + "\"><b>" + slot.t + "</b><span>" + slot.a + "</span><span>" + slot.b + "</span></div>";
+function openBoard(title, rounds, path) {
+  var html = "<div class=\"board-bar\"><strong>" + title + "</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\"><div class=\"bracket\">";
+  rounds.forEach(function (round, i) {
+    html += "<div class=\"round\">";
+    round.forEach(function (game) {
+      var on = game.us || (path && game.path === path) || game.path === "both";
+      html += "<div class=\"pair\"><div class=\"game" + (on ? " us" : "") + "\"><div class=\"when\">" + game.t + "</div><div class=\"team\">" + game.a + "</div><div class=\"team\">" + game.b + "</div></div></div>";
     });
     html += "</div>";
+    if (i < rounds.length - 1) html += "<div class=\"feed\"></div>";
   });
   html += "</div></div>";
   var el = document.getElementById("board");
@@ -123,9 +124,9 @@ function saturday() {
       loss: "5:00 PM, Court 5. Opponent not set.",
       note: "Ref the 2:00 on Court 5 first",
       cols: [
-        [{ t: "2:00 Court 5", a: "Timberwolves Blue", b: "FBCHA Blue" }, { t: "3:00 Court 5", a: "JH Black", b: "Timberwolves Black", us: true, path: "both" }],
-        [{ t: "4:00 Court 5", a: "Tyler Heat", b: "Not set yet" }, { t: "5:00 Court 5", a: "Not set yet", b: "Loser of the 2:00", path: "loss" }],
-        [{ t: "6:00 Court 5", a: "Not set yet", b: "Winner of the 4:00", path: "win" }]
+        [{ t: "2:00 · Court 5", a: "Timberwolves Blue", b: "FBCHA Blue" }, { t: "3:00 · Court 5 · we play", a: "JH Black", b: "Timberwolves Black", us: true, path: "both" }],
+        [{ t: "4:00 · Court 5", a: "Tyler Heat", b: "Winner of 2:00" }, { t: "5:00 · Court 5 · if we lose", a: "Not set yet", b: "Loser of 2:00", path: "loss" }],
+        [{ t: "6:00 · Court 5 · if we win", a: "Not set yet", b: "Winner of 4:00", path: "win" }]
       ]
     },
     "jh-red": {

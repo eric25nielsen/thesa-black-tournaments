@@ -103,18 +103,17 @@ function box(g) {
 function box(g) {
   return "<div class=\"box" + (g.us ? " us" : "") + "\" style=\"left:" + g.x + "px;top:" + g.y + "px\"><b>" + g.t + "</b><span>" + g.a + "</span><span>" + g.b + "</span></div>";
 }
-function openBoard(title) {
-  var games = [
-    { t: "MATCH 1 · 2:00 · Ct 5", a: "FBCHA MS Blue", b: "Timberwolves Black", x: 8, y: 16 },
-    { t: "MATCH 3 · 3:00 · Ct 5", a: "Timberwolves Blue", b: "Tyler Heat", x: 8, y: 150 },
-    { t: "MATCH 2 · 4:00 · Ct 5", a: "JH Black", b: "Winner of Match 1", x: 250, y: 55, us: true },
-    { t: "MATCH 4 · 6:00 · Ct 5", a: "Winner of Match 2", b: "Winner of Match 3", x: 500, y: 100, us: true },
-    { t: "MATCH 5 · 5:00 · Ct 5", a: "Loser of Match 1", b: "Loser of Match 3", x: 250, y: 280 }
-  ];
-  var html = "<div class=\"board-bar\"><strong>Silver, from AES</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\">";
-  html += "<div class=\"tree\"><svg class=\"lines\" viewBox=\"0 0 760 430\"><path d=\"M158 50 H210 V90 H250 M158 185 H210 V140 H250 M400 95 H450 V135 H500 M400 320 H460\" fill=\"none\" stroke=\"#9aa0a6\" stroke-width=\"2\"/></svg>";
-  games.forEach(function (g) { html += box(g); });
-  html += "</div><div class=\"losers\"><h3>Losers</h3><p>Match 5, 5:00 PM, Court 5, is loser of Match 1 vs loser of Match 3. Those teams are not set. If JH Black loses Match 2, that is not Match 5.</p></div></div>";
+function openBoard() {
+  var html = "<div class=\"board-bar\"><strong>Silver bracket</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\"><div class=\"bracket-grid\">";
+  html += "<div class=\"m m1\"><b>Match 1 · 2:00 · Ct 5</b><span>FBCHA MS Blue</span><span>Timberwolves Black</span></div>";
+  html += "<div class=\"elbow e1\"></div>";
+  html += "<div class=\"m m3\"><b>Match 3 · 3:00 · Ct 5</b><span>Timberwolves Blue</span><span>Tyler Heat</span></div>";
+  html += "<div class=\"m m2 us\"><b>Match 2 · 4:00 · Ct 5</b><span>JH Black</span><span>Winner of Match 1</span></div>";
+  html += "<div class=\"stem e2\"></div>";
+  html += "<div class=\"m m4 us\"><b>Match 4 · 6:00 · Ct 5</b><span>Winner of Match 2</span><span>Winner of Match 3</span></div>";
+  html += "<div class=\"loss-label\">Losers</div>";
+  html += "<div class=\"m m5\"><b>Match 5 · 5:00 · Ct 5</b><span>Loser of Match 1</span><span>Loser of Match 3</span></div>";
+  html += "</div></div>";
   var el = document.getElementById("board");
   el.innerHTML = html;
   el.classList.remove("hidden");
@@ -178,11 +177,11 @@ function saturday() {
   if (p.note) html += "<p class=\"hint\">" + p.note + "</p>";
   setTimeout(function () {
     var card = document.getElementById("openBoard");
-    if (card) card.onclick = function () { openBoard(p.title); };
+    if (card) card.onclick = function () { openBoard(); };
     var win = document.getElementById("winCard");
-    if (win) win.onclick = function () { openBoard(p.title); };
+    if (win) win.onclick = function () { openBoard(); };
     var loss = document.getElementById("lossCard");
-    if (loss) loss.onclick = function () { openBoard(p.title); };
+    if (loss) loss.onclick = function () { openBoard(); };
   }, 0);
   return html;
 }

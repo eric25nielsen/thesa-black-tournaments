@@ -79,12 +79,13 @@ function paths(list) {
 function card(title, detail, ours) {
   return "<article class=\"match" + (ours ? " next" : "") + "\"><div class=\"vs\">" + title + "</div><div class=\"result\">" + detail + "</div></article>";
 }
-function openBoard(title, cols) {
-  var html = "<div class=\"board-bar\"><strong>" + title + "</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\"><div class=\"board\">";
+function openBoard(title, cols, path) {
+  var html = "<div class=\"board-bar\"><strong>" + title + (path ? " · " + path : "") + "</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\"><div class=\"board\">";
   cols.forEach(function (col) {
     html += "<div class=\"col\">";
     col.forEach(function (slot) {
-      html += "<div class=\"slot" + (slot.us ? " us" : "") + "\"><b>" + slot.t + "</b><span>" + slot.a + "</span><span>" + slot.b + "</span></div>";
+      var on = slot.us || (path && slot.path === path);
+      html += "<div class=\"slot" + (on ? " us" : "") + "\"><b>" + slot.t + "</b><span>" + slot.a + "</span><span>" + slot.b + "</span></div>";
     });
     html += "</div>";
   });
@@ -100,13 +101,13 @@ function saturday() {
     "jh-black": {
       title: "Silver",
       next: ["3:00 PM · Court 5", "Timberwolves Black"],
-      win: "6:00 PM, Court 5, vs winner of Tyler Heat's match",
-      loss: "5:00 PM, Court 5, vs loser of the 2:00",
+      win: "6:00 PM, Court 5. Opponent not set.",
+      loss: "5:00 PM, Court 5. Opponent not set.",
       note: "Ref the 2:00 on Court 5 first",
       cols: [
-        [{ t: "2:00 Court 5", a: "Timberwolves Blue", b: "FBCHA Blue" }, { t: "3:00 Court 5", a: "JH Black", b: "Timberwolves Black", us: true }],
-        [{ t: "4:00 Court 5", a: "Tyler Heat", b: "Not set yet" }, { t: "5:00 Court 5", a: "Not set yet", b: "Loser of 2:00 vs loser of 3:00" }],
-        [{ t: "6:00 Court 5", a: "Not set yet", b: "Winners of 4:00 and 3:00", us: true }]
+        [{ t: "2:00 Court 5", a: "Timberwolves Blue", b: "FBCHA Blue" }, { t: "3:00 Court 5", a: "JH Black", b: "Timberwolves Black", us: true, path: "both" }],
+        [{ t: "4:00 Court 5", a: "Tyler Heat", b: "Not set yet" }, { t: "5:00 Court 5", a: "Not set yet", b: "Loser of the 2:00", path: "loss" }],
+        [{ t: "6:00 Court 5", a: "Not set yet", b: "Winner of the 4:00", path: "win" }]
       ]
     },
     "jh-red": {
@@ -147,12 +148,16 @@ function saturday() {
   var p = boards[id];
   if (!p) return "<p class=\"hint\">No bracket assignment yet. Varsity pool has not started.</p>";
   var html = "<article class=\"match next\" id=\"openBoard\"><p class=\"kicker\">Next game · tap for bracket</p><div class=\"vs\">" + p.next[1] + "</div><div class=\"result\">" + p.next[0] + "</div></article>";
-  html += "<article class=\"match\"><div class=\"vs\">If we win</div><div class=\"result\">" + p.win + "</div></article>";
-  html += "<article class=\"match\"><div class=\"vs\">If we lose</div><div class=\"result\">" + p.loss + "</div></article>";
+  html += "<article class=\"match\" id=\"winCard\"><div class=\"vs\">If we win</div><div class=\"result\">" + p.win + "</div></article>";
+  html += "<article class=\"match\" id=\"lossCard\"><div class=\"vs\">If we lose</div><div class=\"result\">" + p.loss + "</div></article>";
   if (p.note) html += "<p class=\"hint\">" + p.note + "</p>";
   setTimeout(function () {
     var card = document.getElementById("openBoard");
     if (card) card.onclick = function () { openBoard(p.title, p.cols); };
+    var win = document.getElementById("winCard");
+    if (win) win.onclick = function () { openBoard(p.title, p.cols, "win"); };
+    var loss = document.getElementById("lossCard");
+    if (loss) loss.onclick = function () { openBoard(p.title, p.cols, "loss"); };
   }, 0);
   return html;
 }

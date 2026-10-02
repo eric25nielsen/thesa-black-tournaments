@@ -3,8 +3,6 @@ function squad() {
   var id = localStorage.getItem(PICK_KEY) || "jh-black";
   return window.SQUADS.find(function (s) { return s.id === id; }) || window.SQUADS[0];
 }
-function storeKey() { return "thesa:scores:" + squad().id; }
-function loadOverrides() { try { return JSON.parse(localStorage.getItem(storeKey()) || "{}"); } catch (e) { return {}; } }
 function minutes(t) {
   var m = String(t || "").match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
   if (!m) return null;
@@ -19,9 +17,8 @@ function nowMinutes() {
   return h * 60 + min;
 }
 function matches() {
-  var over = loadOverrides();
   return squad().matches.map(function (m, i) {
-    return Object.assign({}, m, { i: i, result: over[String(i)] || null });
+    return Object.assign({}, m, { i: i, result: m.result || null });
   });
 }
 function wePlay(m) { var n = squad().name; return m.a === n || m.b === n; }
@@ -37,11 +34,19 @@ function upcoming(list, cur) {
   if (!cur) return open[0] || null;
   return open.find(function (m) { return m.i > cur.i; }) || null;
 }
+function resultText(m) {
+  if (!m.result) return "";
+  if (m.result.tie) return "Split 1\u20131";
+  return m.result.winner + " " + m.result.setsW + "\u2013" + m.result.setsL;
+}
 function standings(list) {
   var rows = {};
-  squad().teams.forEach(function (n) { rows[n] = { name: n, mw: 0, ml: 0, sw: 0, sl: 0, us: n === squad().name }; });
+  squad().teams.forEach(function (n) { rows[n] = { name: n, mw: 0, ml: 0, mt: 0, sw: 0, sl: 0, us: n === squad().name }; });
   list.forEach(function (m) {
-    if (!m.result || m.result.tie) return;
+    if (!m.result) return;
+    var a = rows[m.a], b = rows[m.b];
+    if (!a || !b) return;
+    if (m.result.tie) { a.mt++; b.mt++; a.sw++; a.sl++; b.sw++; b.sl++; return; }
     var w = rows[m.result.winner], lname = m.result.winner === m.a ? m.b : m.a, l = rows[lname];
     if (!w || !l) return;
     w.mw++; l.ml++;
@@ -67,7 +72,8 @@ function render() {
   document.getElementById("eventMeta").textContent = [window.EVENT.date, s.division, s.pool, s.court].join(" \u00b7 ");
   document.getElementById("phase").textContent = cur ? ((weRef(cur) ? "We are reffing" : "In progress") + " \u00b7 " + cur.time) : (up ? ("Up next \u00b7 " + up.time) : "Pool complete");
   document.getElementById("notes").textContent = window.EVENT.notes;
-  document.getElementById("bracketNote").textContent = window.EVENT.bracketNote;
+  var bn = document.getElementById("bracketNote");
+  if (bn) bn.textContent = window.EVENT.bracketNote;
   var hero = document.getElementById("nextCard");
   var focus = cur || up;
   if (focus) {
@@ -77,11 +83,12 @@ function render() {
   }
   document.getElementById("standings").innerHTML = "<table><thead><tr><th>Team</th><th class=\"num\">M</th><th class=\"num\">Sets</th></tr></thead><tbody>" +
     standings(list).map(function (r) {
-      return "<tr class=\"" + (r.us ? "us" : "") + "\"><td>" + r.name + (r.us ? " <span class=\"us-chip\">US</span>" : "") + "</td><td class=\"num\">" + r.mw + "\u2013" + r.ml + "</td><td class=\"num\">" + r.sw + "\u2013" + r.sl + "</td></tr>";
+      var rec = r.mt ? (r.mw + "\u2013" + r.ml + "\u2013" + r.mt) : (r.mw + "\u2013" + r.ml);
+      return "<tr class=\"" + (r.us ? "us" : "") + "\"><td>" + r.name + (r.us ? " <span class=\"us-chip\">US</span>" : "") + "</td><td class=\"num\">" + rec + "</td><td class=\"num\">" + r.sw + "\u2013" + r.sl + "</td></tr>";
     }).join("") + "</tbody></table>";
   document.getElementById("matches").innerHTML = list.map(function (m) {
     var tag = !m.result && cur && m.i === cur.i ? "NOW" : (!m.result && up && m.i === up.i ? "NEXT" : "");
-    var res = m.result ? "<div class=\"result\">" + m.result.winner + " " + m.result.setsW + "\u2013" + m.result.setsL + "</div>" : "";
+    var res = m.result ? "<div class=\"result\">" + resultText(m) + "</div>" : "";
     return "<article class=\"match" + (tag ? " next" : "") + (weRef(m) ? " work" : "") + "\"><div class=\"match-top\"><span>" + m.time + (tag ? " \u00b7 " + tag : "") + "</span><span>" + (weRef(m) ? "WE REF" : ("Ref " + m.ref)) + "</span></div><div class=\"vs\">" + m.a + " vs " + m.b + (wePlay(m) ? " <span class=\"us-chip\">US</span>" : "") + (weRef(m) ? " <span class=\"ref-chip\">WE REF</span>" : "") + "</div>" + res + "</article>";
   }).join("");
 }

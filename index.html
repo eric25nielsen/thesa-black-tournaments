@@ -4,18 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#080808" />
-  <title>THESA JH Black — Dallas Angels Classic</title>
-  <link rel="stylesheet" href="styles.css?v=20" />
+  <title>THESA — Dallas Angels Classic</title>
+  <link rel="stylesheet" href="styles.css?v=21" />
 </head>
 <body>
   <header class="top">
     <div class="brand">
       <img class="mark" src="https://images.squarespace-cdn.com/content/v1/67c8899635da4f21754dda55/d1ab67a6-560f-4f6d-994f-ddf2ad18e64c/THESA+Logo+Helmet+Only+Transparent+Background.png?format=300w" alt="THESA Riders knight" />
       <div>
-        <p class="team" id="teamName">THESA JH Black</p>
+        <p class="team" id="teamName">THESA</p>
         <p class="label">Dallas Angels Classic · Oct 2–3</p>
       </div>
     </div>
+    <label class="pick-label" for="teamPick">Tracking</label>
+    <select id="teamPick" class="pick"></select>
     <p class="phase" id="phase"></p>
     <p class="event-name" id="eventName"></p>
     <p class="event-meta" id="eventMeta"></p>
@@ -29,12 +31,12 @@
     <section class="hero" id="nextCard"></section>
     <div id="panelPool">
       <section>
-        <h2>Pool R1PA standings</h2>
+        <h2>Pool standings</h2>
         <div class="table-wrap" id="standings"></div>
       </section>
       <section>
-        <h2>Court 9 matches</h2>
-        <p class="hint">Gold border and WE REF mark the matches we work.</p>
+        <h2>Court matches</h2>
+        <p class="hint">US is the team you are tracking. Gold WE REF is their work match.</p>
         <div id="matches"></div>
       </section>
     </div>
@@ -48,7 +50,7 @@
     <div id="panelRot" class="hidden">
       <section class="rot-track">
         <h2>Live rotation</h2>
-        <p class="hint">Tap side-out when the serve changes hands. Saved on this phone.</p>
+        <p class="hint">Saved on this phone for the team you are tracking.</p>
         <div class="rot-legend">
           <span><i style="background:#9e1b32"></i>S1</span>
           <span><i style="background:#c9a227"></i>S2</span>
@@ -56,10 +58,7 @@
           <span><i style="background:#7a1a28"></i>MB</span>
           <span><i style="background:#8a8a8a"></i>L</span>
         </div>
-        <div class="rot-status">
-          <strong id="rotNum">Rotation 1</strong>
-          <span id="rotMeta">S1 sets · Our serve</span>
-        </div>
+        <div class="rot-status"><strong id="rotNum">Rotation 1</strong><span id="rotMeta">S1 sets</span></div>
         <div class="rot-chips">
           <button type="button" class="chip on" id="serveChip">Serving</button>
           <button type="button" class="chip" id="recvChip">Receiving</button>
@@ -84,24 +83,33 @@
           <label>Libero <input id="nameL" maxlength="12" /></label>
         </div>
       </section>
-      <section>
-        <h2>All 6-2 rotations</h2>
-        <div id="rotAll"></div>
-      </section>
+      <section><h2>All 6-2 rotations</h2><div id="rotAll"></div></section>
     </div>
     <section>
       <h2>This weekend</h2>
       <p class="note" id="notes"></p>
-      <p class="note"><a href="https://results.advancedeventsystems.com/event/RGFsbGFzX0FuZ2Vsc19DbGFzc2ljXzIwMjY1/divisions/-50016/overview" target="_blank" rel="noopener">Official AES results</a></p>
-    </section>
-    <section class="tools">
-      <button type="button" id="shareBtn">Copy update text</button>
-      <button type="button" class="ghost" id="resetBtn">Reset local scores</button>
+      <p class="note"><a href="https://results.advancedeventsystems.com/event/RGFsbGFzX0FuZ2Vsc19DbGFzc2ljXzIwMjY1/court-schedule" target="_blank" rel="noopener">Official AES court schedule</a></p>
     </section>
   </main>
   <footer>THESA Riders · Dallas Angels Classic</footer>
-  <script src="data.js?v=20"></script>
-  <script src="rotations.js?v=20"></script>
-  <script src="app.js?v=20"></script>
+  <script src="data.js?v=21"></script>
+  <script src="rotations.js?v=21"></script>
+  <script src="app.js?v=21"></script>
+  <script>
+    document.getElementById("tabPool").onclick = function () { show("pool"); };
+    document.getElementById("tabBracket").onclick = function () { show("bracket"); };
+    document.getElementById("tabRot").onclick = function () { show("rot"); };
+    function show(name) {
+      document.getElementById("tabPool").classList.toggle("on", name === "pool");
+      document.getElementById("tabBracket").classList.toggle("on", name === "bracket");
+      document.getElementById("tabRot").classList.toggle("on", name === "rot");
+      document.getElementById("panelPool").classList.toggle("hidden", name !== "pool");
+      document.getElementById("panelBracket").classList.toggle("hidden", name !== "bracket");
+      document.getElementById("panelRot").classList.toggle("hidden", name !== "rot");
+      document.getElementById("nextCard").classList.toggle("hidden", name === "rot");
+    }
+    var bm = document.getElementById("bracketMatches");
+    if (bm) bm.innerHTML = "<p class=\"hint\">Saturday bracket posts after Friday pool.</p>";
+  </script>
 </body>
 </html>

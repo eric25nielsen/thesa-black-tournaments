@@ -84,7 +84,7 @@ window.EVENT = {
   name: "Dallas Angels Classic",
   date: "October 2–3, 2026",
   site: "AES",
-  notes: "JH Black lost to Patriots 0–2 at 1:00. Patriots win the pool. JH Black is tied with Kingwood on matches and sets.",
+  notes: "JH Black finished 3rd. Head-to-head points went to Kingwood. Silver at 2:00 on Court 5.",
   officialLink: "https://results.advancedeventsystems.com/event/RGFsbGFzX0FuZ2Vsc19DbGFzc2ljXzIwMjY1/divisions/-50016/overview",
   bracketNote: "Saturday bracket posts after Friday pool."
 };

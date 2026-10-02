@@ -104,10 +104,10 @@ function saturday() {
       ["Match 5", "6:00 PM", "Court 2", "Loser of Match 1 vs loser of Match 3", "Ref loser of Match 2"]
     ]]
   ];
-  var html = "<p class=\"hint\">No Saturday matches have been played. Seeds fill from pool finish. These are the three ways the 1:00 can place JH Black.</p>";
-  html += "<article class=\"match next\"><div class=\"vs\">If we win 2–0</div><div class=\"result\">1st in the pool. Gold, as a 1st-place seed.</div></article>";
-  html += "<article class=\"match next\"><div class=\"vs\">If we split</div><div class=\"result\">2nd in the pool. Gold, as a 2nd-place seed. Patriots take 1st.</div></article>";
-  html += "<article class=\"match next\"><div class=\"vs\">If we lose 0–2</div><div class=\"result\">2nd and gold, unless Kingwood passes us on the tiebreak. Then 3rd and silver.</div></article>";
+  var html = "<p class=\"hint\">No Saturday matches have been played. Time and court below are the first match for that finish. AES has not locked the seed number, so gold is Court 2 or Court 5.</p>";
+  html += "<article class=\"match next\"><div class=\"vs\">If we win 2–0</div><div class=\"result\">1st. Gold. 9:00, 10:00, or 11:00 AM. Court 2 or Court 5.</div><p class=\"hint\">Top 1st-place seed is 11:00 Court 2. Next is 10:00 Court 5. Other 1sts play 9:00.</p></article>";
+  html += "<article class=\"match next\"><div class=\"vs\">If we split</div><div class=\"result\">2nd. Gold. 8:00 or 9:00 AM. Court 2 or Court 5.</div><p class=\"hint\">Patriots take 1st. A 2nd-place seed plays the 8:00 or 9:00 wave.</p></article>";
+  html += "<article class=\"match next\"><div class=\"vs\">If we lose 0–2</div><div class=\"result\">2nd: 8:00 or 9:00 AM, Court 2 or 5. 3rd: 2:00 PM, Court 5.</div><p class=\"hint\">3rd only if Kingwood passes us on points. Silver starts 2:00 on Court 5.</p></article>";
   blocks.forEach(function (block) {
     html += "<h2>" + block[0] + "</h2>";
     block[1].forEach(function (m) {

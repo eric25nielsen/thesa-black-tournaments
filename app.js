@@ -104,21 +104,23 @@ function box(g) {
   return "<div class=\"box" + (g.us ? " us" : "") + "\" style=\"left:" + g.x + "px;top:" + g.y + "px\"><b>" + g.t + "</b><span>" + g.a + "</span><span>" + g.b + "</span></div>";
 }
 function openBoard() {
-  var html = "<div class=\"board-bar\"><strong>Silver</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\">";
-  html += "<svg viewBox=\"0 0 760 460\" width=\"760\" height=\"460\">";
-  html += "<path d=\"M190 58 H230 V150 H270 M190 150 H230 V150 M460 104 H500 V150 H540 M190 250 H230 V340 H270 M460 340 H500\" fill=\"none\" stroke=\"#d0d0d0\" stroke-width=\"2\"/>";
+  var html = "<div class=\"board-bar\"><strong>Silver</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\"><svg viewBox=\"0 0 820 420\" width=\"820\" height=\"420\">";
+  html += "<path d=\"M230 70 H270 V70 H300 M510 70 H545 V160 H580 M230 210 H545 V160\" fill=\"none\" stroke=\"#cfcfcf\" stroke-width=\"2\"/>";
+  html += "<path d=\"M230 110 V250 H300 M230 250 H300\" fill=\"none\" stroke=\"#C9A227\" stroke-width=\"2\"/>";
   function g(x,y,title,a,b,us) {
-    return "<rect x=\"" + x + "\" y=\"" + y + "\" width=\"180\" height=\"52\" rx=\"4\" fill=\"#161616\" stroke=\"" + (us ? "#C9A227" : "#888") + "\"/>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+14) + "\" fill=\"#8eb4ff\" font-size=\"11\">" + title + "</text>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+30) + "\" fill=\"#fff\" font-size=\"12\">" + a + "</text>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+46) + "\" fill=\"#fff\" font-size=\"12\">" + b + "</text>";
+    return "<rect x=\"" + x + "\" y=\"" + y + "\" width=\"210\" height=\"64\" rx=\"3\" fill=\"#141414\" stroke=\"" + (us ? "#C9A227" : "#777") + "\" stroke-width=\"2\"/>" +
+      "<text x=\"" + (x+8) + "\" y=\"" + (y+16) + "\" fill=\"#8eb4ff\" font-size=\"12\">" + title + "</text>" +
+      "<line x1=\"" + x + "\" y1=\"" + (y+24) + "\" x2=\"" + (x+210) + "\" y2=\"" + (y+24) + "\" stroke=\"#333\"/>" +
+      "<text x=\"" + (x+8) + "\" y=\"" + (y+42) + "\" fill=\"#fff\" font-size=\"13\">" + a + "</text>" +
+      "<line x1=\"" + x + "\" y1=\"" + (y+48) + "\" x2=\"" + (x+210) + "\" y2=\"" + (y+48) + "\" stroke=\"#333\"/>" +
+      "<text x=\"" + (x+8) + "\" y=\"" + (y+60) + "\" fill=\"#fff\" font-size=\"13\">" + b + "</text>";
   }
-  html += g(8,32,"Match 1 · 2:00 · Ct 5","FBCHA Blue","Timberwolves Black");
-  html += g(8,124,"Match 3 · 3:00 · Ct 5","Timberwolves Blue","Tyler Heat");
-  html += g(270,78,"Match 2 · 4:00 · Ct 5","JH Black","Winner Match 1",true);
-  html += g(540,124,"Match 4 · 6:00 · Ct 5","Winner Match 2","Winner Match 3",true);
-  html += g(270,314,"Match 5 · 5:00 · Ct 5","Loser Match 1","Loser Match 3");
-  html += "<text x=\"8\" y=\"300\" fill=\"#C9A227\" font-size=\"14\">Losers</text>";
+  html += g(16,40,"Match 1 · 2:00 · Court 5","FBCHA Blue","Timberwolves Black");
+  html += g(16,180,"Match 3 · 3:00 · Court 5","Timberwolves Blue","Tyler Heat");
+  html += g(300,40,"Match 2 · 4:00 · Court 5","JH Black","Winner of Match 1",true);
+  html += g(580,128,"Match 4 · 6:00 · Court 5","Winner of Match 2","Winner of Match 3",true);
+  html += g(300,300,"Match 5 · 5:00 · Court 5","Loser of Match 1","Loser of Match 3");
+  html += "<text x=\"16\" y=\"300\" fill=\"#C9A227\" font-size=\"14\">Losers bracket</text>";
   html += "</svg></div>";
   var el = document.getElementById("board");
   el.innerHTML = html;

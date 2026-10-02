@@ -7,7 +7,7 @@ window.SQUADS = [
     court: "Court 9",
     teams: ["THESA JH Black", "SA Patriots MS A-1", "Kingwood Legacy MS", "Wildfire MSG Orange"],
     matches: [
-      { time: "8:00 AM", a: "THESA JH Black", b: "Kingwood Legacy MS", ref: "SA Patriots MS A-1" },
+      { time: "8:00 AM", a: "THESA JH Black", b: "Kingwood Legacy MS", ref: "SA Patriots MS A-1", result: { tie: true, setsW: 1, setsL: 1 } },
       { time: "9:00 AM", a: "SA Patriots MS A-1", b: "Wildfire MSG Orange", ref: "THESA JH Black" },
       { time: "10:00 AM", a: "THESA JH Black", b: "Wildfire MSG Orange", ref: "Kingwood Legacy MS" },
       { time: "11:00 AM", a: "SA Patriots MS A-1", b: "Kingwood Legacy MS", ref: "THESA JH Black" },
@@ -84,7 +84,7 @@ window.EVENT = {
   name: "Dallas Angels Classic",
   date: "October 2–3, 2026",
   site: "AES",
-  notes: "Pick a THESA team at the top. Gold WE REF marks the matches that team works. Saturday bracket posts after pool.",
+  notes: "JH Black split the 8:00 match with Kingwood, 1–1.",
   officialLink: "https://results.advancedeventsystems.com/event/RGFsbGFzX0FuZ2Vsc19DbGFzc2ljXzIwMjY1/divisions/-50016/overview",
   bracketNote: "Saturday bracket posts after Friday pool."
 };

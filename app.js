@@ -77,11 +77,38 @@ function paths(list) {
 }
 
 function saturday() {
-  var html = "<p class=\"hint\">AES has not assigned Saturday opponents. This is where each pool finish plays.</p>";
-  html += "<article class=\"match\"><div class=\"vs\">1st in the pool</div><div class=\"result\">Gold. 9:00, 10:00, or 11:00 AM. Court 2 or Court 5.</div></article>";
-  html += "<article class=\"match\"><div class=\"vs\">2nd in the pool</div><div class=\"result\">Gold. 8:00 or 9:00 AM. Court 2 or Court 5.</div></article>";
-  html += "<article class=\"match\"><div class=\"vs\">3rd in the pool</div><div class=\"result\">Silver. 2:00, 3:00, or 4:00 PM. Court 5.</div></article>";
-  html += "<article class=\"match\"><div class=\"vs\">4th in the pool</div><div class=\"result\">Bronze. 3:00, 4:00, or 5:00 PM. Court 2.</div></article>";
+  var s = squad();
+  var ms = s.division === "Middle School";
+  var jv = s.division === "Junior Varsity";
+  var html = "";
+  if (ms) {
+    html += "<p class=\"hint\">From AES pool ranks. Pairings are not assigned yet, so this is the flight, not a match time.</p>";
+    html += "<h2>Gold, 1st and 2nd</h2>";
+    html += "<article class=\"match\"><div class=\"vs\">Patriots 1st, Kingwood 2nd</div><div class=\"result\">Pool A</div></article>";
+    html += "<article class=\"match\"><div class=\"vs\">Houston Mavericks 1st, HSAA Red 2nd</div><div class=\"result\">Pool B</div></article>";
+    html += "<article class=\"match\"><div class=\"vs\">HSAA Blue 1st, DasCHE 12U 2nd</div><div class=\"result\">Pool C</div></article>";
+    html += "<article class=\"match\"><div class=\"vs\">Lonestar 1st, DasCHE 14U 2nd</div><div class=\"result\">Pool D</div></article>";
+    html += "<article class=\"match\"><div class=\"vs\">Noah Jaguars 1st, Greenville 2nd</div><div class=\"result\">Pool E</div></article>";
+    html += "<h2>Silver, 3rd</h2>";
+    html += "<article class=\"match next\"><div class=\"vs\">THESA JH Black</div><div class=\"result\">Pool A, 3rd</div></article>";
+    html += "<article class=\"match\"><div class=\"vs\">Tyler Heat</div><div class=\"result\">Pool B, 3rd</div></article>";
+    html += "<article class=\"match\"><div class=\"vs\">Timberwolves Blue</div><div class=\"result\">Pool C, 3rd</div></article>";
+    html += "<article class=\"match\"><div class=\"vs\">Timberwolves Black</div><div class=\"result\">Pool D, 3rd</div></article>";
+    html += "<h2>Bronze, 4th</h2>";
+    html += "<article class=\"match\"><div class=\"vs\">Wildfire</div><div class=\"result\">Pool A, 4th</div></article>";
+    html += "<article class=\"match\"><div class=\"vs\">Aggieland Silver</div><div class=\"result\">Pool B, 4th</div></article>";
+    html += "<article class=\"match\"><div class=\"vs\">Lubbock Titans</div><div class=\"result\">Pool C, 4th</div></article>";
+    html += "<article class=\"match" + (s.id === "jh-red" ? " next" : "") + "\"><div class=\"vs\">THESA JH Red</div><div class=\"result\">Pool D, 4th</div></article>";
+  } else if (jv) {
+    html += "<p class=\"hint\">AES ranks that are posted. No Saturday pairing yet.</p>";
+    html += "<article class=\"match" + (s.id === "jv-black" ? " next" : "") + "\"><div class=\"vs\">THESA JV Black</div><div class=\"result\">1st in Pool E. Gold.</div></article>";
+    html += "<article class=\"match" + (s.id === "jv-red" ? " next" : "") + "\"><div class=\"vs\">THESA JV Red</div><div class=\"result\">0–3. Bronze if the pool holds.</div></article>";
+  } else {
+    html += "<p class=\"hint\">No results yet, so no bracket assignment.</p>";
+    html += "<article class=\"match\"><div class=\"vs\">1st or 2nd</div><div class=\"result\">Gold</div></article>";
+    html += "<article class=\"match\"><div class=\"vs\">3rd</div><div class=\"result\">Silver</div></article>";
+    html += "<article class=\"match\"><div class=\"vs\">4th</div><div class=\"result\">Bronze</div></article>";
+  }
   return html;
 }
 

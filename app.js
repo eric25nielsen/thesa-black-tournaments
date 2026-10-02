@@ -73,6 +73,23 @@ function paths(list) {
     line(split, row.mw, row.ml, row.mt + n, row.sw + n, row.sl + n) +
     line(lose, row.mw, row.ml + n, row.mt, row.sw, row.sl + n * 2);
 }
+
+function saturday(list) {
+  var row = standings(list).find(function (r) { return r.us; });
+  var left = list.filter(function (m) { return wePlay(m) && !m.result; });
+  var n = left.length;
+  if (!row) return "";
+  function card(title, place, flight, detail) {
+    return "<article class=\"match\"><div class=\"vs\">" + title + "</div><div class=\"result\">" + place + " in " + squad().pool + " · " + flight + "</div><p class=\"hint\">" + detail + "</p></article>";
+  }
+  if (!n) return "<p class=\"hint\">Pool is done. Finish is set. AES has not posted Saturday pairings yet.</p>";
+  var oppName = left.map(function (m) { return opp(m); }).join(" and ");
+  return "<p class=\"hint\">AES has not posted Saturday pairings. These are the finishes still open for " + squad().name + ". First in the pool usually plays gold, second silver. Opponent is not assigned yet.</p>" +
+    card("Win " + (n === 1 ? "the last one" : "the rest") + " 2–0", "1st", "Gold flight", "Beat " + oppName + ". Record becomes " + (row.mw + n) + "–" + row.ml + (row.mt ? "–" + row.mt : "") + ".") +
+    card("Split " + (n === 1 ? "the last one" : "the rest"), "2nd", "Silver flight", "Split with " + oppName + ". They take the pool on match wins.") +
+    card("Lose " + (n === 1 ? "the last one" : "the rest") + " 0–2", "2nd", "Silver flight", "Loss to " + oppName + " still leaves this team ahead of the bottom two.");
+}
+
 function fillPicker() {
   var sel = document.getElementById("teamPick");
   var s = squad();
@@ -106,6 +123,8 @@ function render() {
     }).join("") + "</tbody></table>";
   var pathEl = document.getElementById("paths");
   if (pathEl) pathEl.innerHTML = paths(list);
+  var sat = document.getElementById("bracketMatches");
+  if (sat) sat.innerHTML = saturday(list);
   document.getElementById("matches").innerHTML = list.map(function (m) {
     var tag = !m.result && cur && m.i === cur.i ? "NOW" : (!m.result && up && m.i === up.i ? "NEXT" : "");
     var res = m.result ? "<div class=\"result\">" + resultText(m) + "</div>" : "";

@@ -78,37 +78,30 @@ function paths(list) {
 
 function saturday() {
   var s = squad();
-  var ms = s.division === "Middle School";
-  var jv = s.division === "JV";
-  var html = "";
-  if (ms) {
-    html += "<p class=\"hint\">From AES pool ranks. Pairings are not assigned yet, so this is the flight, not a match time.</p>";
-    html += "<h2>Gold, 1st and 2nd</h2>";
-    html += "<article class=\"match\"><div class=\"vs\">Patriots 1st, Kingwood 2nd</div><div class=\"result\">Pool A</div></article>";
-    html += "<article class=\"match\"><div class=\"vs\">Houston Mavericks 1st, HSAA Red 2nd</div><div class=\"result\">Pool B</div></article>";
-    html += "<article class=\"match\"><div class=\"vs\">HSAA Blue 1st, DasCHE 12U 2nd</div><div class=\"result\">Pool C</div></article>";
-    html += "<article class=\"match\"><div class=\"vs\">Lonestar 1st, DasCHE 14U 2nd</div><div class=\"result\">Pool D</div></article>";
-    html += "<article class=\"match\"><div class=\"vs\">Noah Jaguars 1st, Greenville 2nd</div><div class=\"result\">Pool E</div></article>";
-    html += "<h2>Silver, 3rd</h2>";
-    html += "<article class=\"match next\"><div class=\"vs\">THESA JH Black</div><div class=\"result\">Pool A, 3rd</div></article>";
-    html += "<article class=\"match\"><div class=\"vs\">Tyler Heat</div><div class=\"result\">Pool B, 3rd</div></article>";
-    html += "<article class=\"match\"><div class=\"vs\">Timberwolves Blue</div><div class=\"result\">Pool C, 3rd</div></article>";
-    html += "<article class=\"match\"><div class=\"vs\">Timberwolves Black</div><div class=\"result\">Pool D, 3rd</div></article>";
-    html += "<h2>Bronze, 4th</h2>";
-    html += "<article class=\"match\"><div class=\"vs\">Wildfire</div><div class=\"result\">Pool A, 4th</div></article>";
-    html += "<article class=\"match\"><div class=\"vs\">Aggieland Silver</div><div class=\"result\">Pool B, 4th</div></article>";
-    html += "<article class=\"match\"><div class=\"vs\">Lubbock Titans</div><div class=\"result\">Pool C, 4th</div></article>";
-    html += "<article class=\"match" + (s.id === "jh-red" ? " next" : "") + "\"><div class=\"vs\">THESA JH Red</div><div class=\"result\">Pool D, 4th</div></article>";
-  } else if (jv) {
-    html += "<p class=\"hint\">AES ranks that are posted. No Saturday pairing yet.</p>";
-    html += "<article class=\"match" + (s.id === "jv-black" ? " next" : "") + "\"><div class=\"vs\">THESA JV Black</div><div class=\"result\">1st in Pool E. Gold.</div></article>";
-    html += "<article class=\"match" + (s.id === "jv-red" ? " next" : "") + "\"><div class=\"vs\">THESA JV Red</div><div class=\"result\">0–3. Bronze if the pool holds.</div></article>";
-  } else {
-    html += "<p class=\"hint\">No results yet, so no bracket assignment.</p>";
-    html += "<article class=\"match\"><div class=\"vs\">1st or 2nd</div><div class=\"result\">Gold</div></article>";
-    html += "<article class=\"match\"><div class=\"vs\">3rd</div><div class=\"result\">Silver</div></article>";
-    html += "<article class=\"match\"><div class=\"vs\">4th</div><div class=\"result\">Bronze</div></article>";
+  if (s.division !== "Middle School") {
+    return "<p class=\"hint\">Bracket seating is posted for middle school. Other divisions stay on pool results until those pools are complete.</p>";
   }
+  var games = [
+    ["Gold 1", "8:00 AM", "Court 2", "Kingwood vs HSAA Red", "2nd seeds 9 and 8"],
+    ["Gold 2", "8:00 AM", "Court 5", "DasCHE 14U vs Greenville", "2nd seeds 7 and 10"],
+    ["Gold 3", "9:00 AM", "Court 2", "Noah Jaguars vs Houston Mavericks", "1st seed 5 vs 1st seed 4"],
+    ["Gold 4", "9:00 AM", "Court 5", "Lonestar vs DasCHE 12U", "1st seed 3 vs 2nd seed 6"],
+    ["Gold 7", "11:00 AM", "Court 2", "HSAA Blue vs winner of Kingwood/HSAA Red", "1st seed"],
+    ["Gold 8", "10:00 AM", "Court 5", "Winner of DasCHE 14U/Greenville vs Patriots", "1st seed"],
+    ["Silver 1", "2:00 PM", "Court 5", "Timberwolves Blue vs FBCHA Blue", "3rd seeds 5 and 4"],
+    ["Silver 3", "3:00 PM", "Court 5", "JH Black vs Timberwolves Black", "3rd seeds 3 and 2"],
+    ["Silver 2", "4:00 PM", "Court 5", "Tyler Heat vs winner of Timberwolves Blue/FBCHA", "3rd seed 1"],
+    ["Bronze 1", "3:00 PM", "Court 2", "Lubbock vs Aggieland Silver", "4th seeds"],
+    ["Bronze 3", "4:00 PM", "Court 2", "Wildfire vs Aggieland Black", "4th seeds"],
+    ["Bronze 2", "5:00 PM", "Court 2", "JH Red vs winner of Lubbock/Aggieland Silver", "4th seed"]
+  ];
+  var html = "<p class=\"hint\">Seated from pool finish, then AES point percentage. 1sts are seeds 1–5, 2nds are 6–10. Same rule inside silver and bronze.</p>";
+  games.forEach(function (g) {
+    var ours = g[3].indexOf("JH Black") >= 0 || g[3].indexOf("JH Red") >= 0;
+    if (s.id === "jh-black") ours = g[3].indexOf("JH Black") >= 0;
+    if (s.id === "jh-red") ours = g[3].indexOf("JH Red") >= 0;
+    html += "<article class=\"match" + (ours ? " next" : "") + "\"><div class=\"match-top\"><span>" + g[0] + " · " + g[1] + "</span><span>" + g[2] + "</span></div><div class=\"vs\">" + g[3] + (ours ? " <span class=\"us-chip\">US</span>" : "") + "</div><div class=\"result\">" + g[4] + "</div></article>";
+  });
   return html;
 }
 

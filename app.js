@@ -76,32 +76,23 @@ function paths(list) {
     line(lose, row.mw, row.ml + n, row.mt, row.sw, row.sl + n * 2);
 }
 
+function card(title, detail, ours) {
+  return "<article class=\"match" + (ours ? " next" : "") + "\"><div class=\"vs\">" + title + "</div><div class=\"result\">" + detail + "</div></article>";
+}
 function saturday() {
-  var s = squad();
-  if (s.division !== "Middle School") {
-    return "<p class=\"hint\">Bracket seating is posted for middle school. Other divisions stay on pool results until those pools are complete.</p>";
-  }
-  var games = [
-    ["Gold 1", "8:00 AM", "Court 2", "Kingwood vs HSAA Red", "2nd seeds 9 and 8"],
-    ["Gold 2", "8:00 AM", "Court 5", "DasCHE 14U vs Greenville", "2nd seeds 7 and 10"],
-    ["Gold 3", "9:00 AM", "Court 2", "Noah Jaguars vs Houston Mavericks", "1st seed 5 vs 1st seed 4"],
-    ["Gold 4", "9:00 AM", "Court 5", "Lonestar vs DasCHE 12U", "1st seed 3 vs 2nd seed 6"],
-    ["Gold 7", "11:00 AM", "Court 2", "HSAA Blue vs winner of Kingwood/HSAA Red", "1st seed"],
-    ["Gold 8", "10:00 AM", "Court 5", "Winner of DasCHE 14U/Greenville vs Patriots", "1st seed"],
-    ["Silver 1", "2:00 PM", "Court 5", "Timberwolves Blue vs FBCHA Blue", "3rd seeds 5 and 4"],
-    ["Silver 3", "3:00 PM", "Court 5", "JH Black vs Timberwolves Black", "3rd seeds 3 and 2"],
-    ["Silver 2", "4:00 PM", "Court 5", "Tyler Heat vs winner of Timberwolves Blue/FBCHA", "3rd seed 1"],
-    ["Bronze 1", "3:00 PM", "Court 2", "Lubbock vs Aggieland Silver", "4th seeds"],
-    ["Bronze 3", "4:00 PM", "Court 2", "Wildfire vs Aggieland Black", "4th seeds"],
-    ["Bronze 2", "5:00 PM", "Court 2", "JH Red vs winner of Lubbock/Aggieland Silver", "4th seed"]
-  ];
-  var html = "<p class=\"hint\">Seated from pool finish, then AES point percentage. 1sts are seeds 1–5, 2nds are 6–10. Same rule inside silver and bronze.</p>";
-  games.forEach(function (g) {
-    var ours = g[3].indexOf("JH Black") >= 0 || g[3].indexOf("JH Red") >= 0;
-    if (s.id === "jh-black") ours = g[3].indexOf("JH Black") >= 0;
-    if (s.id === "jh-red") ours = g[3].indexOf("JH Red") >= 0;
-    html += "<article class=\"match" + (ours ? " next" : "") + "\"><div class=\"match-top\"><span>" + g[0] + " · " + g[1] + "</span><span>" + g[2] + "</span></div><div class=\"vs\">" + g[3] + (ours ? " <span class=\"us-chip\">US</span>" : "") + "</div><div class=\"result\">" + g[4] + "</div></article>";
-  });
+  var id = squad().id;
+  var paths = {
+    "jh-black": ["3:00 PM · Court 5", "Timberwolves Black", "Win: 6:00 PM, Court 5, vs winner of Tyler Heat's match", "Loss: 5:00 PM, Court 5, vs loser of the 2:00 silver match", "Ref the 2:00 silver match on Court 5 first"],
+    "jh-red": ["5:00 PM · Court 2", "Winner of Lubbock vs Aggieland Silver", "Win: 7:00 PM, Court 2", "Loss: no second game posted", ""],
+    "jv-black": ["9:00 AM · Court 7", "FBCHA JV White", "Win: 12:00 PM, Court 7, vs winner of the 10:00", "Loss: 11:00 AM, Court 7, vs loser of the 8:00", "Ref the 8:00 on Court 7 first"],
+    "jv-red": ["4:00 PM · Court 7", "4th place, Pool C", "Win: 7:00 PM, Court 7", "Loss: 6:00 PM, Court 7, vs loser of the 3:00", ""]
+  };
+  var p = paths[id];
+  if (!p) return "<p class=\"hint\">No bracket assignment yet. Varsity pool has not started.</p>";
+  var html = "<article class=\"match next\"><p class=\"kicker\">Next game</p><div class=\"vs\">" + p[1] + "</div><div class=\"result\">" + p[0] + "</div></article>";
+  html += card("If we win", p[2], false);
+  html += card("If we lose", p[3], false);
+  if (p[4]) html += "<p class=\"hint\">" + p[4] + "</p>";
   return html;
 }
 

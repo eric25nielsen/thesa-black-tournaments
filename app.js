@@ -164,4 +164,5 @@ document.getElementById("teamPick").addEventListener("change", function (e) {
 fillPicker();
 render();
 setInterval(render, 60000);
+setTimeout(render, 400);
 if (window.initRotations) window.initRotations();

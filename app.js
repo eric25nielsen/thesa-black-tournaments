@@ -116,8 +116,8 @@ function openBoard() {
   }
   var html = "<div class=\"board-bar\"><strong>Silver</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\">";
   html += "<svg viewBox=\"0 0 780 520\" width=\"780\" height=\"520\" style=\"background:#080808\">";
-  html += "<path d=\"M200 49 H240 V49 H250 M440 49 H480 V130 H490 M200 169 H480 V130\" fill=\"none\" stroke=\"#e8e8e8\" stroke-width=\"2\"/>";
-  html += "<path d=\"M200 89 V360 H250 M200 360 H250\" fill=\"none\" stroke=\"#C9A227\" stroke-width=\"2\"/>";
+  html += "<path d=\"M200 49 H250 M440 49 H465 V129 H490 M200 169 H465 V129\" fill=\"none\" stroke=\"#e8e8e8\" stroke-width=\"2\"/>";
+  html += "<path d=\"M200 78 V300 H250 M200 198 V300\" fill=\"none\" stroke=\"#C9A227\" stroke-width=\"2\"/>";
   html += box(10, 20, "Match 1 · 2:00 · Ct 5", "FBCHA Blue", "Timberwolves Black");
   html += box(10, 140, "Match 3 · 3:00 · Ct 5", "Timberwolves Blue", "Tyler Heat");
   html += box(250, 20, "Match 2 · 4:00 · Ct 5", "JH Black", "Winner of Match 1", true);

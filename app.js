@@ -75,23 +75,13 @@ function paths(list) {
 }
 
 function saturday(list) {
-  var row = standings(list).find(function (r) { return r.us; });
   var left = list.filter(function (m) { return wePlay(m) && !m.result; });
-  var n = left.length;
   var name = squad().name;
-  var html = "<p class=\"hint\">HSAA Angels Classic rule for middle school and JV: 1st and 2nd in the pool go to gold. 3rd goes to silver. 4th goes to bronze. AES has not posted which pool plays which pool. Handbook still says those pairings are TBD.</p>";
-  if (!row) return html;
-  function card(title, flight) {
-    return "<article class=\"match\"><div class=\"vs\">" + title + "</div><div class=\"result\">" + flight + "</div></article>";
-  }
-  if (!n) {
-    var place = row.mw > row.ml ? "1st or 2nd, confirm on AES" : "see AES rank";
-    return html + card(name + " pool is done", place);
-  }
-  html += card("Finish 1st or 2nd", "Gold. Opponent is the other gold slot AES assigns.");
-  html += card("Finish 3rd", "Silver.");
-  html += card("Finish 4th", "Bronze.");
-  html += "<p class=\"hint\">Still playing: " + left.map(function (m) { return m.time + " vs " + opp(m); }).join(", ") + ". A win at 1:00 puts " + name + " 1st and in gold. A split or loss still leaves gold open if they finish 2nd. 3rd is only in play if Kingwood passes them on the tiebreak.</p>";
+  var html = '<p class="hint">HSAA rule for middle school and JV: 1st and 2nd from each pool go to gold. 3rd goes to silver. 4th goes to bronze. AES has not posted which pool plays which. The handbook still says those pairings are TBD.</p>';
+  html += '<article class="match"><div class="vs">Finish 1st or 2nd</div><div class="result">Gold</div></article>';
+  html += '<article class="match"><div class="vs">Finish 3rd</div><div class="result">Silver</div></article>';
+  html += '<article class="match"><div class="vs">Finish 4th</div><div class="result">Bronze</div></article>';
+  if (left.length) html += '<p class="hint">Still playing: ' + left.map(function (m) { return m.time + ' vs ' + opp(m); }).join(', ') + '. A win puts ' + name + ' 1st, gold. A split or loss still leaves gold open at 2nd. 3rd only if Kingwood passes them on the tiebreak.</p>';
   return html;
 }
 

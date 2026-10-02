@@ -1,64 +1,34 @@
-window.TEAM = { name: "THESA Black", tag: "THESA Riders" };
+window.TEAM = { name: "THESA JH Black", tag: "THESA Riders" };
 window.EVENT = {
-  name: "Rattlers Middle School Classic",
-  date: "September 5, 2026",
-  site: "Fieldhouse",
-  division: "Division 1",
-  pool: "Pool 1",
-  court: "Court 4",
-  doors: "7:00 AM",
+  name: "Dallas Angels Classic",
+  date: "October 2–3, 2026",
+  site: "AES · Middle School",
+  division: "Middle School",
+  pool: "R1PA",
+  court: "Court 9",
+  doors: "",
   start: "8:00 AM",
-  format: "2 games to 25, no cap",
-  notes: "THESA Black won Silver SF2 2-0 over SWC 1. Awaiting SF1 (RRR Black vs NTHAA). Silver final 5:00 PM Court 6 vs Winner SF1. 3rd place 4:00 PM Loser SF1 vs SWC 1.",
-  officialLink: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkU0EFX-1haozmkmlMe4UFc2LtF4y5fwwV8j6dphksmIBMCUyr063lv9Q5_OO_J4XEWJ9inhDHtH94/pubhtml?gid=1887933325&single=true",
-  liveCsv: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkU0EFX-1haozmkmlMe4UFc2LtF4y5fwwV8j6dphksmIBMCUyr063lv9Q5_OO_J4XEWJ9inhDHtH94/pub?gid=1887933325&single=true&output=csv",
-  phase: "bracket",
-  bracketPlay: "Final",
-  bracketNote: "SF2 final: THESA Black 2-0 over SWC 1. SF1 (RRR Black vs NTHAA) still open on live sheet. Final 5:00 PM Court 6 vs Winner SF1."
+  format: "Pool play Friday",
+  notes: "Pool R1PA Court 9. THESA JH Black is seed 1. First match 8:00 AM vs Kingwood Legacy MS. Official AES results update live.",
+  officialLink: "https://results.advancedeventsystems.com/event/RGFsbGFzX0FuZ2Vsc19DbGFzc2ljXzIwMjY1/divisions/-50016/overview",
+  phase: "pool",
+  bracketPlay: "Saturday",
+  bracketNote: "Bracket play is Saturday, October 3. Seeds post after pool."
 };
 window.TEAMS = [
-  { id: 1, name: "RRR Black" },
-  { id: 2, name: "THESA Black", us: true },
-  { id: 3, name: "HSAA Blue" },
-  { id: 4, name: "Lone Star" }
+  { id: 1, name: "THESA JH Black", us: true },
+  { id: 10, name: "SA Patriots MS A-1" },
+  { id: 11, name: "Kingwood Legacy MS" },
+  { id: 20, name: "Wildfire MSG Orange" }
 ];
 window.MATCHES = [
-  { round: 1, a: 1, b: 3, ref: 2, result: { winner: 3, setsW: 2, setsL: 0 } },
-  { round: 2, a: 2, b: 4, ref: 1, result: { winner: 4, setsW: 2, setsL: 0 } },
-  { round: 3, a: 1, b: 4, ref: 3, result: { winner: 4, setsW: 2, setsL: 0 } },
-  { round: 4, a: 2, b: 3, ref: 1, result: { winner: 3, setsW: 2, setsL: 0 } },
-  { round: 5, a: 3, b: 4, ref: 2, result: { winner: 4, setsW: 2, setsL: 0 } },
-  { round: 6, a: 1, b: 2, ref: 4, result: { tie: true, setsW: 1, setsL: 1 } }
+  { round: 1, a: 1, b: 11, ref: 10, time: "8:00 AM", result: null },
+  { round: 2, a: 10, b: 20, ref: 1, time: "9:00 AM", result: null },
+  { round: 3, a: 1, b: 20, ref: 11, time: "10:00 AM", result: null },
+  { round: 4, a: 10, b: 11, ref: 1, time: "11:00 AM", result: null },
+  { round: 5, a: 11, b: 20, ref: 10, time: "12:00 PM", result: null },
+  { round: 6, a: 1, b: 10, ref: 20, time: "1:00 PM", result: null }
 ];
-window.BRACKET = [
-  { id: "SF1", label: "Silver SF1", time: "2:00 PM", court: "Court 6", a: "RRR Black", b: "NTHAA", us: false, result: null },
-  { id: "SF2", label: "Silver SF2", time: "3:00 PM", court: "Court 6", a: "SWC 1", b: "THESA Black", us: true, result: { winner: "THESA Black", setsW: 2, setsL: 0 } },
-  { id: "3P", label: "3rd place", time: "4:00 PM", court: "Court 6", a: "Loser of SF1", b: "SWC 1", us: false, result: null },
-  { id: "F", label: "Silver final", time: "5:00 PM", court: "Court 6", a: "Winner of SF1", b: "THESA Black", us: true, result: null }
-];
-window.SILVER_POOL = [
-  { seed: 9, name: "RRR Black", pool: "Pool 1", finish: 3, sw: 1, sl: 5, pf: 101, pa: 133, us: false },
-  { seed: 10, name: "SWC 1", pool: "Pool 2", finish: 4, sw: 1, sl: 5, pf: 92, pa: 144, us: false },
-  { seed: 11, name: "THESA Black", pool: "Pool 1", finish: 4, sw: 1, sl: 5, pf: 81, pa: 149, us: true },
-  { seed: 12, name: "NTHAA", pool: "Pool 3", finish: 4, sw: 0, sl: 6, pf: 69, pa: 150, us: false }
-];
-window.OTHER_POOLS = [
-  {
-    title: "Pool 2 · Court 5 — SWC 1 came from here",
-    rows: [
-      { name: "TCA Blue", sw: 6, sl: 0, pf: 150, pa: 52, finish: 1, highlight: false },
-      { name: "FCA FM 1", sw: 3, sl: 3, pf: 111, pa: 123, finish: 2, highlight: false },
-      { name: "JCSA (A)", sw: 2, sl: 4, pf: 104, pa: 138, finish: 3, highlight: false },
-      { name: "SWC 1", sw: 1, sl: 5, pf: 92, pa: 144, finish: 4, highlight: true }
-    ]
-  },
-  {
-    title: "Pool 3 · Court 6 — NTHAA came from here",
-    rows: [
-      { name: "FWC Black", sw: 6, sl: 0, pf: 150, pa: 88, finish: 1, highlight: false },
-      { name: "Legacy 8th", sw: 4, sl: 2, pf: 139, pa: 89, finish: 2, highlight: false },
-      { name: "Founders Corinth", sw: 2, sl: 4, pf: 101, pa: 132, finish: 3, highlight: false },
-      { name: "NTHAA", sw: 0, sl: 6, pf: 69, pa: 150, finish: 4, highlight: true }
-    ]
-  }
-];
+window.BRACKET = [];
+window.SILVER_POOL = [];
+window.OTHER_POOLS = [];

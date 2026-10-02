@@ -262,6 +262,5 @@ function poolDone(list) { return list.length && list.every(function (m) { return
 fillPicker();
 render();
 setTimeout(function () { if (poolDone(matches()) && window.show) window.show("bracket"); }, 50);
-setInterval(render, 3600000);
 setTimeout(render, 400);
 if (window.initRotations) window.initRotations();

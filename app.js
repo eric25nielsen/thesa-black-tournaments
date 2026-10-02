@@ -74,14 +74,21 @@ function paths(list) {
     line(lose, row.mw, row.ml + n, row.mt, row.sw, row.sl + n * 2);
 }
 
-function saturday(list) {
-  var left = list.filter(function (m) { return wePlay(m) && !m.result; });
-  var name = squad().name;
-  var html = '<p class="hint">HSAA rule for middle school and JV: 1st and 2nd from each pool go to gold. 3rd goes to silver. 4th goes to bronze. AES has not posted which pool plays which. The handbook still says those pairings are TBD.</p>';
-  html += '<article class="match"><div class="vs">Finish 1st or 2nd</div><div class="result">Gold</div></article>';
-  html += '<article class="match"><div class="vs">Finish 3rd</div><div class="result">Silver</div></article>';
-  html += '<article class="match"><div class="vs">Finish 4th</div><div class="result">Bronze</div></article>';
-  if (left.length) html += '<p class="hint">Still playing: ' + left.map(function (m) { return m.time + ' vs ' + opp(m); }).join(', ') + '. A win puts ' + name + ' 1st, gold. A split or loss still leaves gold open at 2nd. 3rd only if Kingwood passes them on the tiebreak.</p>';
+function saturday() {
+  var codes = { "THESA JH Black": "1", "THESA JH Red": "17" };
+  var code = codes[squad().name] || "";
+  var matches = [
+    ["Match 1", "Sat 8:00 AM", "Court 2", "Team 9 vs Team 8", "Ref Team 5"],
+    ["Match 3", "Sat 9:00 AM", "Court 2", "Team 5 vs Team 4", "Ref loser of Match 1"],
+    ["Match 4", "Sat 9:00 AM", "Court 5", "Team 3 vs Team 6", "Ref not in view"],
+    ["Match 7", "Sat 11:00 AM", "Court 2", "Team 1 vs winner of Match 1", "Ref loser of Match 5"],
+    ["Match 9", "Sat 12:00 PM", "Court 2", "Winner of Match 7 vs winner of Match 3", "Ref loser of Match 7"]
+  ];
+  var html = "<p class=\"hint\">From AES Saturday, Round 2 Gold, Courts 2 and 5. Team numbers are the AES codes. THESA JH Black is Team 1. Silver and bronze are listed on AES but were below this shot.</p>";
+  matches.forEach(function (m) {
+    var ours = code && m[3].indexOf("Team " + code) >= 0;
+    html += "<article class=\"match" + (ours ? " next" : "") + "\"><div class=\"match-top\"><span>" + m[0] + " · " + m[1] + "</span><span>" + m[2] + "</span></div><div class=\"vs\">" + m[3] + (ours ? " <span class=\"us-chip\">US</span>" : "") + "</div><div class=\"result\">" + m[4] + "</div></article>";
+  });
   return html;
 }
 
@@ -119,7 +126,7 @@ function render() {
   var pathEl = document.getElementById("paths");
   if (pathEl) pathEl.innerHTML = paths(list);
   var sat = document.getElementById("bracketMatches");
-  if (sat) sat.innerHTML = saturday(list);
+  if (sat) sat.innerHTML = saturday();
   document.getElementById("matches").innerHTML = list.map(function (m) {
     var tag = !m.result && cur && m.i === cur.i ? "NOW" : (!m.result && up && m.i === up.i ? "NEXT" : "");
     var res = m.result ? "<div class=\"result\">" + resultText(m) + "</div>" : "";

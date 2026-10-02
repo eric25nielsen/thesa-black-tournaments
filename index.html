@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#080808" />
-  <title>THESA JH Black — Tournament Board</title>
-  <link rel="stylesheet" href="styles.css?v=17" />
+  <title>THESA JH Black — Dallas Angels Classic</title>
+  <link rel="stylesheet" href="styles.css?v=18" />
 </head>
 <body>
   <header class="top">
@@ -13,7 +13,7 @@
       <img class="mark" src="https://images.squarespace-cdn.com/content/v1/67c8899635da4f21754dda55/d1ab67a6-560f-4f6d-994f-ddf2ad18e64c/THESA+Logo+Helmet+Only+Transparent+Background.png?format=300w" alt="THESA Riders knight" />
       <div>
         <p class="team" id="teamName">THESA JH Black</p>
-        <p class="label">THESA Riders · Volleyball</p>
+        <p class="label">Dallas Angels Classic · Oct 2–3</p>
       </div>
     </div>
     <p class="phase" id="phase"></p>
@@ -23,35 +23,32 @@
   <main>
     <nav class="tabs" role="tablist">
       <button type="button" class="tab on" id="tabPool">Pool</button>
-      <button type="button" class="tab" id="tabBracket">Bracket</button>
+      <button type="button" class="tab" id="tabBracket">Saturday</button>
       <button type="button" class="tab" id="tabRot">Rotations</button>
     </nav>
     <section class="hero" id="nextCard"></section>
     <div id="panelPool">
       <section>
-        <h2>Pool standings</h2>
+        <h2>Pool R1PA standings</h2>
         <div class="table-wrap" id="standings"></div>
       </section>
       <section>
-        <h2>Pool matches</h2>
-        <p class="hint">Court 9. Work team is listed as Ref. Send scores and I’ll log them.</p>
+        <h2>Court 9 matches</h2>
+        <p class="hint">Work team is listed as Ref. Scores start at 0–0 until you send them.</p>
         <div id="matches"></div>
       </section>
-      <div id="poolSilver"></div>
-      <div id="otherPools"></div>
     </div>
     <div id="panelBracket" class="hidden">
       <section>
-        <h2>Bracket</h2>
+        <h2>Saturday bracket</h2>
         <p class="note" id="bracketNote"></p>
         <div id="bracketMatches"></div>
       </section>
-      <div class="table-wrap" id="silverPool"></div>
     </div>
     <div id="panelRot" class="hidden">
       <section class="rot-track">
         <h2>Live rotation</h2>
-        <p class="hint">Tap side-out when the serve changes hands. Rotation is saved on this phone.</p>
+        <p class="hint">Tap side-out when the serve changes hands. Saved on this phone.</p>
         <div class="rot-legend">
           <span><i style="background:#9e1b32"></i>S1</span>
           <span><i style="background:#c9a227"></i>S2</span>
@@ -89,29 +86,22 @@
       </section>
       <section>
         <h2>All 6-2 rotations</h2>
-        <p class="hint">Same four views every rotation: before/after serve, before/after receive.</p>
         <div id="rotAll"></div>
       </section>
     </div>
     <section>
-      <h2>Event notes</h2>
+      <h2>This weekend</h2>
       <p class="note" id="notes"></p>
+      <p class="note"><a id="official" href="https://results.advancedeventsystems.com/event/RGFsbGFzX0FuZ2Vsc19DbGFzc2ljXzIwMjY1/divisions/-50016/overview" target="_blank" rel="noopener">Official AES results</a></p>
     </section>
     <section class="tools">
       <button type="button" id="shareBtn">Copy update text</button>
       <button type="button" class="ghost" id="resetBtn">Reset local scores</button>
     </section>
   </main>
-  <footer>THESA Riders · <a href="https://www.thesariders.com" target="_blank" rel="noopener">thesariders.com</a></footer>
-  <div class="sheet hidden" id="sheet">
-    <div class="sheet-card">
-      <p class="sheet-title" id="sheetTitle">Log result</p>
-      <div class="sheet-actions" id="sheetActions"></div>
-      <button type="button" class="ghost" id="sheetCancel">Cancel</button>
-    </div>
-  </div>
-  <script src="data.js?v=17"></script>
-  <script src="rotations.js?v=17"></script>
-  <script src="app.js?v=17"></script>
+  <footer>THESA Riders · Dallas Angels Classic</footer>
+  <script src="data.js?v=18"></script>
+  <script src="rotations.js?v=18"></script>
+  <script src="app.js?v=18"></script>
 </body>
 </html>

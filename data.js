@@ -8,7 +8,7 @@ window.SQUADS = [
     teams: ["THESA JH Black", "SA Patriots MS A-1", "Kingwood Legacy MS", "Wildfire MSG Orange"],
     matches: [
       { time: "8:00 AM", a: "THESA JH Black", b: "Kingwood Legacy MS", ref: "SA Patriots MS A-1", result: { tie: true, setsW: 1, setsL: 1 } },
-      { time: "9:00 AM", a: "SA Patriots MS A-1", b: "Wildfire MSG Orange", ref: "THESA JH Black" },
+      { time: "9:00 AM", a: "SA Patriots MS A-1", b: "Wildfire MSG Orange", ref: "THESA JH Black", result: { winner: "SA Patriots MS A-1", setsW: 2, setsL: 0 } },
       { time: "10:00 AM", a: "THESA JH Black", b: "Wildfire MSG Orange", ref: "Kingwood Legacy MS", result: { winner: "THESA JH Black", setsW: 2, setsL: 0 } },
       { time: "11:00 AM", a: "SA Patriots MS A-1", b: "Kingwood Legacy MS", ref: "THESA JH Black", result: { winner: "SA Patriots MS A-1", setsW: 2, setsL: 0 } },
       { time: "12:00 PM", a: "Kingwood Legacy MS", b: "Wildfire MSG Orange", ref: "SA Patriots MS A-1" },
@@ -84,7 +84,7 @@ window.EVENT = {
   name: "Dallas Angels Classic",
   date: "October 2–3, 2026",
   site: "AES",
-  notes: "Patriots beat Kingwood Legacy 2–0 at 11:00. JH Black plays Patriots at 1:00.",
+  notes: "Patriots beat Wildfire 2–0 at 9:00 and Kingwood 2–0 at 11:00. JH Black plays Patriots at 1:00.",
   officialLink: "https://results.advancedeventsystems.com/event/RGFsbGFzX0FuZ2Vsc19DbGFzc2ljXzIwMjY1/divisions/-50016/overview",
   bracketNote: "Saturday bracket posts after Friday pool."
 };

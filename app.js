@@ -103,25 +103,23 @@ function box(g) {
 function box(g) {
   return "<div class=\"box" + (g.us ? " us" : "") + "\" style=\"left:" + g.x + "px;top:" + g.y + "px\"><b>" + g.t + "</b><span>" + g.a + "</span><span>" + g.b + "</span></div>";
 }
+function gm(title, a, b, us) {
+  return "<div class=\"gm" + (us ? " us" : "") + "\"><b>" + title + "</b><span>" + a + "</span><span>" + b + "</span></div>";
+}
 function openBoard() {
-  var html = "<div class=\"board-bar\"><strong>Silver</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\"><svg viewBox=\"0 0 820 420\" width=\"820\" height=\"420\">";
-  html += "<path d=\"M230 70 H270 V70 H300 M510 70 H545 V160 H580 M230 210 H545 V160\" fill=\"none\" stroke=\"#cfcfcf\" stroke-width=\"2\"/>";
-  html += "<path d=\"M230 110 V250 H300 M230 250 H300\" fill=\"none\" stroke=\"#C9A227\" stroke-width=\"2\"/>";
-  function g(x,y,title,a,b,us) {
-    return "<rect x=\"" + x + "\" y=\"" + y + "\" width=\"210\" height=\"64\" rx=\"3\" fill=\"#141414\" stroke=\"" + (us ? "#C9A227" : "#777") + "\" stroke-width=\"2\"/>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+16) + "\" fill=\"#8eb4ff\" font-size=\"12\">" + title + "</text>" +
-      "<line x1=\"" + x + "\" y1=\"" + (y+24) + "\" x2=\"" + (x+210) + "\" y2=\"" + (y+24) + "\" stroke=\"#333\"/>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+42) + "\" fill=\"#fff\" font-size=\"13\">" + a + "</text>" +
-      "<line x1=\"" + x + "\" y1=\"" + (y+48) + "\" x2=\"" + (x+210) + "\" y2=\"" + (y+48) + "\" stroke=\"#333\"/>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+60) + "\" fill=\"#fff\" font-size=\"13\">" + b + "</text>";
-  }
-  html += g(16,40,"Match 1 · 2:00 · Court 5","FBCHA Blue","Timberwolves Black");
-  html += g(16,180,"Match 3 · 3:00 · Court 5","Timberwolves Blue","Tyler Heat");
-  html += g(300,40,"Match 2 · 4:00 · Court 5","JH Black","Winner of Match 1",true);
-  html += g(580,128,"Match 4 · 6:00 · Court 5","Winner of Match 2","Winner of Match 3",true);
-  html += g(300,300,"Match 5 · 5:00 · Court 5","Loser of Match 1","Loser of Match 3");
-  html += "<text x=\"16\" y=\"290\" fill=\"#C9A227\" font-size=\"14\">If JH Black loses, they ref Match 5</text>";
-  html += "</svg></div>";
+  var html = "<div class=\"board-bar\"><strong>Silver bracket</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\">";
+  html += "<div class=\"br\">";
+  html += "<div class=\"rnd\">" + gm("Match 1 · 2:00 · Ct 5", "FBCHA Blue", "Timberwolves Black") + gm("Match 3 · 3:00 · Ct 5", "Timberwolves Blue", "Tyler Heat") + "</div>";
+  html += "<div class=\"join\"><div class=\"arm\"></div><div class=\"arm\"></div></div>";
+  html += "<div class=\"rnd\">" + gm("Match 2 · 4:00 · Ct 5", "JH Black", "Winner of Match 1", true) + gm("Match 3 winner", "Timberwolves Blue", "or Tyler Heat") + "</div>";
+  html += "<div class=\"join\"><div class=\"arm\"></div></div>";
+  html += "<div class=\"rnd\">" + gm("Match 4 · 6:00 · Ct 5", "Winner of Match 2", "Winner of Match 3", true) + "</div>";
+  html += "</div>";
+  html += "<div class=\"losers\"><h3>If we lose, we ref. We do not play this.</h3><div class=\"br\">";
+  html += "<div class=\"rnd\">" + gm("Loser Match 1", "Not set", "2:00 loser") + gm("Loser Match 3", "Not set", "3:00 loser") + "</div>";
+  html += "<div class=\"join\"><div class=\"arm\"></div></div>";
+  html += "<div class=\"rnd\">" + gm("Match 5 · 5:00 · Ct 5", "Loser of Match 1", "Loser of Match 3") + "</div>";
+  html += "</div></div></div>";
   var el = document.getElementById("board");
   el.innerHTML = html;
   el.classList.remove("hidden");

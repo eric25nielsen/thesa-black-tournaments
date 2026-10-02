@@ -25,8 +25,21 @@ function opp(m) { return m.a === squad().name ? m.b : m.a; }
 function currentMatch(list) {
   var now = nowMinutes();
   var open = list.filter(function (m) { return !m.result; });
-  var started = open.filter(function (m) { return minutes(m.time) != null && minutes(m.time) <= now; });
+  var started = open.filter(function (m) {
+    var t = minutes(m.time);
+    return t != null && now >= t && now < t + 50;
+  });
   return started.length ? started[started.length - 1] : null;
+}
+function tomorrow() {
+  var id = squad().id;
+  var next = {
+    "jh-black": ["Tomorrow", "3:00 PM", "Court 5", "vs Timberwolves Black"],
+    "jh-red": ["Tomorrow", "5:00 PM", "Court 2", "vs winner of Lubbock / Aggieland Silver"],
+    "jv-black": ["Tomorrow", "9:00 AM", "Court 7", "vs FBCHA JV White"],
+    "jv-red": ["Tomorrow", "4:00 PM", "Court 7", "vs 4th place, Pool C"]
+  };
+  return next[id] || null;
 }
 function upcoming(list, cur) {
   var open = list.filter(function (m) { return !m.result; });
@@ -177,7 +190,8 @@ function render() {
   document.getElementById("teamName").textContent = s.name;
   document.getElementById("eventName").textContent = window.EVENT.name;
   document.getElementById("eventMeta").textContent = [window.EVENT.date, s.division, s.pool, s.court].join(" \u00b7 ");
-  document.getElementById("phase").textContent = cur ? ((weRef(cur) ? "We are reffing" : "In progress") + " \u00b7 " + cur.time) : (up ? ("Up next \u00b7 " + up.time) : "Pool complete");
+  var nxt = tomorrow();
+  document.getElementById("phase").textContent = cur ? ((weRef(cur) ? "We are reffing" : "In progress") + " \u00b7 " + cur.time) : (up ? ("Up next \u00b7 " + up.time) : (nxt ? ("Up next \u00b7 " + nxt[1] + " tomorrow") : "No game scheduled"));
   var notes = document.getElementById("notes");
   if (notes) notes.textContent = window.EVENT.notes;
   var bn = document.getElementById("bracketNote");
@@ -188,6 +202,10 @@ function render() {
     var kicker = cur ? (wePlay(cur) ? "On the court now" : (weRef(cur) ? "We are reffing now" : "On our court now")) : (wePlay(up) ? "We play next" : (weRef(up) ? "We ref next" : "Next on our court"));
     var after = cur && up ? "<p style=\"margin-top:8px\">Next: " + up.a + " vs " + up.b + " \u00b7 " + up.time + (weRef(up) ? " \u00b7 we ref" : "") + "</p>" : "";
     hero.innerHTML = "<p class=\"kicker\">" + kicker + "</p><h1>" + focus.a + " vs " + focus.b + (weRef(focus) ? " <span class=\"ref-chip\">WE REF</span>" : "") + "</h1><p>" + focus.time + " \u00b7 " + s.court + " \u00b7 Ref " + focus.ref + "</p>" + after;
+  } else if (nxt) {
+    hero.innerHTML = "<p class=\"kicker\">Up next</p><h1>" + s.name + " " + nxt[3] + "</h1><p>" + nxt[0] + " \u00b7 " + nxt[1] + " \u00b7 " + nxt[2] + "</p>";
+  } else {
+    hero.innerHTML = "<p class=\"kicker\">Up next</p><h1>No game scheduled</h1>";
   }
   var ranked = standings(list);
   if (squad().id === "jh-black" && list.every(function (m) { return m.result; })) {
@@ -220,6 +238,6 @@ function poolDone(list) { return list.length && list.every(function (m) { return
 fillPicker();
 render();
 setTimeout(function () { if (poolDone(matches()) && window.show) window.show("bracket"); }, 50);
-setInterval(render, 60000);
+setInterval(render, 3600000);
 setTimeout(render, 400);
 if (window.initRotations) window.initRotations();

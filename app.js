@@ -75,42 +75,43 @@ function paths(list) {
 }
 
 function saturday() {
-  var code = squad().name === "THESA JH Black" ? "1" : (squad().name === "THESA JH Red" ? "17" : "");
   var blocks = [
     ["Gold", [
-      ["Match 1", "8:00 AM", "Court 2", "Team 9 vs Team 8", "Ref Team 5"],
-      ["Match 2", "8:00 AM", "Court 5", "Team 7 vs Team 10", "Ref Team 6"],
-      ["Match 3", "9:00 AM", "Court 2", "Team 5 vs Team 4", "Ref loser of Match 1"],
-      ["Match 4", "9:00 AM", "Court 5", "Team 3 vs Team 6", "Ref loser of Match 2"],
+      ["Match 1", "8:00 AM", "Court 2", "Seed 9 vs Seed 8", "Ref seed 5"],
+      ["Match 2", "8:00 AM", "Court 5", "Seed 7 vs Seed 10", "Ref seed 6"],
+      ["Match 3", "9:00 AM", "Court 2", "Seed 5 vs Seed 4", "Ref loser of Match 1"],
+      ["Match 4", "9:00 AM", "Court 5", "Seed 3 vs Seed 6", "Ref loser of Match 2"],
       ["Match 5", "10:00 AM", "Court 2", "Loser of Match 1 vs loser of Match 3", "Ref loser of Match 3"],
       ["Match 6", "11:00 AM", "Court 5", "Loser of Match 2 vs loser of Match 4", "Ref loser of Match 8"],
-      ["Match 7", "11:00 AM", "Court 2", "Team 1 vs winner of Match 1", "Ref loser of Match 5"],
-      ["Match 8", "10:00 AM", "Court 5", "Winner of Match 2 vs Team 2", "Ref loser of Match 4"],
+      ["Match 7", "11:00 AM", "Court 2", "Seed 1 vs winner of Match 1", "Ref loser of Match 5"],
+      ["Match 8", "10:00 AM", "Court 5", "Winner of Match 2 vs Seed 2", "Ref loser of Match 4"],
       ["Match 9", "12:00 PM", "Court 2", "Winner of Match 7 vs winner of Match 3", "Ref loser of Match 7"],
       ["Match 10", "12:00 PM", "Court 5", "Winner of Match 4 vs winner of Match 8", "Ref loser of Match 6"],
       ["Match 11", "1:00 PM", "Court 2", "Winner of Match 9 vs winner of Match 10", "Ref loser of Match 9"]
     ]],
     ["Silver", [
-      ["Match 1", "2:00 PM", "Court 5", "Team 5 vs Team 4", "Ref Team 3"],
-      ["Match 2", "4:00 PM", "Court 5", "Team 1 vs winner of Match 1", "Ref loser of Match 3"],
-      ["Match 3", "3:00 PM", "Court 5", "Team 3 vs Team 2", "Ref loser of Match 1"],
+      ["Match 1", "2:00 PM", "Court 5", "3rd-place seed 5 vs seed 4", "Ref seed 3"],
+      ["Match 2", "4:00 PM", "Court 5", "3rd-place seed 1 vs winner of Match 1", "Ref loser of Match 3"],
+      ["Match 3", "3:00 PM", "Court 5", "3rd-place seed 3 vs seed 2", "Ref loser of Match 1"],
       ["Match 4", "6:00 PM", "Court 5", "Winner of Match 2 vs winner of Match 3", "Ref loser of Match 5"],
       ["Match 5", "5:00 PM", "Court 5", "Loser of Match 1 vs loser of Match 3", "Ref loser of Match 2"]
     ]],
     ["Bronze", [
-      ["Match 1", "3:00 PM", "Court 2", "Team 5 vs Team 4", "Ref Team 3"],
-      ["Match 2", "5:00 PM", "Court 2", "Team 1 vs winner of Match 1", "Ref loser of Match 3"],
-      ["Match 3", "4:00 PM", "Court 2", "Team 3 vs Team 2", "Ref loser of Match 1"],
+      ["Match 1", "3:00 PM", "Court 2", "4th-place seed 5 vs seed 4", "Ref seed 3"],
+      ["Match 2", "5:00 PM", "Court 2", "4th-place seed 1 vs winner of Match 1", "Ref loser of Match 3"],
+      ["Match 3", "4:00 PM", "Court 2", "4th-place seed 3 vs seed 2", "Ref loser of Match 1"],
       ["Match 4", "7:00 PM", "Court 2", "Winner of Match 2 vs winner of Match 3", "Ref loser of Match 5"],
       ["Match 5", "6:00 PM", "Court 2", "Loser of Match 1 vs loser of Match 3", "Ref loser of Match 2"]
     ]]
   ];
-  var html = "<p class=\"hint\">AES Saturday brackets. Team numbers are the posted seed slots. THESA JH Black is Team 1.</p>";
+  var html = "<p class=\"hint\">No Saturday matches have been played. Seeds fill from pool finish. These are the three ways the 1:00 can place JH Black.</p>";
+  html += "<article class=\"match next\"><div class=\"vs\">If we win 2–0</div><div class=\"result\">1st in the pool. Gold, as a 1st-place seed.</div></article>";
+  html += "<article class=\"match next\"><div class=\"vs\">If we split</div><div class=\"result\">2nd in the pool. Gold, as a 2nd-place seed. Patriots take 1st.</div></article>";
+  html += "<article class=\"match next\"><div class=\"vs\">If we lose 0–2</div><div class=\"result\">2nd and gold, unless Kingwood passes us on the tiebreak. Then 3rd and silver.</div></article>";
   blocks.forEach(function (block) {
     html += "<h2>" + block[0] + "</h2>";
     block[1].forEach(function (m) {
-      var ours = code && m[3].indexOf("Team " + code + " ") >= 0 || (code && m[3].indexOf("Team " + code) === 0);
-      html += "<article class=\"match" + (ours ? " next" : "") + "\"><div class=\"match-top\"><span>" + m[0] + " · " + m[1] + "</span><span>" + m[2] + "</span></div><div class=\"vs\">" + m[3] + (ours ? " <span class=\"us-chip\">US</span>" : "") + "</div><div class=\"result\">" + m[4] + "</div></article>";
+      html += "<article class=\"match\"><div class=\"match-top\"><span>" + m[0] + " · " + m[1] + "</span><span>" + m[2] + "</span></div><div class=\"vs\">" + m[3] + "</div><div class=\"result\">" + m[4] + "</div></article>";
     });
   });
   return html;

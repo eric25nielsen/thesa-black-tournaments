@@ -58,6 +58,8 @@ function upcomingMatch() {
   if (!cur) return open[0] || null;
   return open.find(function (m) { return m.round > cur.round; }) || null;
 }
+function wePlay(m) { if (!m) return false; var a = teamById(m.a), b = teamById(m.b); return !!((a && a.us) || (b && b.us)); }
+function weRef(m) { if (!m) return false; var r = teamById(m.ref); return !!(r && r.us); }
 function poolComplete() { return matchesWithResults().every(function (m) { return m.result; }); }
 function defaultTab() {
   var hasBracket = window.BRACKET && window.BRACKET.length;
@@ -79,16 +81,16 @@ function matchLabel(m) {
   var w = teamById(m.result.winner);
   return (w ? w.name : "") + " " + m.result.setsW + "–" + m.result.setsL;
 }
-function cardHtml(m, kicker, us) {
+function cardHtml(m, kicker) {
   var a = teamById(m.a), b = teamById(m.b), ref = teamById(m.ref);
-  return '<p class="kicker">' + kicker + '</p><h1>' + a.name + ' vs ' + b.name + '</h1><p>' + (m.time || '') + ' · ' + window.EVENT.court + (ref ? ' · Ref ' + ref.name : '') + (us ? '' : '') + '</p>';
+  return '<p class="kicker">' + kicker + '</p><h1>' + a.name + ' vs ' + b.name + (weRef(m) ? ' <span class="ref-chip">WE REF</span>' : '') + '</h1><p>' + (m.time || '') + ' · ' + window.EVENT.court + (ref ? ' · Ref ' + ref.name : '') + '</p>';
 }
 function render() {
   var poolMatches = matchesWithResults();
   var cur = currentMatch();
   var up = upcomingMatch();
   var inBracket = defaultTab() === "bracket";
-  document.getElementById("phase").textContent = inBracket ? "Saturday" : (cur ? ("In progress · " + cur.time) : (up ? ("Up next · " + up.time) : "Pool complete"));
+  document.getElementById("phase").textContent = inBracket ? "Saturday" : (cur ? ((weRef(cur) ? "We are reffing" : "In progress") + " · " + cur.time) : (up ? ("Up next · " + up.time) : "Pool complete"));
   document.getElementById("teamName").textContent = window.TEAM.name;
   document.getElementById("eventName").textContent = window.EVENT.name;
   document.getElementById("eventMeta").textContent = [window.EVENT.date, window.EVENT.site, window.EVENT.pool, window.EVENT.court, "Start " + window.EVENT.start].filter(Boolean).join(" · ");
@@ -98,14 +100,10 @@ function render() {
   if (bm) bm.innerHTML = '<p class="hint">Saturday bracket posts after Friday pool.</p>';
   var hero = document.getElementById("nextCard");
   if (!inBracket && cur) {
-    var a = teamById(cur.a), b = teamById(cur.b);
-    var us = (a && a.us) || (b && b.us);
-    var after = up ? '<p style="margin-top:8px">Next: ' + teamById(up.a).name + ' vs ' + teamById(up.b).name + ' · ' + up.time + '</p>' : '';
-    hero.innerHTML = cardHtml(cur, (us ? 'On the court now' : 'On our court now') + ' · ' + window.EVENT.pool) + after;
+    var after = up ? '<p style="margin-top:8px">Next: ' + teamById(up.a).name + ' vs ' + teamById(up.b).name + ' · ' + up.time + (weRef(up) ? ' · we ref' : '') + '</p>' : '';
+    hero.innerHTML = cardHtml(cur, wePlay(cur) ? 'On the court now' : (weRef(cur) ? 'We are reffing now' : 'On our court now')) + after;
   } else if (!inBracket && up) {
-    var ua = teamById(up.a), ub = teamById(up.b);
-    var uus = (ua && ua.us) || (ub && ub.us);
-    hero.innerHTML = cardHtml(up, (uus ? 'We play next' : 'Next on our court') + ' · ' + window.EVENT.pool);
+    hero.innerHTML = cardHtml(up, wePlay(up) ? 'We play next' : (weRef(up) ? 'We ref next' : 'Next on our court'));
   }
   var st = standings();
   document.getElementById("standings").innerHTML = '<table><thead><tr><th>Team</th><th class="num">M</th><th class="num">Sets</th></tr></thead><tbody>' +
@@ -116,11 +114,10 @@ function render() {
   document.getElementById("matches").innerHTML = poolMatches.slice().sort(function (x, y) { return x.round - y.round; }).map(function (m) {
     var a = teamById(m.a), b = teamById(m.b), ref = teamById(m.ref);
     var res = m.result ? '<div class="result">' + matchLabel(m) + '</div>' : '';
-    var us = (a && a.us) || (b && b.us);
     var tag = '';
     if (!m.result && cur && m.round === cur.round) tag = 'NOW';
     else if (!m.result && up && m.round === up.round) tag = 'NEXT';
-    return '<article class="match' + (tag ? ' next' : '') + '"><div class="match-top"><span>' + (m.time || '') + (tag ? ' · ' + tag : '') + '</span><span>Ref ' + (ref ? ref.name : '') + '</span></div><div class="vs">' + a.name + ' vs ' + b.name + (us ? ' <span class="us-chip">US</span>' : '') + '</div>' + res + '</article>';
+    return '<article class="match' + (tag ? ' next' : '') + (weRef(m) ? ' work' : '') + '"><div class="match-top"><span>' + (m.time || '') + (tag ? ' · ' + tag : '') + '</span><span>' + (weRef(m) ? 'WE REF' : ('Ref ' + (ref ? ref.name : ''))) + '</span></div><div class="vs">' + a.name + ' vs ' + b.name + (wePlay(m) ? ' <span class="us-chip">US</span>' : '') + (weRef(m) ? ' <span class="ref-chip">WE REF</span>' : '') + '</div>' + res + '</article>';
   }).join('');
 }
 document.getElementById('resetBtn').addEventListener('click', function () {

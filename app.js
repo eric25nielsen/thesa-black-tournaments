@@ -120,7 +120,7 @@ function openBoard() {
   html += g(300,40,"Match 2 · 4:00 · Court 5","JH Black","Winner of Match 1",true);
   html += g(580,128,"Match 4 · 6:00 · Court 5","Winner of Match 2","Winner of Match 3",true);
   html += g(300,300,"Match 5 · 5:00 · Court 5","Loser of Match 1","Loser of Match 3");
-  html += "<text x=\"16\" y=\"300\" fill=\"#C9A227\" font-size=\"14\">Losers bracket</text>";
+  html += "<text x=\"16\" y=\"290\" fill=\"#C9A227\" font-size=\"14\">If JH Black loses, they ref Match 5</text>";
   html += "</svg></div>";
   var el = document.getElementById("board");
   el.innerHTML = html;
@@ -135,7 +135,7 @@ function saturday() {
       next: ["4:00 PM · Court 5", "Winner of FBCHA Blue vs Timberwolves Black"],
       win: "6:00 PM, Court 5, vs winner of Timberwolves Blue / Tyler Heat",
       loss: "Not Match 5. Match 5 is the other losers.",
-      note: "",
+      note: "No ref before you play. If you lose Match 2, you ref Match 5 at 5:00 on Court 5.",
       cols: [
         [{ t: "2:00 · Court 5", a: "Timberwolves Blue", b: "FBCHA Blue" }, { t: "3:00 · Court 5 · we play", a: "JH Black", b: "Timberwolves Black", us: true, path: "both" }],
         [{ t: "4:00 · Court 5", a: "Tyler Heat", b: "Winner of 2:00" }, { t: "5:00 · Court 5 · if we lose", a: "Not set yet", b: "Loser of 2:00", path: "loss" }],

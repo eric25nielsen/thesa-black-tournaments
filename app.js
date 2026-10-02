@@ -79,20 +79,81 @@ function paths(list) {
 function card(title, detail, ours) {
   return "<article class=\"match" + (ours ? " next" : "") + "\"><div class=\"vs\">" + title + "</div><div class=\"result\">" + detail + "</div></article>";
 }
+function openBoard(title, cols) {
+  var html = "<div class=\"board-bar\"><strong>" + title + "</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\"><div class=\"board\">";
+  cols.forEach(function (col) {
+    html += "<div class=\"col\">";
+    col.forEach(function (slot) {
+      html += "<div class=\"slot" + (slot.us ? " us" : "") + "\"><b>" + slot.t + "</b><span>" + slot.a + "</span><span>" + slot.b + "</span></div>";
+    });
+    html += "</div>";
+  });
+  html += "</div></div>";
+  var el = document.getElementById("board");
+  el.innerHTML = html;
+  el.classList.remove("hidden");
+  document.getElementById("closeBoard").onclick = function () { el.classList.add("hidden"); };
+}
 function saturday() {
   var id = squad().id;
-  var paths = {
-    "jh-black": ["3:00 PM · Court 5", "Timberwolves Black", "Win: 6:00 PM, Court 5, vs winner of Tyler Heat's match", "Loss: 5:00 PM, Court 5, vs loser of the 2:00 silver match", "Ref the 2:00 silver match on Court 5 first"],
-    "jh-red": ["5:00 PM · Court 2", "Winner of Lubbock vs Aggieland Silver", "Win: 7:00 PM, Court 2", "Loss: no second game posted", ""],
-    "jv-black": ["9:00 AM · Court 7", "FBCHA JV White", "Win: 12:00 PM, Court 7, vs winner of the 10:00", "Loss: 11:00 AM, Court 7, vs loser of the 8:00", "Ref the 8:00 on Court 7 first"],
-    "jv-red": ["4:00 PM · Court 7", "4th place, Pool C", "Win: 7:00 PM, Court 7", "Loss: 6:00 PM, Court 7, vs loser of the 3:00", ""]
+  var boards = {
+    "jh-black": {
+      title: "Silver",
+      next: ["3:00 PM · Court 5", "Timberwolves Black"],
+      win: "6:00 PM, Court 5, vs winner of Tyler Heat's match",
+      loss: "5:00 PM, Court 5, vs loser of the 2:00",
+      note: "Ref the 2:00 on Court 5 first",
+      cols: [
+        [{ t: "2:00 Court 5", a: "Timberwolves Blue", b: "FBCHA Blue" }, { t: "3:00 Court 5", a: "JH Black", b: "Timberwolves Black", us: true }],
+        [{ t: "4:00 Court 5", a: "Tyler Heat", b: "Winner 2:00" }, { t: "5:00 Court 5", a: "Loser 2:00", b: "Loser 3:00" }],
+        [{ t: "6:00 Court 5", a: "Winner 4:00", b: "Winner 3:00", us: true }]
+      ]
+    },
+    "jh-red": {
+      title: "Bronze",
+      next: ["5:00 PM · Court 2", "Winner of Lubbock / Aggieland Silver"],
+      win: "7:00 PM, Court 2",
+      loss: "No second game posted",
+      cols: [
+        [{ t: "3:00 Court 2", a: "Lubbock", b: "Aggieland Silver" }, { t: "4:00 Court 2", a: "Wildfire", b: "Aggieland Black" }],
+        [{ t: "5:00 Court 2", a: "JH Red", b: "Winner 3:00", us: true }],
+        [{ t: "7:00 Court 2", a: "Winner 5:00", b: "Winner 4:00", us: true }]
+      ]
+    },
+    "jv-black": {
+      title: "Gold",
+      next: ["9:00 AM · Court 7", "FBCHA JV White"],
+      win: "12:00 PM, Court 7",
+      loss: "11:00 AM, Court 7, vs loser of the 8:00",
+      note: "Ref the 8:00 on Court 7 first",
+      cols: [
+        [{ t: "8:00 Court 7", a: "HSAA JV Red", b: "2nd Pool C" }, { t: "8:00 Court 8", a: "CHSA", b: "Aggieland JV" }, { t: "9:00 Court 7", a: "JV Black", b: "FBCHA White", us: true }, { t: "9:00 Court 8", a: "1st Pool C", b: "FBCHA Blue" }],
+        [{ t: "10:00 Court 7", a: "DasCHE JV", b: "Winner 8:00" }, { t: "10:00 Court 8", a: "Winner 8:00 Ct 8", b: "Tyler Heat" }, { t: "11:00 Court 7", a: "Loser 8:00", b: "Loser 9:00" }],
+        [{ t: "12:00 Court 7", a: "Winner 10:00", b: "Winner 9:00", us: true }, { t: "1:00 Court 7", a: "Winner 12:00 Ct 7", b: "Winner 12:00 Ct 8" }]
+      ]
+    },
+    "jv-red": {
+      title: "Bronze",
+      next: ["4:00 PM · Court 7", "4th place, Pool C"],
+      win: "7:00 PM, Court 7",
+      loss: "6:00 PM, Court 7, vs loser of the 3:00",
+      cols: [
+        [{ t: "3:00 Court 7", a: "Wildfire JV", b: "HCYA" }, { t: "4:00 Court 7", a: "4th Pool C", b: "JV Red", us: true }],
+        [{ t: "5:00 Court 7", a: "Patriots JV", b: "Winner 3:00" }, { t: "6:00 Court 7", a: "Loser 3:00", b: "Loser 4:00" }],
+        [{ t: "7:00 Court 7", a: "Winner 5:00", b: "Winner 4:00", us: true }]
+      ]
+    }
   };
-  var p = paths[id];
+  var p = boards[id];
   if (!p) return "<p class=\"hint\">No bracket assignment yet. Varsity pool has not started.</p>";
-  var html = "<article class=\"match next\"><p class=\"kicker\">Next game</p><div class=\"vs\">" + p[1] + "</div><div class=\"result\">" + p[0] + "</div></article>";
-  html += card("If we win", p[2], false);
-  html += card("If we lose", p[3], false);
-  if (p[4]) html += "<p class=\"hint\">" + p[4] + "</p>";
+  var html = "<article class=\"match next\" id=\"openBoard\"><p class=\"kicker\">Next game · tap for bracket</p><div class=\"vs\">" + p.next[1] + "</div><div class=\"result\">" + p.next[0] + "</div></article>";
+  html += "<article class=\"match\"><div class=\"vs\">If we win</div><div class=\"result\">" + p.win + "</div></article>";
+  html += "<article class=\"match\"><div class=\"vs\">If we lose</div><div class=\"result\">" + p.loss + "</div></article>";
+  if (p.note) html += "<p class=\"hint\">" + p.note + "</p>";
+  setTimeout(function () {
+    var card = document.getElementById("openBoard");
+    if (card) card.onclick = function () { openBoard(p.title, p.cols); };
+  }, 0);
   return html;
 }
 

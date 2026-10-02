@@ -17,11 +17,9 @@ function nowMinutes() {
   return h * 60 + min;
 }
 function matches() {
-  return squad().matches.map(function (m, i) {
-    return Object.assign({}, m, { i: i, result: m.result || null });
-  });
+  return squad().matches.map(function (m, i) { return Object.assign({}, m, { i: i, result: m.result || null }); });
 }
-function wePlay(m) { var n = squad().name; return m.a === n || m.b === n; }
+function wePlay(m) { return m.a === squad().name || m.b === squad().name; }
 function weRef(m) { return m.ref === squad().name; }
 function opp(m) { return m.a === squad().name ? m.b : m.a; }
 function currentMatch(list) {
@@ -67,10 +65,13 @@ function paths(list) {
     return "<article class=\"match\"><div class=\"vs\">" + title + "</div><div class=\"result\">" + mw + "\u2013" + ml + (mt ? "\u2013" + mt : "") + " matches \u00b7 " + sw + "\u2013" + sl + " sets</div></article>";
   }
   var games = left.map(function (m) { return m.time + " vs " + opp(m); }).join(", ");
+  var win = n === 1 ? "Win the last one 2\u20130" : "Win the rest 2\u20130";
+  var split = n === 1 ? "Split the last one" : "Split the rest";
+  var lose = n === 1 ? "Lose the last one 0\u20132" : "Lose the rest 0\u20132";
   return "<p class=\"hint\">Still to play: " + games + ". Each match is two sets, so win, split, or loss.</p>" +
-    line("Win both remaining", row.mw + n, row.ml, row.mt, row.sw + n * 2, row.sl) +
-    line("Split the rest", row.mw, row.ml, row.mt + n, row.sw + n, row.sl + n) +
-    line("Lose both remaining", row.mw, row.ml + n, row.mt, row.sw, row.sl + n * 2);
+    line(win, row.mw + n, row.ml, row.mt, row.sw + n * 2, row.sl) +
+    line(split, row.mw, row.ml, row.mt + n, row.sw + n, row.sl + n) +
+    line(lose, row.mw, row.ml + n, row.mt, row.sw, row.sl + n * 2);
 }
 function fillPicker() {
   var sel = document.getElementById("teamPick");

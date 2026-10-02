@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#080808" />
-  <title>THESA Riders Black — Tournament Board</title>
-  <link rel="stylesheet" href="styles.css?v=16" />
+  <title>THESA JH Black — Tournament Board</title>
+  <link rel="stylesheet" href="styles.css?v=17" />
 </head>
 <body>
   <header class="top">
     <div class="brand">
       <img class="mark" src="https://images.squarespace-cdn.com/content/v1/67c8899635da4f21754dda55/d1ab67a6-560f-4f6d-994f-ddf2ad18e64c/THESA+Logo+Helmet+Only+Transparent+Background.png?format=300w" alt="THESA Riders knight" />
       <div>
-        <p class="team" id="teamName">THESA Black</p>
+        <p class="team" id="teamName">THESA JH Black</p>
         <p class="label">THESA Riders · Volleyball</p>
       </div>
     </div>
@@ -29,35 +29,24 @@
     <section class="hero" id="nextCard"></section>
     <div id="panelPool">
       <section>
-        <h2>Silver teams — pool play</h2>
-        <p class="hint">The four teams in our D1 Silver bracket and how they finished pool.</p>
-        <div class="table-wrap" id="poolSilver"></div>
-      </section>
-      <section>
-        <h2>Our pool — Pool 1 Court 4</h2>
+        <h2>Pool standings</h2>
         <div class="table-wrap" id="standings"></div>
       </section>
       <section>
-        <h2>Pool 1 matches</h2>
-        <p class="hint">Official pool results from the Fieldhouse live sheet.</p>
+        <h2>Pool matches</h2>
+        <p class="hint">Court 9. Work team is listed as Ref. Send scores and I’ll log them.</p>
         <div id="matches"></div>
       </section>
-      <section>
-        <h2>Pools the other Silver teams came from</h2>
-        <div id="otherPools"></div>
-      </section>
+      <div id="poolSilver"></div>
+      <div id="otherPools"></div>
     </div>
     <div id="panelBracket" class="hidden">
       <section>
-        <h2>D1 Silver</h2>
+        <h2>Bracket</h2>
         <p class="note" id="bracketNote"></p>
         <div id="bracketMatches"></div>
       </section>
-      <section>
-        <h2>Silver teams — pool play</h2>
-        <p class="hint">Official sets and points from each team's pool.</p>
-        <div class="table-wrap" id="silverPool"></div>
-      </section>
+      <div class="table-wrap" id="silverPool"></div>
     </div>
     <div id="panelRot" class="hidden">
       <section class="rot-track">
@@ -100,7 +89,7 @@
       </section>
       <section>
         <h2>All 6-2 rotations</h2>
-        <p class="hint">Same four views every rotation: before/after serve, before/after receive. Three passers stay spread.</p>
+        <p class="hint">Same four views every rotation: before/after serve, before/after receive.</p>
         <div id="rotAll"></div>
       </section>
     </div>
@@ -121,8 +110,8 @@
       <button type="button" class="ghost" id="sheetCancel">Cancel</button>
     </div>
   </div>
-  <script src="data.js?v=16"></script>
-  <script src="rotations.js?v=16"></script>
-  <script src="app.js?v=16"></script>
+  <script src="data.js?v=17"></script>
+  <script src="rotations.js?v=17"></script>
+  <script src="app.js?v=17"></script>
 </body>
 </html>

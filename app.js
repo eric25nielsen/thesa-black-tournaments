@@ -104,8 +104,9 @@ function saturday() {
       ["Match 5", "6:00 PM", "Court 2", "Loser of Match 1 vs loser of Match 3", "Ref loser of Match 2"]
     ]]
   ];
-  var html = "<p class=\"hint\">Pool is done. Patriots are 1st. Kingwood is 2nd. JH Black is 3rd. Head-to-head points went to Kingwood.</p>";
-  html += "<article class=\"match next\"><div class=\"vs\">JH Black plays silver</div><div class=\"result\">2:00 PM · Court 5</div><p class=\"hint\">First silver match. AES has not locked the seed number among the 3rd-place teams, so this is the posted start for that flight.</p></article>";
+  var html = "<p class=\"hint\">1:00 is done. Patriots beat JH Black 2–0 and win the pool. JH Black and Kingwood are both 1–1–1, sets 3–3. Head-to-head was a split, so 2nd or 3rd is the point tiebreak. AES has not posted that yet.</p>";
+  html += "<article class=\"match next\"><div class=\"vs\">If we finish 2nd</div><div class=\"result\">Gold. 8:00 or 9:00 AM. Court 2 or Court 5.</div></article>";
+  html += "<article class=\"match next\"><div class=\"vs\">If we finish 3rd</div><div class=\"result\">Silver. 2:00 PM. Court 5.</div></article>";
   blocks.forEach(function (block) {
     html += "<h2>" + block[0] + "</h2>";
     block[1].forEach(function (m) {
@@ -160,8 +161,10 @@ document.getElementById("teamPick").addEventListener("change", function (e) {
   localStorage.setItem(PICK_KEY, e.target.value);
   render();
 });
+function poolDone(list) { return list.every(function (m) { return m.result; }); }
 fillPicker();
 render();
+if (poolDone(matches()) && window.show) window.show("bracket");
 setInterval(render, 60000);
 setTimeout(render, 400);
 if (window.initRotations) window.initRotations();

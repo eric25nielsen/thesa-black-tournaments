@@ -97,18 +97,21 @@ function paths(list) {
 function card(title, detail, ours) {
   return "<article class=\"match" + (ours ? " next" : "") + "\"><div class=\"vs\">" + title + "</div><div class=\"result\">" + detail + "</div></article>";
 }
-function openBoard(title, rounds, path) {
-  var html = "<div class=\"board-bar\"><strong>" + title + "</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\"><div class=\"bracket\">";
-  rounds.forEach(function (round, i) {
-    html += "<div class=\"round\">";
-    round.forEach(function (game) {
-      var on = game.us || (path && game.path === path) || game.path === "both";
-      html += "<div class=\"pair\"><div class=\"game" + (on ? " us" : "") + "\"><div class=\"when\">" + game.t + "</div><div class=\"team\">" + game.a + "</div><div class=\"team\">" + game.b + "</div></div></div>";
-    });
-    html += "</div>";
-    if (i < rounds.length - 1) html += "<div class=\"feed\"></div>";
-  });
-  html += "</div></div>";
+function box(g) {
+  return "<div class=\"box" + (g.us ? " us" : "") + "\" style=\"left:" + g.x + "px;top:" + g.y + "px\"><b>" + g.t + "</b><span>" + g.a + "</span><span>" + g.b + "</span></div>";
+}
+function openBoard(title) {
+  var games = [
+    { t: "MATCH 1 · 2:00 · Ct 5", a: "Timberwolves Blue", b: "FBCHA Blue", x: 8, y: 20 },
+    { t: "MATCH 3 · 3:00 · Ct 5", a: "JH Black", b: "Timberwolves Black", x: 8, y: 150, us: true },
+    { t: "MATCH 2 · 4:00 · Ct 5", a: "Tyler Heat", b: "Winner of Match 1", x: 250, y: 70 },
+    { t: "MATCH 4 · 6:00 · Ct 5", a: "Winner of Match 2", b: "Winner of Match 3", x: 500, y: 110, us: true },
+    { t: "MATCH 5 · 5:00 · Ct 5", a: "Loser of Match 1", b: "Loser of Match 3", x: 250, y: 280 }
+  ];
+  var html = "<div class=\"board-bar\"><strong>" + title + "</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\">";
+  html += "<div class=\"tree\"><svg class=\"lines\" viewBox=\"0 0 760 430\"><path d=\"M158 55 H200 V95 H250 M158 185 H200 V145 H250 M400 115 H450 V145 H500 M400 315 H450\" fill=\"none\" stroke=\"#9aa0a6\" stroke-width=\"2\"/></svg>";
+  games.forEach(function (g) { html += box(g); });
+  html += "</div><div class=\"losers\"><h3>If we lose</h3><p>Match 5, 5:00 PM, Court 5. Loser of Match 1 vs loser of Match 3. Neither team is set.</p></div></div>";
   var el = document.getElementById("board");
   el.innerHTML = html;
   el.classList.remove("hidden");
@@ -172,11 +175,11 @@ function saturday() {
   if (p.note) html += "<p class=\"hint\">" + p.note + "</p>";
   setTimeout(function () {
     var card = document.getElementById("openBoard");
-    if (card) card.onclick = function () { openBoard(p.title, p.cols); };
+    if (card) card.onclick = function () { openBoard(p.title); };
     var win = document.getElementById("winCard");
-    if (win) win.onclick = function () { openBoard(p.title, p.cols, "win"); };
+    if (win) win.onclick = function () { openBoard(p.title); };
     var loss = document.getElementById("lossCard");
-    if (loss) loss.onclick = function () { openBoard(p.title, p.cols, "loss"); };
+    if (loss) loss.onclick = function () { openBoard(p.title); };
   }, 0);
   return html;
 }

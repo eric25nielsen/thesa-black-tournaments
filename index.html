@@ -12,7 +12,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-180.png" />
   <link rel="icon" href="icon-192.png" />
-  <link rel="stylesheet" href="styles.css?v=42" />
+  <link rel="stylesheet" href="styles.css?v=43" />
 </head>
 <body>
   <header class="top">
@@ -62,11 +62,11 @@
     </div>
     <div class="install-actions"><button type="button" id="installBtn">Install</button><button type="button" class="ghost" id="installLater">Not now</button></div>
   </aside>
-  <script src="data.js?v=42"></script>
-  <script src="rotations.js?v=42"></script>
-  <script src="app.js?v=42"></script>
+  <script src="data.js?v=43"></script>
+  <script src="rotations.js?v=43"></script>
+  <script src="app.js?v=43"></script>
   <script>
-    window.show = function (name) {
+    function show(name) {
       document.getElementById("tabPool").classList.toggle("on", name === "pool");
       document.getElementById("tabBracket").classList.toggle("on", name === "bracket");
       document.getElementById("tabRot").classList.toggle("on", name === "rot");

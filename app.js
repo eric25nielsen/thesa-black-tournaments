@@ -75,8 +75,7 @@ function paths(list) {
 }
 
 function saturday() {
-  return "<p class=\"hint\">Pulled from AES at 12:06 PM. The Bracket view under Middle School is still empty. Saturday, October 3 has no matches posted, and Files has no bracket sheet. This will fill when AES posts it. It is not a guessed gold or silver draw.</p>" +
-    "<article class=\"match\"><div class=\"vs\">Official bracket</div><div class=\"result\">Not posted</div></article>";
+  return "<p class=\"hint\">Checked AES at 12:07 PM. Middle School Bracket view is empty. Saturday, October 3 has no matches, and Files has no bracket. This tab will show the draw when AES posts it.</p><article class=\"match\"><div class=\"vs\">Official bracket</div><div class=\"result\">Not posted</div></article>";
 }
 
 function fillPicker() {

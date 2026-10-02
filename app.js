@@ -9,6 +9,23 @@ function matchesWithResults() {
     return copy;
   });
 }
+function minutes(t) {
+  if (!t) return null;
+  var m = String(t).match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (!m) return null;
+  var h = Number(m[1]) % 12;
+  if (/pm/i.test(m[3])) h += 12;
+  return h * 60 + Number(m[2]);
+}
+function nowMinutes() {
+  var parts = new Intl.DateTimeFormat("en-US", { timeZone: "America/Chicago", hour: "numeric", minute: "numeric", hour12: false }).formatToParts(new Date());
+  var h = 0, min = 0;
+  parts.forEach(function (p) {
+    if (p.type === "hour") h = Number(p.value);
+    if (p.type === "minute") min = Number(p.value);
+  });
+  return h * 60 + min;
+}
 function standings() {
   var rows = window.TEAMS.map(function (t) { return Object.assign({}, t, { mw: 0, ml: 0, mt: 0, sw: 0, sl: 0 }); });
   var byId = {};
@@ -28,7 +45,19 @@ function standings() {
   rows.sort(function (x, y) { return y.mw - x.mw || y.sw - x.sw || x.sl - y.sl || x.id - y.id; });
   return rows;
 }
-function nextMatch() { return matchesWithResults().find(function (m) { return !m.result; }) || null; }
+function openMatches() { return matchesWithResults().filter(function (m) { return !m.result; }); }
+function currentMatch() {
+  var now = nowMinutes();
+  var open = openMatches();
+  var started = open.filter(function (m) { return minutes(m.time) != null && minutes(m.time) <= now; });
+  return started.length ? started[started.length - 1] : null;
+}
+function upcomingMatch() {
+  var cur = currentMatch();
+  var open = openMatches();
+  if (!cur) return open[0] || null;
+  return open.find(function (m) { return m.round > cur.round; }) || null;
+}
 function poolComplete() { return matchesWithResults().every(function (m) { return m.result; }); }
 function defaultTab() {
   var hasBracket = window.BRACKET && window.BRACKET.length;
@@ -50,32 +79,33 @@ function matchLabel(m) {
   var w = teamById(m.result.winner);
   return (w ? w.name : "") + " " + m.result.setsW + "–" + m.result.setsL;
 }
+function cardHtml(m, kicker, us) {
+  var a = teamById(m.a), b = teamById(m.b), ref = teamById(m.ref);
+  return '<p class="kicker">' + kicker + '</p><h1>' + a.name + ' vs ' + b.name + '</h1><p>' + (m.time || '') + ' · ' + window.EVENT.court + (ref ? ' · Ref ' + ref.name : '') + (us ? '' : '') + '</p>';
+}
 function render() {
   var poolMatches = matchesWithResults();
-  var nxt = nextMatch();
+  var cur = currentMatch();
+  var up = upcomingMatch();
   var inBracket = defaultTab() === "bracket";
-  document.getElementById("phase").textContent = inBracket ? ("Saturday" + (window.EVENT.bracketPlay ? " · " + window.EVENT.bracketPlay : "")) : ("Pool play · " + (nxt && nxt.time ? nxt.time : ("Round " + (nxt ? nxt.round : poolMatches.length))));
+  document.getElementById("phase").textContent = inBracket ? "Saturday" : (cur ? ("In progress · " + cur.time) : (up ? ("Up next · " + up.time) : "Pool complete"));
   document.getElementById("teamName").textContent = window.TEAM.name;
   document.getElementById("eventName").textContent = window.EVENT.name;
   document.getElementById("eventMeta").textContent = [window.EVENT.date, window.EVENT.site, window.EVENT.pool, window.EVENT.court, "Start " + window.EVENT.start].filter(Boolean).join(" · ");
   document.getElementById("notes").textContent = window.EVENT.notes || "";
   document.getElementById("bracketNote").textContent = window.EVENT.bracketNote || "";
   var bm = document.getElementById("bracketMatches");
-  if (bm) {
-    bm.innerHTML = (window.BRACKET && window.BRACKET.length) ? window.BRACKET.map(function (g) {
-      var next = g.us && !g.result;
-      var res = g.result ? '<div class="result">' + g.result.winner + ' ' + g.result.setsW + '–' + g.result.setsL + '</div>' : '';
-      return '<article class="match' + (next ? ' next' : '') + '"><div class="match-top"><span>' + g.label + '</span><span>' + g.time + ' · ' + g.court + '</span></div><div class="vs">' + g.a + ' vs ' + g.b + (g.us ? ' <span class="us-chip">US</span>' : '') + '</div>' + res + '</article>';
-    }).join('') : '<p class="hint">Saturday bracket posts after Friday pool.</p>';
-  }
+  if (bm) bm.innerHTML = '<p class="hint">Saturday bracket posts after Friday pool.</p>';
   var hero = document.getElementById("nextCard");
-  if (!inBracket && nxt) {
-    var a = teamById(nxt.a), b = teamById(nxt.b), ref = teamById(nxt.ref);
+  if (!inBracket && cur) {
+    var a = teamById(cur.a), b = teamById(cur.b);
     var us = (a && a.us) || (b && b.us);
-    hero.innerHTML = '<p class="kicker">' + (us ? 'We play next' : 'Next on our court') + ' · ' + window.EVENT.pool + '</p><h1>' + a.name + ' vs ' + b.name + '</h1><p>' + (nxt.time || '') + ' · ' + window.EVENT.court + (ref ? ' · Ref ' + ref.name : '') + '</p>';
-  } else if (inBracket) {
-    var ours = (window.BRACKET || []).find(function (g) { return g.us && !g.result; });
-    hero.innerHTML = ours ? '<p class="kicker">We play next</p><h1>' + ours.a + ' vs ' + ours.b + '</h1><p>' + ours.time + ' · ' + ours.court + '</p>' : '<p class="kicker">Saturday</p><h1>' + (window.EVENT.bracketNote || '') + '</h1>';
+    var after = up ? '<p style="margin-top:8px">Next: ' + teamById(up.a).name + ' vs ' + teamById(up.b).name + ' · ' + up.time + '</p>' : '';
+    hero.innerHTML = cardHtml(cur, (us ? 'On the court now' : 'On our court now') + ' · ' + window.EVENT.pool) + after;
+  } else if (!inBracket && up) {
+    var ua = teamById(up.a), ub = teamById(up.b);
+    var uus = (ua && ua.us) || (ub && ub.us);
+    hero.innerHTML = cardHtml(up, (uus ? 'We play next' : 'Next on our court') + ' · ' + window.EVENT.pool);
   }
   var st = standings();
   document.getElementById("standings").innerHTML = '<table><thead><tr><th>Team</th><th class="num">M</th><th class="num">Sets</th></tr></thead><tbody>' +
@@ -83,23 +113,22 @@ function render() {
       var rec = r.mt ? (r.mw + '–' + r.ml + '–' + r.mt) : (r.mw + '–' + r.ml);
       return '<tr class="' + (r.us ? 'us' : '') + '"><td>' + r.name + (r.us ? ' <span class="us-chip">US</span>' : '') + '</td><td class="num">' + rec + '</td><td class="num">' + r.sw + '–' + r.sl + '</td></tr>';
     }).join('') + '</tbody></table>';
-  document.getElementById("matches").innerHTML = poolMatches.slice().sort(function (x, y) {
-    if (!x.result && y.result) return -1;
-    if (x.result && !y.result) return 1;
-    return x.result ? y.round - x.round : x.round - y.round;
-  }).map(function (m) {
+  document.getElementById("matches").innerHTML = poolMatches.slice().sort(function (x, y) { return x.round - y.round; }).map(function (m) {
     var a = teamById(m.a), b = teamById(m.b), ref = teamById(m.ref);
     var res = m.result ? '<div class="result">' + matchLabel(m) + '</div>' : '';
     var us = (a && a.us) || (b && b.us);
-    return '<article class="match' + (!m.result && us ? ' next' : '') + '"><div class="match-top"><span>' + (m.time || ('Rd ' + m.round)) + '</span><span>Ref ' + (ref ? ref.name : '') + '</span></div><div class="vs">' + a.name + ' vs ' + b.name + (us ? ' <span class="us-chip">US</span>' : '') + '</div>' + res + '</article>';
+    var tag = '';
+    if (!m.result && cur && m.round === cur.round) tag = 'NOW';
+    else if (!m.result && up && m.round === up.round) tag = 'NEXT';
+    return '<article class="match' + (tag ? ' next' : '') + '"><div class="match-top"><span>' + (m.time || '') + (tag ? ' · ' + tag : '') + '</span><span>Ref ' + (ref ? ref.name : '') + '</span></div><div class="vs">' + a.name + ' vs ' + b.name + (us ? ' <span class="us-chip">US</span>' : '') + '</div>' + res + '</article>';
   }).join('');
 }
 document.getElementById('resetBtn').addEventListener('click', function () {
   if (confirm('Clear scores saved on this phone?')) { localStorage.removeItem(STORE_KEY); render(); showTab(defaultTab()); }
 });
 document.getElementById('shareBtn').addEventListener('click', async function () {
-  var n = nextMatch();
-  var text = n ? (teamById(n.a).name + ' vs ' + teamById(n.b).name + ' ' + (n.time || '') + ' ' + window.EVENT.court) : window.TEAM.name;
+  var c = currentMatch();
+  var text = c ? ('Now: ' + teamById(c.a).name + ' vs ' + teamById(c.b).name + ' ' + c.time) : window.TEAM.name;
   try { await navigator.clipboard.writeText(text); } catch (e) { prompt('Copy:', text); }
 });
 document.getElementById('tabPool').addEventListener('click', function () { showTab('pool'); });
@@ -107,4 +136,5 @@ document.getElementById('tabBracket').addEventListener('click', function () { sh
 document.getElementById('tabRot').addEventListener('click', function () { showTab('rot'); });
 render();
 showTab(defaultTab());
+setInterval(render, 60000);
 if (window.initRotations) window.initRotations();

@@ -42,9 +42,14 @@ function tomorrow() {
   return next[id] || null;
 }
 function upcoming(list, cur) {
-  var open = list.filter(function (m) { return !m.result; });
-  if (!cur) return open[0] || null;
-  return open.find(function (m) { return m.i > cur.i; }) || null;
+  var now = nowMinutes();
+  var open = list.filter(function (m) {
+    if (m.result) return false;
+    if (!(wePlay(m) || weRef(m))) return false;
+    var t = minutes(m.time);
+    return t != null && t > now;
+  });
+  return open[0] || null;
 }
 function resultText(m) {
   if (!m.result) return "";
@@ -224,6 +229,8 @@ function render() {
   if (pathEl) pathEl.innerHTML = paths(list);
   var sat = document.getElementById("bracketMatches");
   if (sat) sat.innerHTML = saturday();
+  var poolNote = document.getElementById("poolDone");
+  if (poolNote) poolNote.textContent = list.every(function (m) { return m.result || (minutes(m.time) != null && minutes(m.time) + 50 < nowMinutes()); }) ? "Pool play is complete." : "";
   document.getElementById("matches").innerHTML = list.map(function (m) {
     var tag = !m.result && cur && m.i === cur.i ? "NOW" : (!m.result && up && m.i === up.i ? "NEXT" : "");
     var res = m.result ? "<div class=\"result\">" + resultText(m) + "</div>" : "";

@@ -153,7 +153,7 @@ function render() {
     });
   }
   document.getElementById("standings").innerHTML = "<table><thead><tr><th></th><th>Team</th><th class=\"num\">M</th><th class=\"num\">Sets</th></tr></thead><tbody>" +
-    standings(list).map(function (r) {
+    ranked.map(function (r) {
       return "<tr class=\"" + (r.us ? "us" : "") + "\"><td>" + (r.place || "") + "</td><td>" + r.name + (r.us ? " <span class=\"us-chip\">US</span>" : "") + "</td><td class=\"num\">" + rec(r) + "</td><td class=\"num\">" + r.sw + "\u2013" + r.sl + "</td></tr>";
     }).join("") + "</tbody></table>";
   var pathEl = document.getElementById("paths");

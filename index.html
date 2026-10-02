@@ -12,7 +12,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-180.png" />
   <link rel="icon" href="icon-192.png" />
-  <link rel="stylesheet" href="styles.css?v=63" />
+  <link rel="stylesheet" href="styles.css?v=64" />
 </head>
 <body>
   <header class="top">
@@ -32,7 +32,7 @@
   <main>
     <section class="hero" id="nextCard"></section>
     <div id="panelPool">
-      <section><h2>Pool standings</h2><div class="table-wrap" id="standings"></div></section>
+      <section><h2>Pool standings</h2><p class="note" id="poolDone"></p><div class="table-wrap" id="standings"></div></section>
       <section><h2>Court matches</h2><div id="matches"></div></section>
     </div>
     <div id="panelBracket" class="hidden"><section><h2>Saturday</h2><p class="note" id="bracketNote"></p><div id="bracketMatches"></div></section></div>
@@ -62,9 +62,9 @@
     </div>
     <div class="install-actions"><button type="button" id="installBtn">Install</button><button type="button" class="ghost" id="installLater">Not now</button></div>
   </aside>
-  <script src="data.js?v=63"></script>
-  <script src="rotations.js?v=63"></script>
-  <script src="app.js?v=63"></script>
+  <script src="data.js?v=64"></script>
+  <script src="rotations.js?v=64"></script>
+  <script src="app.js?v=64"></script>
   <script>
     function show(name) {
       document.getElementById("tabPool").classList.toggle("on", name === "pool");

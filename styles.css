@@ -5,7 +5,6 @@
   --text: #f7f7f7;
   --muted: #a3a3a3;
   --rider-red: #9e1b32;
-  --rider-red-2: #c41e3a;
   --gold: #c9a227;
   --win: #3dba7a;
 }
@@ -14,11 +13,7 @@ html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); f
 body { min-height: 100vh; padding-bottom: 32px; }
 .top { padding: 20px 16px 8px; border-bottom: 1px solid var(--line); }
 .brand { display: flex; align-items: center; gap: 12px; }
-.mark {
-  width: 56px; height: 56px; border-radius: 12px;
-  background: #000; border: 1px solid var(--gold);
-  object-fit: contain; padding: 3px;
-}
+.mark { width: 56px; height: 56px; border-radius: 12px; background: #000; border: 1px solid var(--gold); object-fit: contain; padding: 3px; }
 .team { margin: 0; font-size: 18px; font-weight: 800; }
 .label { margin: 0; color: var(--gold); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; }
 .phase { margin: 16px 0 10px; display: inline-block; background: var(--rider-red); color: #fff; font-weight: 800; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; padding: 8px 12px; border-radius: 8px; }
@@ -35,7 +30,9 @@ h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .14em; color: v
 .kicker { color: var(--gold); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; margin: 0 0 6px; }
 .hero h1 { margin: 0 0 6px; font-size: 22px; }
 .hero p { margin: 0; color: var(--muted); }
-.us-chip { display: inline-block; background: rgba(158,27,50,.22); color: #f3c6ce; border: 1px solid rgba(201,162,39,.55); border-radius: 999px; padding: 2px 8px; font-size: 11px; font-weight: 700; margin-left: 6px; }
+.us-chip, .ref-chip { display: inline-block; border-radius: 999px; padding: 2px 8px; font-size: 11px; font-weight: 700; margin-left: 6px; }
+.us-chip { background: rgba(158,27,50,.22); color: #f3c6ce; border: 1px solid rgba(201,162,39,.55); }
+.ref-chip { background: rgba(201,162,39,.18); color: var(--gold); border: 1px solid var(--gold); }
 a { color: var(--gold); }
 .table-wrap { overflow: hidden; border: 1px solid var(--line); border-radius: 12px; }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -45,6 +42,7 @@ tr.us td { background: rgba(158,27,50,.14); }
 .num { text-align: center; width: 52px; font-variant-numeric: tabular-nums; }
 .match { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 8px; }
 .match.next { border-color: var(--gold); }
+.match.work { border-color: var(--gold); background: rgba(201,162,39,.08); }
 .match-top { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin-bottom: 6px; }
 .vs { font-size: 16px; font-weight: 700; }
 .result { margin-top: 6px; color: var(--win); font-weight: 700; font-size: 13px; }
@@ -52,17 +50,11 @@ tr.us td { background: rgba(158,27,50,.14); }
 button { appearance: none; border: 0; background: var(--rider-red); color: #fff; font-weight: 700; border-radius: 10px; padding: 12px 14px; font-size: 14px; }
 button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
 footer { text-align: center; color: #6b7280; font-size: 12px; padding: 8px 16px 24px; }
-.sheet { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: grid; align-items: end; padding: 16px; }
-.sheet.hidden { display: none; }
-.sheet-card { background: #161616; border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
-.sheet-title { margin: 0 0 12px; font-weight: 700; }
-.sheet-actions { display: grid; gap: 8px; margin-bottom: 8px; }
-.sheet-actions button { width: 100%; }
 .rot-status { display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:10px; }
 .rot-status strong { font-size:22px; }
 .rot-status span { color:var(--muted); font-size:13px; }
 .rot-legend { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 12px; color:var(--muted); font-size:12px; }
-.rot-legend i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; vertical-align:middle; border:1px solid #000; }
+.rot-legend i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; vertical-align:middle; }
 .rot-chips { display:flex; gap:8px; margin-bottom:10px; }
 .chip { flex:1; background:transparent; color:var(--muted); border:1px solid var(--line); }
 .chip.on { background:var(--rider-red); color:#fff; border-color:var(--rider-red); }
@@ -78,6 +70,4 @@ footer { text-align: center; color: #6b7280; font-size: 12px; padding: 8px 16px 
 .rot-all { margin-bottom:8px; border:1px solid var(--line); border-radius:12px; padding:8px 10px; background:var(--card); }
 .rot-all summary { cursor:pointer; font-weight:700; }
 .rot-all .rot-grid { margin-top:8px; }
-@media (max-width:420px) {
-  .rot-actions { grid-template-columns:1fr 1fr; }
-}
+@media (max-width:420px) { .rot-actions { grid-template-columns:1fr 1fr; } }

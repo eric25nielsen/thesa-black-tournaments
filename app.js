@@ -34,7 +34,7 @@ function currentMatch(list) {
 function tomorrow() {
   var id = squad().id;
   var next = {
-    "jh-black": ["Tomorrow", "3:00 PM", "Court 5", "vs Timberwolves Black"],
+    "jh-black": ["Tomorrow", "4:00 PM", "Court 5", "vs winner of FBCHA Blue / Timberwolves Black"],
     "jh-red": ["Tomorrow", "5:00 PM", "Court 2", "vs winner of Lubbock / Aggieland Silver"],
     "jv-black": ["Tomorrow", "9:00 AM", "Court 7", "vs FBCHA JV White"],
     "jv-red": ["Tomorrow", "4:00 PM", "Court 7", "vs 4th place, Pool C"]
@@ -100,18 +100,21 @@ function card(title, detail, ours) {
 function box(g) {
   return "<div class=\"box" + (g.us ? " us" : "") + "\" style=\"left:" + g.x + "px;top:" + g.y + "px\"><b>" + g.t + "</b><span>" + g.a + "</span><span>" + g.b + "</span></div>";
 }
+function box(g) {
+  return "<div class=\"box" + (g.us ? " us" : "") + "\" style=\"left:" + g.x + "px;top:" + g.y + "px\"><b>" + g.t + "</b><span>" + g.a + "</span><span>" + g.b + "</span></div>";
+}
 function openBoard(title) {
   var games = [
-    { t: "MATCH 1 · 2:00 · Ct 5", a: "Timberwolves Blue", b: "FBCHA Blue", x: 8, y: 20 },
-    { t: "MATCH 3 · 3:00 · Ct 5", a: "JH Black", b: "Timberwolves Black", x: 8, y: 150, us: true },
-    { t: "MATCH 2 · 4:00 · Ct 5", a: "Tyler Heat", b: "Winner of Match 1", x: 250, y: 70 },
-    { t: "MATCH 4 · 6:00 · Ct 5", a: "Winner of Match 2", b: "Winner of Match 3", x: 500, y: 110, us: true },
+    { t: "MATCH 1 · 2:00 · Ct 5", a: "FBCHA MS Blue", b: "Timberwolves Black", x: 8, y: 16 },
+    { t: "MATCH 3 · 3:00 · Ct 5", a: "Timberwolves Blue", b: "Tyler Heat", x: 8, y: 150 },
+    { t: "MATCH 2 · 4:00 · Ct 5", a: "JH Black", b: "Winner of Match 1", x: 250, y: 55, us: true },
+    { t: "MATCH 4 · 6:00 · Ct 5", a: "Winner of Match 2", b: "Winner of Match 3", x: 500, y: 100, us: true },
     { t: "MATCH 5 · 5:00 · Ct 5", a: "Loser of Match 1", b: "Loser of Match 3", x: 250, y: 280 }
   ];
-  var html = "<div class=\"board-bar\"><strong>" + title + "</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\">";
-  html += "<div class=\"tree\"><svg class=\"lines\" viewBox=\"0 0 760 430\"><path d=\"M158 55 H200 V95 H250 M158 185 H200 V145 H250 M400 115 H450 V145 H500 M400 315 H450\" fill=\"none\" stroke=\"#9aa0a6\" stroke-width=\"2\"/></svg>";
+  var html = "<div class=\"board-bar\"><strong>Silver, from AES</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\">";
+  html += "<div class=\"tree\"><svg class=\"lines\" viewBox=\"0 0 760 430\"><path d=\"M158 50 H210 V90 H250 M158 185 H210 V140 H250 M400 95 H450 V135 H500 M400 320 H460\" fill=\"none\" stroke=\"#9aa0a6\" stroke-width=\"2\"/></svg>";
   games.forEach(function (g) { html += box(g); });
-  html += "</div><div class=\"losers\"><h3>If we lose</h3><p>Match 5, 5:00 PM, Court 5. Loser of Match 1 vs loser of Match 3. Neither team is set.</p></div></div>";
+  html += "</div><div class=\"losers\"><h3>Losers</h3><p>Match 5, 5:00 PM, Court 5, is loser of Match 1 vs loser of Match 3. Those teams are not set. If JH Black loses Match 2, that is not Match 5.</p></div></div>";
   var el = document.getElementById("board");
   el.innerHTML = html;
   el.classList.remove("hidden");
@@ -122,9 +125,9 @@ function saturday() {
   var boards = {
     "jh-black": {
       title: "Silver",
-      next: ["3:00 PM · Court 5", "Timberwolves Black"],
-      win: "6:00 PM, Court 5. Opponent not set.",
-      loss: "5:00 PM, Court 5. Opponent not set.",
+      next: ["4:00 PM · Court 5", "Winner of FBCHA Blue vs Timberwolves Black"],
+      win: "6:00 PM, Court 5, vs winner of Timberwolves Blue / Tyler Heat",
+      loss: "Not Match 5. Match 5 is the other losers.",
       note: "Ref the 2:00 on Court 5 first",
       cols: [
         [{ t: "2:00 · Court 5", a: "Timberwolves Blue", b: "FBCHA Blue" }, { t: "3:00 · Court 5 · we play", a: "JH Black", b: "Timberwolves Black", us: true, path: "both" }],

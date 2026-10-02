@@ -148,8 +148,6 @@ function render() {
     standings(list).map(function (r) {
       return "<tr class=\"" + (r.us ? "us" : "") + "\"><td>" + r.name + (r.us ? " <span class=\"us-chip\">US</span>" : "") + "</td><td class=\"num\">" + rec(r) + "</td><td class=\"num\">" + r.sw + "\u2013" + r.sl + "</td></tr>";
     }).join("") + "</tbody></table>";
-  var pathEl = document.getElementById("paths");
-  if (pathEl) pathEl.innerHTML = paths(list);
   var sat = document.getElementById("bracketMatches");
   if (sat) sat.innerHTML = saturday();
   document.getElementById("matches").innerHTML = list.map(function (m) {

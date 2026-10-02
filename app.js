@@ -52,7 +52,9 @@ function standings(list) {
     w.sw += m.result.setsW; w.sl += m.result.setsL;
     l.sw += m.result.setsL; l.sl += m.result.setsW;
   });
-  return Object.keys(rows).map(function (k) { return rows[k]; }).sort(function (a, b) { return b.mw - a.mw || b.sw - a.sw; });
+  return Object.keys(rows).map(function (k) { return rows[k]; }).sort(function (a, b) {
+    return b.mw - a.mw || b.sw - a.sw || b.sl - a.sl;
+  });
 }
 function rec(r) { return r.mt ? (r.mw + "\u2013" + r.ml + "\u2013" + r.mt) : (r.mw + "\u2013" + r.ml); }
 function paths(list) {
@@ -141,9 +143,18 @@ function render() {
     var after = cur && up ? "<p style=\"margin-top:8px\">Next: " + up.a + " vs " + up.b + " \u00b7 " + up.time + (weRef(up) ? " \u00b7 we ref" : "") + "</p>" : "";
     hero.innerHTML = "<p class=\"kicker\">" + kicker + "</p><h1>" + focus.a + " vs " + focus.b + (weRef(focus) ? " <span class=\"ref-chip\">WE REF</span>" : "") + "</h1><p>" + focus.time + " \u00b7 " + s.court + " \u00b7 Ref " + focus.ref + "</p>" + after;
   }
-  document.getElementById("standings").innerHTML = "<table><thead><tr><th>Team</th><th class=\"num\">M</th><th class=\"num\">Sets</th></tr></thead><tbody>" +
+  var ranked = standings(list);
+  if (squad().id === "jh-black" && list.every(function (m) { return m.result; })) {
+    var order = ["SA Patriots MS A-1", "Kingwood Legacy MS", "THESA JH Black", "Wildfire MSG Orange"];
+    ranked = order.map(function (n, i) {
+      var row = ranked.find(function (r) { return r.name === n; });
+      row.place = i + 1;
+      return row;
+    });
+  }
+  document.getElementById("standings").innerHTML = "<table><thead><tr><th></th><th>Team</th><th class=\"num\">M</th><th class=\"num\">Sets</th></tr></thead><tbody>" +
     standings(list).map(function (r) {
-      return "<tr class=\"" + (r.us ? "us" : "") + "\"><td>" + r.name + (r.us ? " <span class=\"us-chip\">US</span>" : "") + "</td><td class=\"num\">" + rec(r) + "</td><td class=\"num\">" + r.sw + "\u2013" + r.sl + "</td></tr>";
+      return "<tr class=\"" + (r.us ? "us" : "") + "\"><td>" + (r.place || "") + "</td><td>" + r.name + (r.us ? " <span class=\"us-chip\">US</span>" : "") + "</td><td class=\"num\">" + rec(r) + "</td><td class=\"num\">" + r.sw + "\u2013" + r.sl + "</td></tr>";
     }).join("") + "</tbody></table>";
   var pathEl = document.getElementById("paths");
   if (pathEl) pathEl.innerHTML = paths(list);

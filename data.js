@@ -12,7 +12,7 @@ window.SQUADS = [
       { time: "10:00 AM", a: "THESA JH Black", b: "Wildfire MSG Orange", ref: "Kingwood Legacy MS", result: { winner: "THESA JH Black", setsW: 2, setsL: 0 } },
       { time: "11:00 AM", a: "SA Patriots MS A-1", b: "Kingwood Legacy MS", ref: "THESA JH Black", result: { winner: "SA Patriots MS A-1", setsW: 2, setsL: 0 } },
       { time: "12:00 PM", a: "Kingwood Legacy MS", b: "Wildfire MSG Orange", ref: "SA Patriots MS A-1", result: { winner: "Kingwood Legacy MS", setsW: 2, setsL: 0 } },
-      { time: "1:00 PM", a: "THESA JH Black", b: "SA Patriots MS A-1", ref: "Wildfire MSG Orange" }
+      { time: "1:00 PM", a: "THESA JH Black", b: "SA Patriots MS A-1", ref: "Wildfire MSG Orange", result: { winner: "SA Patriots MS A-1", setsW: 2, setsL: 0 } }
     ]
   },
   {
@@ -84,7 +84,7 @@ window.EVENT = {
   name: "Dallas Angels Classic",
   date: "October 2–3, 2026",
   site: "AES",
-  notes: "Kingwood beat Wildfire 2–0 at 12:00. JH Black plays Patriots at 1:00.",
+  notes: "JH Black lost to Patriots 0–2 at 1:00. Patriots win the pool. JH Black is tied with Kingwood on matches and sets.",
   officialLink: "https://results.advancedeventsystems.com/event/RGFsbGFzX0FuZ2Vsc19DbGFzc2ljXzIwMjY1/divisions/-50016/overview",
   bracketNote: "Saturday bracket posts after Friday pool."
 };

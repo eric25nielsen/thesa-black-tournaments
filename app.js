@@ -105,8 +105,8 @@ function saturday() {
       note: "Ref the 2:00 on Court 5 first",
       cols: [
         [{ t: "2:00 Court 5", a: "Timberwolves Blue", b: "FBCHA Blue" }, { t: "3:00 Court 5", a: "JH Black", b: "Timberwolves Black", us: true }],
-        [{ t: "4:00 Court 5", a: "Tyler Heat", b: "Winner 2:00" }, { t: "5:00 Court 5", a: "Loser 2:00", b: "Loser 3:00" }],
-        [{ t: "6:00 Court 5", a: "Winner 4:00", b: "Winner 3:00", us: true }]
+        [{ t: "4:00 Court 5", a: "Tyler Heat", b: "Not set yet" }, { t: "5:00 Court 5", a: "Not set yet", b: "Loser of 2:00 vs loser of 3:00" }],
+        [{ t: "6:00 Court 5", a: "Not set yet", b: "Winners of 4:00 and 3:00", us: true }]
       ]
     },
     "jh-red": {
@@ -116,8 +116,8 @@ function saturday() {
       loss: "No second game posted",
       cols: [
         [{ t: "3:00 Court 2", a: "Lubbock", b: "Aggieland Silver" }, { t: "4:00 Court 2", a: "Wildfire", b: "Aggieland Black" }],
-        [{ t: "5:00 Court 2", a: "JH Red", b: "Winner 3:00", us: true }],
-        [{ t: "7:00 Court 2", a: "Winner 5:00", b: "Winner 4:00", us: true }]
+        [{ t: "5:00 Court 2", a: "Not set yet", b: "Winner of 3:00" }],
+        [{ t: "7:00 Court 2", a: "Not set yet", b: "Winners of earlier matches" }]
       ]
     },
     "jv-black": {
@@ -128,8 +128,8 @@ function saturday() {
       note: "Ref the 8:00 on Court 7 first",
       cols: [
         [{ t: "8:00 Court 7", a: "HSAA JV Red", b: "2nd Pool C" }, { t: "8:00 Court 8", a: "CHSA", b: "Aggieland JV" }, { t: "9:00 Court 7", a: "JV Black", b: "FBCHA White", us: true }, { t: "9:00 Court 8", a: "1st Pool C", b: "FBCHA Blue" }],
-        [{ t: "10:00 Court 7", a: "DasCHE JV", b: "Winner 8:00" }, { t: "10:00 Court 8", a: "Winner 8:00 Ct 8", b: "Tyler Heat" }, { t: "11:00 Court 7", a: "Loser 8:00", b: "Loser 9:00" }],
-        [{ t: "12:00 Court 7", a: "Winner 10:00", b: "Winner 9:00", us: true }, { t: "1:00 Court 7", a: "Winner 12:00 Ct 7", b: "Winner 12:00 Ct 8" }]
+        [{ t: "10:00 Court 7", a: "DasCHE JV", b: "Winner 8:00" }, { t: "10:00 Court 8", a: "Winner 8:00 Ct 8", b: "Tyler Heat" }, { t: "11:00 Court 7", a: "Not set yet", b: "Losers of 8:00 and 9:00" }],
+        [{ t: "12:00 Court 7", a: "Not set yet", b: "Winners of earlier matches", us: true }, { t: "1:00 Court 7", a: "Not set yet", b: "Winners of the 12:00 matches" }]
       ]
     },
     "jv-red": {
@@ -139,8 +139,8 @@ function saturday() {
       loss: "6:00 PM, Court 7, vs loser of the 3:00",
       cols: [
         [{ t: "3:00 Court 7", a: "Wildfire JV", b: "HCYA" }, { t: "4:00 Court 7", a: "4th Pool C", b: "JV Red", us: true }],
-        [{ t: "5:00 Court 7", a: "Patriots JV", b: "Winner 3:00" }, { t: "6:00 Court 7", a: "Loser 3:00", b: "Loser 4:00" }],
-        [{ t: "7:00 Court 7", a: "Winner 5:00", b: "Winner 4:00", us: true }]
+        [{ t: "5:00 Court 7", a: "Patriots JV", b: "Not set yet" }, { t: "6:00 Court 7", a: "Not set yet", b: "Losers of 3:00 and 4:00" }],
+        [{ t: "7:00 Court 7", a: "Not set yet", b: "Winners of earlier matches", us: true }]
       ]
     }
   };

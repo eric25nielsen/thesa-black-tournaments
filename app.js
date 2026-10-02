@@ -77,42 +77,11 @@ function paths(list) {
 }
 
 function saturday() {
-  var blocks = [
-    ["Gold", [
-      ["Match 1", "8:00 AM", "Court 2", "Seed 9 vs Seed 8", "Ref seed 5"],
-      ["Match 2", "8:00 AM", "Court 5", "Seed 7 vs Seed 10", "Ref seed 6"],
-      ["Match 3", "9:00 AM", "Court 2", "Seed 5 vs Seed 4", "Ref loser of Match 1"],
-      ["Match 4", "9:00 AM", "Court 5", "Seed 3 vs Seed 6", "Ref loser of Match 2"],
-      ["Match 5", "10:00 AM", "Court 2", "Loser of Match 1 vs loser of Match 3", "Ref loser of Match 3"],
-      ["Match 6", "11:00 AM", "Court 5", "Loser of Match 2 vs loser of Match 4", "Ref loser of Match 8"],
-      ["Match 7", "11:00 AM", "Court 2", "Seed 1 vs winner of Match 1", "Ref loser of Match 5"],
-      ["Match 8", "10:00 AM", "Court 5", "Winner of Match 2 vs Seed 2", "Ref loser of Match 4"],
-      ["Match 9", "12:00 PM", "Court 2", "Winner of Match 7 vs winner of Match 3", "Ref loser of Match 7"],
-      ["Match 10", "12:00 PM", "Court 5", "Winner of Match 4 vs winner of Match 8", "Ref loser of Match 6"],
-      ["Match 11", "1:00 PM", "Court 2", "Winner of Match 9 vs winner of Match 10", "Ref loser of Match 9"]
-    ]],
-    ["Silver", [
-      ["Match 1", "2:00 PM", "Court 5", "3rd-place seed 5 vs seed 4", "Ref seed 3"],
-      ["Match 2", "4:00 PM", "Court 5", "3rd-place seed 1 vs winner of Match 1", "Ref loser of Match 3"],
-      ["Match 3", "3:00 PM", "Court 5", "3rd-place seed 3 vs seed 2", "Ref loser of Match 1"],
-      ["Match 4", "6:00 PM", "Court 5", "Winner of Match 2 vs winner of Match 3", "Ref loser of Match 5"],
-      ["Match 5", "5:00 PM", "Court 5", "Loser of Match 1 vs loser of Match 3", "Ref loser of Match 2"]
-    ]],
-    ["Bronze", [
-      ["Match 1", "3:00 PM", "Court 2", "4th-place seed 5 vs seed 4", "Ref seed 3"],
-      ["Match 2", "5:00 PM", "Court 2", "4th-place seed 1 vs winner of Match 1", "Ref loser of Match 3"],
-      ["Match 3", "4:00 PM", "Court 2", "4th-place seed 3 vs seed 2", "Ref loser of Match 1"],
-      ["Match 4", "7:00 PM", "Court 2", "Winner of Match 2 vs winner of Match 3", "Ref loser of Match 5"],
-      ["Match 5", "6:00 PM", "Court 2", "Loser of Match 1 vs loser of Match 3", "Ref loser of Match 2"]
-    ]]
-  ];
-  var html = "<article class=\"match next\"><p class=\"kicker\">Next game</p><div class=\"vs\">Silver</div><div class=\"result\">2:00 PM · Court 5</div><p class=\"hint\">JH Black finished 3rd. This is the first silver match.</p></article>";
-  blocks.forEach(function (block) {
-    html += "<h2>" + block[0] + "</h2>";
-    block[1].forEach(function (m) {
-      html += "<article class=\"match\"><div class=\"match-top\"><span>" + m[0] + " · " + m[1] + "</span><span>" + m[2] + "</span></div><div class=\"vs\">" + m[3] + "</div><div class=\"result\">" + m[4] + "</div></article>";
-    });
-  });
+  var html = "<p class=\"hint\">AES has not assigned Saturday opponents. This is where each pool finish plays.</p>";
+  html += "<article class=\"match\"><div class=\"vs\">1st in the pool</div><div class=\"result\">Gold. 9:00, 10:00, or 11:00 AM. Court 2 or Court 5.</div></article>";
+  html += "<article class=\"match\"><div class=\"vs\">2nd in the pool</div><div class=\"result\">Gold. 8:00 or 9:00 AM. Court 2 or Court 5.</div></article>";
+  html += "<article class=\"match\"><div class=\"vs\">3rd in the pool</div><div class=\"result\">Silver. 2:00, 3:00, or 4:00 PM. Court 5.</div></article>";
+  html += "<article class=\"match\"><div class=\"vs\">4th in the pool</div><div class=\"result\">Bronze. 3:00, 4:00, or 5:00 PM. Court 2.</div></article>";
   return html;
 }
 

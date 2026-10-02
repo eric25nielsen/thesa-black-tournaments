@@ -50,18 +50,11 @@ function matchLabel(m) {
   var w = teamById(m.result.winner);
   return (w ? w.name : "") + " " + m.result.setsW + "–" + m.result.setsL;
 }
-function silverTableHtml() {
-  if (!window.SILVER_POOL || !window.SILVER_POOL.length) return "";
-  return '<table><thead><tr><th>#</th><th>Team</th><th>Pool</th><th class="num">Sets</th><th class="num">Pts</th></tr></thead><tbody>' +
-    window.SILVER_POOL.map(function (r) {
-      return '<tr class="' + (r.us ? 'us' : '') + '"><td>' + r.seed + '</td><td>' + r.name + (r.us ? ' <span class="us-chip">US</span>' : '') + '</td><td>' + r.pool + ' · ' + r.finish + 'th</td><td class="num">' + r.sw + '–' + r.sl + '</td><td class="num">' + r.pf + '–' + r.pa + '</td></tr>';
-    }).join('') + '</tbody></table>';
-}
 function render() {
   var poolMatches = matchesWithResults();
   var nxt = nextMatch();
   var inBracket = defaultTab() === "bracket";
-  document.getElementById("phase").textContent = inBracket ? ("Bracket play" + (window.EVENT.bracketPlay ? " · " + window.EVENT.bracketPlay : "")) : ("Pool play · " + (nxt && nxt.time ? nxt.time : ("Round " + (nxt ? nxt.round : poolMatches.length))));
+  document.getElementById("phase").textContent = inBracket ? ("Saturday" + (window.EVENT.bracketPlay ? " · " + window.EVENT.bracketPlay : "")) : ("Pool play · " + (nxt && nxt.time ? nxt.time : ("Round " + (nxt ? nxt.round : poolMatches.length))));
   document.getElementById("teamName").textContent = window.TEAM.name;
   document.getElementById("eventName").textContent = window.EVENT.name;
   document.getElementById("eventMeta").textContent = [window.EVENT.date, window.EVENT.site, window.EVENT.pool, window.EVENT.court, "Start " + window.EVENT.start].filter(Boolean).join(" · ");
@@ -73,20 +66,8 @@ function render() {
       var next = g.us && !g.result;
       var res = g.result ? '<div class="result">' + g.result.winner + ' ' + g.result.setsW + '–' + g.result.setsL + '</div>' : '';
       return '<article class="match' + (next ? ' next' : '') + '"><div class="match-top"><span>' + g.label + '</span><span>' + g.time + ' · ' + g.court + '</span></div><div class="vs">' + g.a + ' vs ' + g.b + (g.us ? ' <span class="us-chip">US</span>' : '') + '</div>' + res + '</article>';
-    }).join('') : '<p class="hint">Bracket posts Saturday after pool.</p>';
+    }).join('') : '<p class="hint">Saturday bracket posts after Friday pool.</p>';
   }
-  var html = silverTableHtml();
-  ["silverPool", "poolSilver"].forEach(function (id) {
-    var el = document.getElementById(id);
-    if (el) el.innerHTML = html;
-  });
-  var op = document.getElementById("otherPools");
-  if (op) op.innerHTML = (window.OTHER_POOLS && window.OTHER_POOLS.length) ? window.OTHER_POOLS.map(function (p) {
-    return '<h2>' + p.title + '</h2><div class="table-wrap"><table><thead><tr><th>Team</th><th class="num">Finish</th><th class="num">Sets</th><th class="num">Pts</th></tr></thead><tbody>' +
-      p.rows.map(function (r) {
-        return '<tr class="' + (r.highlight ? 'us' : '') + '"><td>' + r.name + '</td><td class="num">' + r.finish + '</td><td class="num">' + r.sw + '–' + r.sl + '</td><td class="num">' + r.pf + '–' + r.pa + '</td></tr>';
-      }).join('') + '</tbody></table></div>';
-  }).join('') : '';
   var hero = document.getElementById("nextCard");
   if (!inBracket && nxt) {
     var a = teamById(nxt.a), b = teamById(nxt.b), ref = teamById(nxt.ref);
@@ -94,7 +75,7 @@ function render() {
     hero.innerHTML = '<p class="kicker">' + (us ? 'We play next' : 'Next on our court') + ' · ' + window.EVENT.pool + '</p><h1>' + a.name + ' vs ' + b.name + '</h1><p>' + (nxt.time || '') + ' · ' + window.EVENT.court + (ref ? ' · Ref ' + ref.name : '') + '</p>';
   } else if (inBracket) {
     var ours = (window.BRACKET || []).find(function (g) { return g.us && !g.result; });
-    hero.innerHTML = ours ? '<p class="kicker">We play next</p><h1>' + ours.a + ' vs ' + ours.b + '</h1><p>' + ours.time + ' · ' + ours.court + '</p>' : '<p class="kicker">Bracket</p><h1>' + (window.EVENT.bracketNote || '') + '</h1>';
+    hero.innerHTML = ours ? '<p class="kicker">We play next</p><h1>' + ours.a + ' vs ' + ours.b + '</h1><p>' + ours.time + ' · ' + ours.court + '</p>' : '<p class="kicker">Saturday</p><h1>' + (window.EVENT.bracketNote || '') + '</h1>';
   }
   var st = standings();
   document.getElementById("standings").innerHTML = '<table><thead><tr><th>Team</th><th class="num">M</th><th class="num">Sets</th></tr></thead><tbody>' +
@@ -113,7 +94,6 @@ function render() {
     return '<article class="match' + (!m.result && us ? ' next' : '') + '"><div class="match-top"><span>' + (m.time || ('Rd ' + m.round)) + '</span><span>Ref ' + (ref ? ref.name : '') + '</span></div><div class="vs">' + a.name + ' vs ' + b.name + (us ? ' <span class="us-chip">US</span>' : '') + '</div>' + res + '</article>';
   }).join('');
 }
-document.getElementById('sheetCancel').addEventListener('click', function () { document.getElementById('sheet').classList.add('hidden'); });
 document.getElementById('resetBtn').addEventListener('click', function () {
   if (confirm('Clear scores saved on this phone?')) { localStorage.removeItem(STORE_KEY); render(); showTab(defaultTab()); }
 });

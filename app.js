@@ -79,7 +79,7 @@ function paths(list) {
 function saturday() {
   var s = squad();
   var ms = s.division === "Middle School";
-  var jv = s.division === "Junior Varsity";
+  var jv = s.division === "JV";
   var html = "";
   if (ms) {
     html += "<p class=\"hint\">From AES pool ranks. Pairings are not assigned yet, so this is the flight, not a match time.</p>";

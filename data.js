@@ -24,10 +24,10 @@ window.SQUADS = [
     teams: ["THESA JH Red", "DasCHE 14U", "Lonestar Elite MS", "Timberwolves MS Black"],
     matches: [
       { time: "8:00 AM", a: "DasCHE 14U", b: "Timberwolves MS Black", ref: "Lonestar Elite MS" },
-      { time: "9:00 AM", a: "Lonestar Elite MS", b: "THESA JH Red", ref: "DasCHE 14U" },
-      { time: "10:00 AM", a: "DasCHE 14U", b: "THESA JH Red", ref: "Timberwolves MS Black" },
+      { time: "9:00 AM", a: "Lonestar Elite MS", b: "THESA JH Red", ref: "DasCHE 14U", result: { winner: "Lonestar Elite MS", setsW: 2, setsL: 0 } },
+      { time: "10:00 AM", a: "DasCHE 14U", b: "THESA JH Red", ref: "Timberwolves MS Black", result: { winner: "DasCHE 14U", setsW: 2, setsL: 0 } },
       { time: "11:00 AM", a: "Lonestar Elite MS", b: "Timberwolves MS Black", ref: "DasCHE 14U" },
-      { time: "12:00 PM", a: "Timberwolves MS Black", b: "THESA JH Red", ref: "Lonestar Elite MS" },
+      { time: "12:00 PM", a: "Timberwolves MS Black", b: "THESA JH Red", ref: "Lonestar Elite MS", result: { winner: "Timberwolves MS Black", setsW: 2, setsL: 0 } },
       { time: "1:00 PM", a: "DasCHE 14U", b: "Lonestar Elite MS", ref: "THESA JH Red" }
     ]
   },
@@ -57,9 +57,9 @@ window.SQUADS = [
     matches: [
       { time: "8:00 AM", a: "CHSA JV", b: "Austin Royals JV", ref: "FBCHA JV White" },
       { time: "9:00 AM", a: "FBCHA JV White", b: "THESA JV Red", ref: "CHSA JV", result: { winner: "FBCHA JV White", setsW: 2, setsL: 0 } },
-      { time: "10:00 AM", a: "CHSA JV", b: "THESA JV Red", ref: "Austin Royals JV" },
+      { time: "10:00 AM", a: "CHSA JV", b: "THESA JV Red", ref: "Austin Royals JV", result: { winner: "CHSA JV", setsW: 2, setsL: 0 } },
       { time: "11:00 AM", a: "FBCHA JV White", b: "Austin Royals JV", ref: "CHSA JV" },
-      { time: "12:00 PM", a: "Austin Royals JV", b: "THESA JV Red", ref: "FBCHA JV White" },
+      { time: "12:00 PM", a: "Austin Royals JV", b: "THESA JV Red", ref: "FBCHA JV White", result: { winner: "Austin Royals JV", setsW: 2, setsL: 0 } },
       { time: "1:00 PM", a: "CHSA JV", b: "FBCHA JV White", ref: "THESA JV Red" }
     ]
   },
@@ -84,7 +84,7 @@ window.EVENT = {
   name: "Dallas Angels Classic",
   date: "October 2–3, 2026",
   site: "AES",
-  notes: "JH Black finished 3rd. Head-to-head points went to Kingwood. Silver at 2:00 on Court 5.",
+  notes: "AES: JH Black 3rd. JH Red 0-3, 4th. JV Black 2-0, sets 5-1, 1st, one match left. JV Red 0-3. Varsity has not started.",
   officialLink: "https://results.advancedeventsystems.com/event/RGFsbGFzX0FuZ2Vsc19DbGFzc2ljXzIwMjY1/divisions/-50016/overview",
   bracketNote: "Saturday bracket posts after Friday pool."
 };

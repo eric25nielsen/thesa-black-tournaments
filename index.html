@@ -3,13 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#080808" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="THESA" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <title>THESA — Dallas Angels Classic</title>
-  <link rel="stylesheet" href="styles.css?v=24" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-180.png" />
+  <link rel="icon" href="icon-192.png" />
+  <link rel="stylesheet" href="styles.css?v=25" />
 </head>
 <body>
   <header class="top">
     <div class="brand">
-      <img class="mark" src="https://images.squarespace-cdn.com/content/v1/67c8899635da4f21754dda55/d1ab67a6-560f-4f6d-994f-ddf2ad18e64c/THESA+Logo+Helmet+Only+Transparent+Background.png?format=300w" alt="THESA Riders knight" />
+      <img class="mark" src="icon-192.png" alt="THESA Riders knight" />
       <div>
         <p class="team" id="teamName">THESA</p>
         <p class="label">Dallas Angels Classic · Oct 2–3</p>
@@ -45,12 +52,12 @@
       <section><div class="name-grid"><label>S1 <input id="nameS1" maxlength="12" /></label><label>S2 <input id="nameS2" maxlength="12" /></label><label>OH1 <input id="nameOH1" maxlength="12" /></label><label>OH2 <input id="nameOH2" maxlength="12" /></label><label>MB <input id="nameMB" maxlength="12" /></label><label>Libero <input id="nameL" maxlength="12" /></label></div></section>
       <section><div id="rotAll"></div></section>
     </div>
-    <section><p class="note" id="notes"></p></section>
+    <section><p class="note" id="notes"></p><p class="note" id="installHint">Add to your home screen: iPhone Share, then Add to Home Screen. Android: menu, then Install app or Add to Home screen. Icon is the THESA knight.</p></section>
   </main>
   <footer>THESA Riders · Dallas Angels Classic</footer>
-  <script src="data.js?v=24"></script>
-  <script src="rotations.js?v=24"></script>
-  <script src="app.js?v=24"></script>
+  <script src="data.js?v=25"></script>
+  <script src="rotations.js?v=25"></script>
+  <script src="app.js?v=25"></script>
   <script>
     function show(name) {
       document.getElementById("tabPool").classList.toggle("on", name === "pool");
@@ -66,6 +73,7 @@
     document.getElementById("tabRot").onclick = function () { show("rot"); };
     var bm = document.getElementById("bracketMatches");
     if (bm) bm.innerHTML = "<p class=\"hint\">Saturday bracket posts after Friday pool.</p>";
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function () {});
   </script>
 </body>
 </html>

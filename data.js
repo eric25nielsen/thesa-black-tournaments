@@ -9,7 +9,7 @@ window.SQUADS = [
     matches: [
       { time: "8:00 AM", a: "THESA JH Black", b: "Kingwood Legacy MS", ref: "SA Patriots MS A-1", result: { tie: true, setsW: 1, setsL: 1 } },
       { time: "9:00 AM", a: "SA Patriots MS A-1", b: "Wildfire MSG Orange", ref: "THESA JH Black" },
-      { time: "10:00 AM", a: "THESA JH Black", b: "Wildfire MSG Orange", ref: "Kingwood Legacy MS" },
+      { time: "10:00 AM", a: "THESA JH Black", b: "Wildfire MSG Orange", ref: "Kingwood Legacy MS", result: { winner: "THESA JH Black", setsW: 2, setsL: 0 } },
       { time: "11:00 AM", a: "SA Patriots MS A-1", b: "Kingwood Legacy MS", ref: "THESA JH Black" },
       { time: "12:00 PM", a: "Kingwood Legacy MS", b: "Wildfire MSG Orange", ref: "SA Patriots MS A-1" },
       { time: "1:00 PM", a: "THESA JH Black", b: "SA Patriots MS A-1", ref: "Wildfire MSG Orange" }
@@ -84,7 +84,7 @@ window.EVENT = {
   name: "Dallas Angels Classic",
   date: "October 2–3, 2026",
   site: "AES",
-  notes: "JH Black split 8:00 with Kingwood, 1–1. JV Red lost 9:00 to FBCHA JV White, 0–2.",
+  notes: "JH Black split 8:00 with Kingwood 1–1, then beat Wildfire 2–0 at 10:00. They work the 11:00.",
   officialLink: "https://results.advancedeventsystems.com/event/RGFsbGFzX0FuZ2Vsc19DbGFzc2ljXzIwMjY1/divisions/-50016/overview",
   bracketNote: "Saturday bracket posts after Friday pool."
 };

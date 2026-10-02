@@ -12,7 +12,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-180.png" />
   <link rel="icon" href="icon-192.png" />
-  <link rel="stylesheet" href="styles.css?v=56" />
+  <link rel="stylesheet" href="styles.css?v=57" />
 </head>
 <body>
   <header class="top">
@@ -62,9 +62,9 @@
     </div>
     <div class="install-actions"><button type="button" id="installBtn">Install</button><button type="button" class="ghost" id="installLater">Not now</button></div>
   </aside>
-  <script src="data.js?v=56"></script>
-  <script src="rotations.js?v=56"></script>
-  <script src="app.js?v=56"></script>
+  <script src="data.js?v=57"></script>
+  <script src="rotations.js?v=57"></script>
+  <script src="app.js?v=57"></script>
   <script>
     function show(name) {
       document.getElementById("tabPool").classList.toggle("on", name === "pool");
@@ -72,7 +72,6 @@
       document.getElementById("tabRot").classList.toggle("on", name === "rot");
       document.getElementById("panelPool").classList.toggle("hidden", name !== "pool");
       document.getElementById("panelBracket").classList.toggle("hidden", name !== "bracket");
-      if (name === "bracket") sheet.classList.add("hidden");
       document.getElementById("panelRot").classList.toggle("hidden", name !== "rot");
       document.getElementById("nextCard").classList.toggle("hidden", name === "rot");
     }
@@ -82,7 +81,7 @@
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function () {});
     var deferred, sheet = document.getElementById("installSheet");
     var standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
-    function openSheet() { if (document.getElementById("panelBracket") && !document.getElementById("panelBracket").classList.contains("hidden")) return; if (!standalone && !localStorage.getItem("thesa:install-dismiss")) sheet.classList.remove("hidden"); }
+    function openSheet() { if (!standalone && !localStorage.getItem("thesa:install-dismiss")) sheet.classList.remove("hidden"); }
     window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); deferred = e; openSheet(); });
     if (/iphone|ipad|ipod/i.test(navigator.userAgent) && !standalone) {
       document.getElementById("installCopy").textContent = "Tap Share, then Add to Home Screen. It opens as an app with the knight icon.";

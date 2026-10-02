@@ -12,7 +12,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon-180.png" />
   <link rel="icon" href="icon-192.png" />
-  <link rel="stylesheet" href="styles.css?v=26" />
+  <link rel="stylesheet" href="styles.css?v=27" />
 </head>
 <body>
   <header class="top">
@@ -32,6 +32,7 @@
   <main>
     <section class="hero" id="nextCard"></section>
     <div id="panelPool">
+      <section><h2>Still possible</h2><div id="paths"></div></section>
       <section><h2>Pool standings</h2><div class="table-wrap" id="standings"></div></section>
       <section><h2>Court matches</h2><div id="matches"></div></section>
     </div>
@@ -58,19 +59,13 @@
   <aside class="install hidden" id="installSheet">
     <div class="install-row">
       <img src="icon-192.png" alt="" />
-      <div>
-        <strong>Install THESA</strong>
-        <p id="installCopy">Add the board to your home screen. It opens full screen, with the knight icon.</p>
-      </div>
+      <div><strong>Install THESA</strong><p id="installCopy">Add the board to your home screen. It opens full screen, with the knight icon.</p></div>
     </div>
-    <div class="install-actions">
-      <button type="button" id="installBtn">Install</button>
-      <button type="button" class="ghost" id="installLater">Not now</button>
-    </div>
+    <div class="install-actions"><button type="button" id="installBtn">Install</button><button type="button" class="ghost" id="installLater">Not now</button></div>
   </aside>
-  <script src="data.js?v=26"></script>
-  <script src="rotations.js?v=26"></script>
-  <script src="app.js?v=26"></script>
+  <script src="data.js?v=27"></script>
+  <script src="rotations.js?v=27"></script>
+  <script src="app.js?v=27"></script>
   <script>
     function show(name) {
       document.getElementById("tabPool").classList.toggle("on", name === "pool");
@@ -87,17 +82,11 @@
     var bm = document.getElementById("bracketMatches");
     if (bm) bm.innerHTML = "<p class=\"hint\">Saturday bracket posts after Friday pool.</p>";
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function () {});
-    var deferred;
-    var sheet = document.getElementById("installSheet");
+    var deferred, sheet = document.getElementById("installSheet");
     var standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
     function openSheet() { if (!standalone && !localStorage.getItem("thesa:install-dismiss")) sheet.classList.remove("hidden"); }
-    window.addEventListener("beforeinstallprompt", function (e) {
-      e.preventDefault();
-      deferred = e;
-      openSheet();
-    });
-    var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    if (ios && !standalone) {
+    window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); deferred = e; openSheet(); });
+    if (/iphone|ipad|ipod/i.test(navigator.userAgent) && !standalone) {
       document.getElementById("installCopy").textContent = "Tap Share, then Add to Home Screen. It opens as an app with the knight icon.";
       document.getElementById("installBtn").textContent = "How to add";
       openSheet();
@@ -106,10 +95,7 @@
       if (deferred) { deferred.prompt(); deferred.userChoice.then(function () { sheet.classList.add("hidden"); }); deferred = null; }
       else sheet.classList.add("hidden");
     };
-    document.getElementById("installLater").onclick = function () {
-      localStorage.setItem("thesa:install-dismiss", "1");
-      sheet.classList.add("hidden");
-    };
+    document.getElementById("installLater").onclick = function () { localStorage.setItem("thesa:install-dismiss", "1"); sheet.classList.add("hidden"); };
   </script>
 </body>
 </html>

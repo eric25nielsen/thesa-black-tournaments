@@ -107,22 +107,23 @@ function gm(title, a, b, us) {
   return "<div class=\"gm" + (us ? " us" : "") + "\"><b>" + title + "</b><span>" + a + "</span><span>" + b + "</span></div>";
 }
 function openBoard() {
-  function box(x, y, title, a, b, ref, us) {
-    return "<g><rect x=\"" + x + "\" y=\"" + y + "\" width=\"210\" height=\"72\" rx=\"4\" fill=\"#141414\" stroke=\"" + (us ? "#C9A227" : "#888") + "\" stroke-width=\"2\"/>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+16) + "\" fill=\"#8eb4ff\" font-size=\"11\">" + title + "</text>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+34) + "\" fill=\"#fff\" font-size=\"12\">" + a + "</text>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+50) + "\" fill=\"#fff\" font-size=\"12\">" + b + "</text>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+66) + "\" fill=\"#C9A227\" font-size=\"11\">Ref " + ref + "</text></g>";
+  function box(x, y, title, time, a, b, wt, us) {
+    return "<g><rect x=\"" + x + "\" y=\"" + y + "\" width=\"200\" height=\"78\" fill=\"#fff\" stroke=\"#c5c5c5\"/>" +
+      "<text x=\"" + (x+8) + "\" y=\"" + (y+16) + "\" fill=\"#1a73c7\" font-size=\"13\" font-weight=\"700\">" + title + "</text>" +
+      "<text x=\"" + (x+118) + "\" y=\"" + (y+16) + "\" fill=\"#666\" font-size=\"11\">" + time + "</text>" +
+      "<text x=\"" + (x+8) + "\" y=\"" + (y+36) + "\" fill=\"" + (us ? "#9E1B32" : "#222") + "\" font-size=\"12\">" + a + "</text>" +
+      "<text x=\"" + (x+8) + "\" y=\"" + (y+54) + "\" fill=\"#222\" font-size=\"12\">" + b + "</text>" +
+      "<text x=\"" + (x+8) + "\" y=\"" + (y+70) + "\" fill=\"#666\" font-size=\"11\">WT: " + wt + "</text></g>";
   }
-  var html = "<div class=\"board-bar\"><strong>Silver · Court 5</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\"><svg viewBox=\"0 0 780 500\" width=\"780\" height=\"500\">";
-  html += "<path d=\"M218 56 H258 M428 56 H468 V166 H508 M218 186 H468 V166\" fill=\"none\" stroke=\"#ddd\" stroke-width=\"2\"/>";
-  html += "<path d=\"M218 92 V360 H258\" fill=\"none\" stroke=\"#C9A227\" stroke-width=\"2\"/>";
-  html += box(8, 20, "Match 1 · 2:00", "FBCHA Blue", "Timberwolves Black", "Timberwolves Blue");
-  html += box(8, 150, "Match 3 · 3:00", "Timberwolves Blue", "Tyler Heat", "Loser Match 1");
-  html += box(258, 20, "Match 2 · 4:00 · US", "JH Black", "Winner Match 1", "Loser Match 3", true);
-  html += box(508, 130, "Match 4 · 6:00", "Winner Match 2", "Winner Match 3", "Loser Match 5", true);
-  html += box(258, 340, "Match 5 · 5:00", "Loser Match 1", "Loser Match 3", "JH Black if we lose");
-  html += "</svg><p class=\"hint\">If we lose Match 2, we do not play again. We ref Match 5 at 5:00.</p></div>";
+  var html = "<div class=\"board-bar\"><strong>Silver · Court 5</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\" style=\"background:#fff\"><svg viewBox=\"0 0 760 520\" width=\"760\" height=\"520\">";
+  html += "<path d=\"M150 70 H190 V40 H210 M400 70 H440 V180 H460 M150 250 H440 V180\" fill=\"none\" stroke=\"#b5b5b5\" stroke-width=\"1.5\"/>";
+  html += "<path d=\"M150 110 V430 H460\" fill=\"none\" stroke=\"#b5b5b5\" stroke-width=\"1.5\"/>";
+  html += box(8, 36, "MATCH 1", "2:00", "FBCHA Blue", "Timberwolves Black", "Timberwolves Blue");
+  html += box(210, 8, "MATCH 2", "4:00", "JH Black", "Winner of Match 1", "Loser of Match 3", true);
+  html += box(210, 210, "MATCH 3", "3:00", "Timberwolves Blue", "Tyler Heat", "Loser of Match 1");
+  html += box(460, 140, "MATCH 4", "6:00 if we win", "Winner of Match 2", "Winner of Match 3", "Loser of Match 5", true);
+  html += box(460, 390, "MATCH 5", "5:00 if we lose", "Loser of Match 1", "Loser of Match 3", "Loser of Match 2", true);
+  html += "</svg></div>";
   var el = document.getElementById("board");
   el.innerHTML = html;
   el.classList.remove("hidden");
@@ -135,8 +136,8 @@ function saturday() {
       title: "Silver",
       next: ["4:00 PM · Court 5", "Winner of FBCHA Blue vs Timberwolves Black"],
       win: "6:00 PM, Court 5, vs winner of Timberwolves Blue / Tyler Heat",
-      loss: "No second game. You ref Match 5 at 5:00, Court 5.",
-      note: "No ref before you play. If you lose Match 2, you ref Match 5 at 5:00 on Court 5.",
+      loss: "5:00 PM, Court 5.",
+      note: "Win plays at 6:00. Loss plays at 5:00. Both on Court 5.",
       cols: [
         [{ t: "2:00 · Court 5", a: "Timberwolves Blue", b: "FBCHA Blue" }, { t: "4:00 · Court 5 · we play", a: "JH Black", b: "Winner of Match 1", us: true, path: "both" }],
         [{ t: "4:00 · Court 5", a: "Tyler Heat", b: "Winner of 2:00" }, { t: "5:00 · Court 5 · if we lose", a: "Not set yet", b: "Loser of 2:00", path: "loss" }],

@@ -107,22 +107,25 @@ function gm(title, a, b, us) {
   return "<div class=\"gm" + (us ? " us" : "") + "\"><b>" + title + "</b><span>" + a + "</span><span>" + b + "</span></div>";
 }
 function openBoard() {
-  function box(x, y, title, time, a, b, wt, us) {
-    return "<g><rect x=\"" + x + "\" y=\"" + y + "\" width=\"200\" height=\"78\" fill=\"#fff\" stroke=\"#c5c5c5\"/>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+16) + "\" fill=\"#1a73c7\" font-size=\"13\" font-weight=\"700\">" + title + "</text>" +
-      "<text x=\"" + (x+118) + "\" y=\"" + (y+16) + "\" fill=\"#666\" font-size=\"11\">" + time + "</text>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+36) + "\" fill=\"" + (us ? "#9E1B32" : "#222") + "\" font-size=\"12\">" + a + "</text>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+54) + "\" fill=\"#222\" font-size=\"12\">" + b + "</text>" +
-      "<text x=\"" + (x+8) + "\" y=\"" + (y+70) + "\" fill=\"#666\" font-size=\"11\">WT: " + wt + "</text></g>";
+  function box(x, y, n, time, a, b, wt, us) {
+    var stroke = us ? "#1a73c7" : "#d0d0d0";
+    return "<g><rect x=\"" + x + "\" y=\"" + y + "\" width=\"210\" height=\"86\" fill=\"#fff\" stroke=\"" + stroke + "\"/>" +
+      "<text x=\"" + (x+8) + "\" y=\"" + (y+18) + "\" fill=\"#1a73c7\" font-size=\"13\">MATCH " + n + "</text>" +
+      "<text x=\"" + (x+120) + "\" y=\"" + (y+16) + "\" fill=\"#888\" font-size=\"10\">Ct.5</text>" +
+      "<text x=\"" + (x+120) + "\" y=\"" + (y+30) + "\" fill=\"#888\" font-size=\"10\">" + time + "</text>" +
+      "<line x1=\"" + x + "\" y1=\"" + (y+36) + "\" x2=\"" + (x+210) + "\" y2=\"" + (y+36) + "\" stroke=\"#eee\"/>" +
+      "<text x=\"" + (x+8) + "\" y=\"" + (y+52) + "\" fill=\"#1a73c7\" font-size=\"12\">" + a + "</text>" +
+      "<text x=\"" + (x+8) + "\" y=\"" + (y+68) + "\" fill=\"#333\" font-size=\"12\">" + b + "</text>" +
+      "<text x=\"" + (x+8) + "\" y=\"" + (y+82) + "\" fill=\"#666\" font-size=\"10\">WT: " + wt + "</text></g>";
   }
-  var html = "<div class=\"board-bar\"><strong>Silver · Court 5</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\" style=\"background:#fff\"><svg viewBox=\"0 0 760 520\" width=\"760\" height=\"520\">";
-  html += "<path d=\"M150 70 H190 V40 H210 M400 70 H440 V180 H460 M150 250 H440 V180\" fill=\"none\" stroke=\"#b5b5b5\" stroke-width=\"1.5\"/>";
-  html += "<path d=\"M150 110 V430 H460\" fill=\"none\" stroke=\"#b5b5b5\" stroke-width=\"1.5\"/>";
-  html += box(8, 36, "MATCH 1", "2:00", "FBCHA Blue", "Timberwolves Black", "Timberwolves Blue");
-  html += box(210, 8, "MATCH 2", "4:00", "JH Black", "Winner of Match 1", "Loser of Match 3", true);
-  html += box(210, 210, "MATCH 3", "3:00", "Timberwolves Blue", "Tyler Heat", "Loser of Match 1");
-  html += box(460, 140, "MATCH 4", "6:00 if we win", "Winner of Match 2", "Winner of Match 3", "Loser of Match 5", true);
-  html += box(460, 390, "MATCH 5", "5:00 if we lose", "Loser of Match 1", "Loser of Match 3", "Loser of Match 2", true);
+  var html = "<div class=\"board-bar\"><strong>Silver</strong><button type=\"button\" id=\"closeBoard\">Close</button></div><div class=\"board-scroll\" style=\"background:#fff\"><svg viewBox=\"0 0 820 560\" width=\"820\" height=\"560\">";
+  html += "<path d=\"M168 78 H198 V48 H220 M430 48 H470 V168 H490 M168 268 H470 V168\" fill=\"none\" stroke=\"#c8c8c8\" stroke-width=\"1.5\"/>";
+  html += "<path d=\"M168 118 V470 H490\" fill=\"none\" stroke=\"#c8c8c8\" stroke-width=\"1.5\"/>";
+  html += box(8, 40, "1", "2:00 pm", "FBCHA Blue", "Timberwolves Black", "Timberwolves Blue");
+  html += box(220, 8, "2", "4:00 pm", "THESA JH Black", "Winner of Match 1", "Loser of Match 3", true);
+  html += box(220, 220, "3", "3:00 pm", "Timberwolves Blue", "Tyler Heat", "Loser of Match 1");
+  html += box(490, 120, "4", "6:00 pm", "Winner of Match 2", "Winner of Match 3", "Loser of Match 5", true);
+  html += box(490, 420, "5", "5:00 pm", "Loser of Match 1", "Loser of Match 3", "Loser of Match 2", true);
   html += "</svg></div>";
   var el = document.getElementById("board");
   el.innerHTML = html;

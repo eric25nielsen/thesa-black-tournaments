@@ -82,3 +82,11 @@ footer { display:none; }
 .stem i { display: block; width: 100%; border-top: 2px solid #ddd; }
 .losers { margin-top: 28px; }
 .losers h3 { color: #C9A227; margin: 0 0 8px; font-size: 14px; }
+
+.hero { background: #101610; border: 1px solid #2f4a32; border-radius: 16px; padding: 16px; margin: 12px 0; }
+.hero .kicker { color: #c5a35a; letter-spacing: .08em; font-size: 12px; }
+.hero h1 { font-size: 22px; margin: 6px 0; }
+table { width: 100%; border-collapse: collapse; }
+th { color: #9aa89a; font-size: 12px; text-align: left; }
+td, th { padding: 8px 4px; border-bottom: 1px solid #243024; }
+tr.us td { color: #f2e7c4; }
